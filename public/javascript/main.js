@@ -131,4 +131,3 @@ window.addEventListener('load', function() {
 
     toggleButtons(false);
 }, false);
-
