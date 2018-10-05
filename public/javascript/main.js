@@ -1,51 +1,33 @@
 var selectedRoom;
-var createButton, updateButton, deleteButton, getButton, getAllButton;
+var addRoomBtn, updateButton, deleteButton, getButton, getAllButton;
 var resultTextArea, roomsSelect;
 
 function toggleButtons(disabled) {
-    createButton.disabled = disabled;
-    updateButton.disabled = disabled;
-    deleteButton.disabled = disabled;
-    getButton.disabled = disabled;
+    addRoomBtn.disabled = disabled;
+    updateButton.disabled = !disabled;
+    deleteButton.disabled = !disabled;
+    getButton.disabled = !disabled;
 }
 
-function buildSelect(roomsObjList) {
-    // assume roomsObjList = { value1 : 'Name 1', value2 : 'Name 2', ... }
-    //        default = 'value1'
+function addRoom() {
+     var newRoom;
+        var index = Math.floor(Math.random() * (999 - 1) + 1);
+        //var roomName = document.getElementById("name-header13-1x").value;
+        newRoom = new api.model.room(null, 'hola' + index, '{ size: "9m2" }');
 
-    var select = '<select>';
-    for (var val in roomsObjList) {
-        select += '<option value="' + roomsObjList[val]["id"]+ '">' + roomsObjList[val]["name"] + '</option>';
-    }
-    select += '</select>';
-    return select;
-}
-
-function reload(data) {
-    reloadSelect(data);
-}
-
-function reloadSelect(information){
-    if(typeof information === "undefined") {
-        console.log("is undefined");
-        api.room.getAll()
+        api.room.add(newRoom)
             .then((data) => {
-                information = data;
-                console.log(data);
-                roomsSelect.innerHTML = buildSelect(information["rooms"]);
+                newRoom.id = data.room.id;
+                //resultTextArea.innerHTML = JSON.stringify(data, null, 2);
+                //toggleButtons(false);
             })
             .catch((error) => {
-                resultTextArea.innerHTML = 'Request failed: ' + error;
+                //resultTextArea.innerHTML = 'Request failed: ' + error;
             });
-    }else {
-        console.log(information);
-        roomsSelect.innerHTML = buildSelect(information["rooms"]);
-    }
-
 }
 
 window.addEventListener('load', function() {
-    createButton = document.querySelector('#create');
+    addRoomBtn = document.querySelector('#addRoomBtn');
     updateButton = document.querySelector('#update');
     deleteButton = document.querySelector('#delete');
     getButton = document.querySelector('#get');
@@ -53,19 +35,20 @@ window.addEventListener('load', function() {
     resultTextArea = document.querySelector('#result');
     roomsSelect = document.querySelector("#roomsSelect");
 
-    createButton.addEventListener('click', function() {
+    addRoomBtn.addEventListener('click', function() {
         var newRoom;
         var index = Math.floor(Math.random() * (999 - 1) + 1);
-        newRoom = new api.model.room(null, 'kitchen ' + index, '{ size: "9m2" }');
+        //var roomName = document.getElementById("name-header13-1x").value;
+        newRoom = new api.model.room(null, 'hola' + index, '{ size: "9m2" }');
 
         api.room.add(newRoom)
             .then((data) => {
                 newRoom.id = data.room.id;
-                resultTextArea.innerHTML = JSON.stringify(data, null, 2);
+                //resultTextArea.innerHTML = JSON.stringify(data, null, 2);
                 toggleButtons(false);
             })
             .catch((error) => {
-                resultTextArea.innerHTML = 'Request failed: ' + error;
+                //resultTextArea.innerHTML = 'Request failed: ' + error;
             });
     }, false);
 
@@ -131,3 +114,4 @@ window.addEventListener('load', function() {
 
     toggleButtons(false);
 }, false);
+
