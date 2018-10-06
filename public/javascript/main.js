@@ -1,4 +1,11 @@
-var currentRoomId;
+var Devices = {
+        cantDoors:0,
+        cantAC:0,
+        cantOvens:0,
+        cantShutters:0,
+        cantRefrigerators:0,
+        cantLamps:0,
+    };
 
 function addRoom() {
         var newRoom;
@@ -10,23 +17,49 @@ function addRoom() {
             .then((data) => {
                 newRoom.id = data.room.id; 
                 location.href = 'rooms.html';
-                //loadRooms();
-                // cambiar a rooms asi se actualiza la pagina y se actualice todo
             })
             .catch((error) => {
-                //resultTextArea.innerHTML = 'Request failed: ' + error;
             });
 }
 
 function goToRoom(roomId) {
-    console.log(roomId);
-    //location.href = 'room.html';
+    localStorage.setItem('currentRoomId', roomId);
+    location.href = 'room.html';
 }
 
    
+function deleteRoom() {
+    var roomId = localStorage.getItem('currentRoomId');
+    api.room.delete(roomId)
+        .then((data) => {
+            location.href = 'rooms.html';
+        })
+        .catch((error) => {
+            console.log('error');
+        });
+}
 
+function addDeviceToRoom(deviceId, deviceName) {
+    var roomId = localStorage.getItem('currentRoomId');
+    console.log(deviceId);
+    console.log(deviceName);
+    var newdevice = new api.model.device(null, typeId, deviceName , "{}"); // el nombre que le paso tiene que ser unico
 
-
+    api.device.add(newdevice)
+        .then((data) => {
+            newdevice.id = data.device.id; 
+            api.roomDevice.add(newdevice.id, roomId)
+                .then((data) => {
+                    location.href = 'room.html'; // vuelvo al cuarto en el que estoy
+                })
+                .catch((error) => {
+                    console.log('error');
+               });
+            })
+        .catch((error) => {
+            console.log('error');
+        });
+}
 
 
 
