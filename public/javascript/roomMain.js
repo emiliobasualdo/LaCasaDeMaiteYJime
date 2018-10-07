@@ -19,6 +19,7 @@ window.addEventListener('load', function () {
                 deviceType = deviceType.substring(1, deviceType.length-1);
                 var deviceId = JSON.stringify(data.devices[i].id, null, 2);
                 deviceId = deviceId.substring(1, deviceId.length-1);
+                console.log(deviceId);
                 if (deviceType == "go46xmbqeomjrsjr") {
                     showLights(deviceId);
                     console.log('lamp');
@@ -41,6 +42,6 @@ window.addEventListener('load', function () {
             }
         })
         .catch((error) => {
-
+            console.log('error');
         });
 }, false);

@@ -1,73 +1,71 @@
-
 function showOven(ovenID) {
     var contenido = $('#myDevices');
+    api.device.action(ovenID,'getState')
+        .then((data) => {
+            var temperature = JSON.stringify(data.result.temperature, null, 2);
+            var status = JSON.stringify(data.result.status, null, 2);
+            status = status.substring(1, status.length - 1);
 
 
-    api.device.action(ovenID,'getState').then((data) => {
-        var temperature = JSON.stringify(data.result.temperature,null, 2);
-        var status = JSON.stringify(data.result.status,null,2);
-        status = status.substring(1,status.length-1);
+            var onOffStatus;
 
-
-        var onOffStatus;
-
-        if(status == "off"){
-            onOffStatus = '<div class="mbr-section-btn"><a class="btn btn-md btn-black-outline display-7" href="roomI.html">ON</a>\
-                                <a class= "btn btn-md btn-black display-7" href="room.html">OFF</a>\
+            if (status == "off") {
+                onOffStatus = '<div class="mbr-section-btn"><a class="btn btn-md btn-black-outline display-7"  onclick="trigger(\'' + ovenID + '\',\'turnOn\')">ON</a>\
+                                <a class= "btn btn-md btn-black display-7" onclick="trigger(\'' + ovenID + '\',\'turnOff\')">OFF</a>\
                             </div>';
-        } else {
-            onOffStatus = '<div class="mbr-section-btn"><a class="btn btn-md btn-black display-7" href="roomI.html">ON</a>\
-                                <a class="btn btn-md btn-black-outline display-7" href="room.html">OFF</a></div>\
+            } else {
+                onOffStatus = '<div class="mbr-section-btn"><a class="btn btn-md btn-black display-7" onclick="trigger(\'' + ovenID + '\',\'turnOn\')">ON</a>\
+                                <a class="btn btn-md btn-black-outline display-7" onclick="trigger(\'' + ovenID + '\',\'turnOff\')">OFF</a></div>\
                             </div>';
-        }
+            }
 
-        contenido.append('<section class="header3 cid-r5JWcBA5eR" id="header3-5d">\
-        <div class="container">\
-        <div class="media-container-row">\
-        <div class="mbr-figure" style="width: 35%;">\
-        <img src="assets/images/mbr-1200x704.jpg" alt="Mobirise" title="">\
-        </div>\
-        <div class="media-content">\
-        <h1 class="mbr-section-title mbr-white pb-3 mbr-fonts-style display-5">\
-        <p>\OVEN</p>\
-        </h1>\
-        <div class="mbr-section-text mbr-white pb-3 ">\
-        </div>\
-        <h7>TEMPERATURE(ºC):  </h7><input type="text" value="'+temperature+'" id="tempOven">' + onOffStatus + '\
-        </div>\
-        </div>\
-        </section>\
-        <section class="header11 cid-r5JVGBoliw" id="header11-53">\
-        <div class="container align-left">\
-        <div class="media-container-column mbr-white col-md-12">\
-        <div class="mbr-section-btn py-4"><a class="btn btn-md btn-secondary-outline display-4" href="https://mobirise.co"><span class="mbri-trash mbr-iconfont mbr-iconfont-btn"></span>DELETE</a>\
-        <a class="btn btn-md btn-success-outline display-4" href="https://mobirise.co"><span class="mbri-star mbr-iconfont mbr-iconfont-btn"></span>ADD TO FAVOURITES</a></div>\
-        </div>\
-        </div>\
-        </section>');
-    }).catch((error) => {
+            contenido.append('<section class="header3 cid-r5JWcBA5eR" id="header3-5d">\
+                <div class="container">\
+                    <div class="media-container-row">\
+                        <div class="mbr-figure" style="width: 35%;">\
+                            <img src="assets/images/mbr-1200x704.jpg" alt="Mobirise" title="">\
+                        </div>\
+                <div class="media-content">\
+                    <h1 class="mbr-section-title mbr-white pb-3 mbr-fonts-style display-5">\
+                        <p>\OVEN</p>\
+                    </h1>\
+                <div class="mbr-section-text mbr-white pb-3 ">\
+                </div>\
+                <h7>TEMPERATURE(ºC):  </h7><input type="text" value="' + temperature + '" id="tempOven">' + onOffStatus + '\
+                </div>\
+                </div>\
+                </section>\
+                <section class="header11 cid-r5JVGBoliw" id="header11-53">\
+                <div class="container align-left">\
+                <div class="media-container-column mbr-white col-md-12">\
+                <div class="mbr-section-btn py-4"><a class="btn btn-md btn-secondary-outline display-4" onclick="deleteDeviceFromRoom(\'' + ovenID + '\')"><span class="mbri-trash mbr-iconfont mbr-iconfont-btn"></span>DELETE</a>\
+                <a class="btn btn-md btn-success-outline display-4" href="https://mobirise.co"><span class="mbri-star mbr-iconfont mbr-iconfont-btn"></span>ADD TO FAVOURITES</a></div>\
+                </div>\
+                </div>\
+                </section>\
+            ');
+        })
+        .catch((error) => {
             console.log('error');
-    });
+        });
+
 }
-
-
-
 
 function showDoor(doorID) {
     var contenido = $('#myDevices');
-
-    api.device.action(doorID,'getState').then((data) => {
-        var status = JSON.stringify(data.result.status,null,2);
-        status = status.substring(1,status.length-1);
+    api.device.action(doorID, 'getState')
+        .then((data) => {
+        var status = JSON.stringify(data.result.status, null, 2);
+        status = status.substring(1, status.length-1);
         var openClosedStatus;
 
         if(status == "closed"){
-            openClosedStatus = '<div class="mbr-section-btn"><a class="btn btn-md btn-black-outline display-7" href="roomI.html">UNLOCK</a>\
-                                <a class= "btn btn-md btn-black display-7" href="room.html">LOCK</a>\
+            openClosedStatus = '<div class="mbr-section-btn"><a class="btn btn-md btn-black-outline display-7" onclick="trigger(\'' + doorID + '\',\'open\')">UNLOCK</a>\
+                                <a class= "btn btn-md btn-black display-7" onclick="trigger(\'' + doorID + '\',\'close\')">LOCK</a>\
                             </div>';
         } else {
-            openClosedStatus = '<div class="mbr-section-btn"><a class="btn btn-md btn-black display-7" href="roomI.html">UNLOCK</a>\
-                                <a class="btn btn-md btn-black-outline display-7" href="room.html">LOCK</a></div>\
+            openClosedStatus = '<div class="mbr-section-btn"><a class="btn btn-md btn-black display-7" onclick="trigger(\'' + doorID + '\',\'open\')">UNLOCK</a>\
+                                <a class="btn btn-md btn-black-outline display-7"onclick="trigger(\'' + doorID + '\',\'close\')">LOCK</a></div>\
                             </div>';
         }
 
@@ -89,14 +87,15 @@ function showDoor(doorID) {
         <section class="header11 cid-r5JVKsyeI9" id="header11-59">\
             <div class="container align-left">\
                 <div class="media-container-column mbr-white col-md-12">\
-                    <div class="mbr-section-btn py-4"><a class="btn btn-md btn-secondary-outline display-4" href="https://mobirise.co"><span class="mbri-trash mbr-iconfont mbr-iconfont-btn"></span>DELETE</a>\
+                    <div class="mbr-section-btn py-4"><a class="btn btn-md btn-secondary-outline display-4" onclick="deleteDeviceFromRoom(\'' + doorID + '\')"><span class="mbri-trash mbr-iconfont mbr-iconfont-btn"></span>DELETE</a>\
                         <a class="btn btn-md btn-success-outline display-4" href="https://mobirise.co"><span class="mbri-star mbr-iconfont mbr-iconfont-btn"></span>ADD TO FAVOURITES</a></div>\
                 </div>\
             </div>\
         </section>');
-    }).catch((error) => {
+        })
+        .catch((error) => {
             console.log('error');
-    });
+        });
 }
 
 
@@ -109,12 +108,12 @@ function showAC(acID) {
         status = status.substring(1,status.length-1);
         var onOffStatus;
         if(status == "off"){
-            onOffStatus = '<div class="mbr-section-btn"><a class="btn btn-md btn-black-outline display-7" href="roomI.html">ON</a>\
-                                <a class= "btn btn-md btn-black display-7" href="room.html">OFF</a>\
+            onOffStatus = '<div class="mbr-section-btn"><a class="btn btn-md btn-black-outline display-7" onclick="trigger(\'' + acID + '\',\'turnOn\')">ON</a>\
+                                <a class= "btn btn-md btn-black display-7" onclick="trigger(\'' + acID + '\',\'turnOff\')">OFF</a>\
                             </div>';
         } else {
-            onOffStatus = '<div class="mbr-section-btn"><a class="btn btn-md btn-black display-7" href="roomI.html">ON</a>\
-                                <a class="btn btn-md btn-black-outline display-7" href="room.html">OFF</a></div>\
+            onOffStatus = '<div class="mbr-section-btn"><a class="btn btn-md btn-black display-7" onclick="trigger(\'' + acID + '\',\'turnOn\')">ON</a>\
+                                <a class="btn btn-md btn-black-outline display-7" onclick="trigger(\'' + acID + '\',\'turnOff\')">OFF</a></div>\
                             </div>';
         }
 
@@ -137,7 +136,7 @@ function showAC(acID) {
         <section class="header11 cid-r5JVJxh7r9" id="header11-57">\
             <div class="container align-left">\
                 <div class="media-container-column mbr-white col-md-12">\
-                    <div class="mbr-section-btn py-4"><a class="btn btn-md btn-secondary-outline display-4" href="https://mobirise.co"><span class="mbri-trash mbr-iconfont mbr-iconfont-btn"></span>DELETE</a>\
+                    <div class="mbr-section-btn py-4"><a class="btn btn-md btn-secondary-outline display-4" onclick="deleteDeviceFromRoom(\'' + acID + '\')"><span class="mbri-trash mbr-iconfont mbr-iconfont-btn"></span>DELETE</a>\
                         <a class="btn btn-md btn-success-outline display-4" href="https://mobirise.co"><span class="mbri-star mbr-iconfont mbr-iconfont-btn"></span>ADD TO FAVOURITES</a></div>\
                 </div>\
             </div>\
@@ -173,7 +172,7 @@ function showFridge(fridgeID) {
         <section class="header11 cid-r5JVIrRlI9" id="header11-55">\
             <div class="container align-left">\
                 <div class="media-container-column mbr-white col-md-12">\
-                    <div class="mbr-section-btn py-4"><a class="btn btn-md btn-secondary-outline display-4" href="https://mobirise.co"><span class="mbri-trash mbr-iconfont mbr-iconfont-btn"></span>DELETE</a>\
+                    <div class="mbr-section-btn py-4"><a class="btn btn-md btn-secondary-outline display-4" onclick="deleteDeviceFromRoom(\'' + fridgeID + '\')"><span class="mbri-trash mbr-iconfont mbr-iconfont-btn"></span>DELETE</a>\
                         <a class="btn btn-md btn-success-outline display-4" href="https://mobirise.co"><span class="mbri-star mbr-iconfont mbr-iconfont-btn"></span>ADD TO FAVOURITES</a></div>\
                 </div>\
             </div>\
@@ -192,16 +191,16 @@ function showBlinds(blindsID) {
         status = status.substring(1,status.length-1);
 
         var openCLosedStatus;
-        if(status == "opening") status="opened";
-        if(status == "closing") status="closed";
+        // if(status == "opening") status="opened";
+        //         // if(status == "closing") status="closed";
 
         if(status == "closed"){
-            openCLosedStatus = '<div class="mbr-section-btn"><a class="btn btn-md btn-black-outline display-7" href="roomI.html">OPEN</a>\
-                                <a class= "btn btn-md btn-black display-7" href="room.html">CLOSE</a>\
+            openCLosedStatus = '<div class="mbr-section-btn"><a class="btn btn-md btn-black-outline display-7" onclick="trigger(\'' + blindsID + '\',\'up\')">OPEN</a>\
+                                <a class= "btn btn-md btn-black display-7" onclick="trigger(\'' + blindsID + '\',\'down\')">CLOSE</a>\
                             </div>';
         } else {
-            openClosedStatus = '<div class="mbr-section-btn"><a class="btn btn-md btn-black display-7" href="roomI.html">OPEN</a>\
-                                <a class="btn btn-md btn-black-outline display-7" href="room.html">CLOSE</a></div>\
+            openCLosedStatus = '<div class="mbr-section-btn"><a class="btn btn-md btn-black display-7" onclick="trigger(\'' + blindsID + '\',\'up\')">OPEN</a>\
+                                <a class="btn btn-md btn-black-outline display-7"onclick="trigger(\'' + blindsID + '\',\'down\')">CLOSE</a></div>\
                             </div>';
         }
 
@@ -216,7 +215,7 @@ function showBlinds(blindsID) {
                         <h1 class="mbr-section-title mbr-white pb-3 mbr-fonts-style display-5">\
                         <p>\BLINDS</p></h1>\
                         <div class="mbr-section-text mbr-white pb-3 ">\
-                        </div>' + openClosedStatus + '\
+                        </div>' + openCLosedStatus + '\
                     </div>\
                 </div>\
             </div>\
@@ -224,13 +223,14 @@ function showBlinds(blindsID) {
         <section class="header11 cid-r5JVLDfCxK" id="header11-5b">\
             <div class="container align-left">\
                 <div class="media-container-column mbr-white col-md-12">\
-                    <div class="mbr-section-btn py-4"><a class="btn btn-md btn-secondary-outline display-4" href="https://mobirise.co"><span class="mbri-trash mbr-iconfont mbr-iconfont-btn"></span>DELETE</a>\
+                    <div class="mbr-section-btn py-4"><a class="btn btn-md btn-secondary-outline display-4" onclick="deleteDeviceFromRoom(\'' + blindsID + '\')"><span class="mbri-trash mbr-iconfont mbr-iconfont-btn"></span>DELETE</a>\
                         <a class="btn btn-md btn-success-outline display-4" href="https://mobirise.co"><span class="mbri-star mbr-iconfont mbr-iconfont-btn"></span>ADD TO FAVOURITES</a></div>\
                 </div>\
             </div>\
         </section>\
-');
-    }).catch((error) => {
+        ');
+    })
+        .catch((error) => {
             console.log('error');
     });
 }
@@ -247,14 +247,13 @@ function showLights(lightsID) {
         var onOffStatus;
         if(status == "off"){
             brightness = 0;
-            // onOffStatus = '<div class="mbr-section-btn"><a class="btn btn-md btn-black-outline display-7" href="roomI.html">ON</a>\
-            //                     <a class= "btn btn-md btn-black display-7" href="room.html">OFF</a>\
-            //                 </div>';
+            onOffStatus = '<div class="mbr-section-btn"><a class="btn btn-md btn-black-outline display-7" onclick="trigger(\'' + lightsID + '\',\'turnOn\')">ON</a>\
+                                <a class= "btn btn-md btn-black display-7" onclick="trigger(\'' + lightsID + '\',\'turnOff\')">OFF</a>\
+                            </div>';
         } else {
-    
-            // onOffStatus = '<div class="mbr-section-btn"><a class="btn btn-md btn-black display-7" href="roomI.html">ON</a>\
-            //                     <a class="btn btn-md btn-black-outline display-7" href="room.html">OFF</a></div>\
-            //                 </div>';
+            onOffStatus = '<div class="mbr-section-btn"><a class="btn btn-md btn-black display-7" onclick="trigger(\'' + lightsID + '\',\'turnOn\')">ON</a>\
+                                <a class="btn btn-md btn-black-outline display-7" onclick="trigger(\'' + lightsID + '\',\'turnOff\')">OFF</a></div>\
+                            </div>';
         }
 
 
@@ -279,7 +278,7 @@ function showLights(lightsID) {
         <section class="header11 cid-r5Fx2fBS3m" id="header11-4u">\
             <div class="container align-left">\
                 <div class="media-container-column mbr-white col-md-12">\
-                    <div class="mbr-section-btn py-4"><a class="btn btn-md btn-secondary-outline display-4" href="https://mobirise.co"><span class="mbri-trash mbr-iconfont mbr-iconfont-btn"></span>DELETE</a>\
+                    <div class="mbr-section-btn py-4"><a class="btn btn-md btn-secondary-outline display-4" onclick="deleteDeviceFromRoom(\'' + lightsID + '\')"><span class="mbri-trash mbr-iconfont mbr-iconfont-btn"></span>DELETE</a>\
                         <a class="btn btn-md btn-success-outline display-4" href="https://mobirise.co"><span class="mbri-star mbr-iconfont mbr-iconfont-btn"></span>ADD TO FAVOURITES</a></div>\
                 </div>\
             </div>\

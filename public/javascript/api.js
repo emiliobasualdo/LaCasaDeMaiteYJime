@@ -110,7 +110,7 @@ api.device = class {
     }
 //Executes action in a specific device
     static action(id, actionName) {
-        return api.fetch(api.device.url+id+"/"+actionName, {
+        return api.fetch(api.device.url+ id +"/"+ actionName, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json; charset=utf-8'
