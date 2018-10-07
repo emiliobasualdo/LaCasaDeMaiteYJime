@@ -67,3 +67,21 @@ function addDeviceToRoom(deviceType, deviceName) {
             console.log('error');
         });
 }
+
+function trigger(deviceId, action) {
+    api.device.action(deviceId, action)
+        .then((data) => {
+            console.log(data);
+            location.reload();
+        })
+        .catch((error) => {
+            console.log('error');
+        });
+
+}
+
+function deleteDeviceFromRoom(deviceId) {
+    api.roomDevice.delete(deviceId);
+    api.device.delete(deviceId);
+    location.reload();
+}
