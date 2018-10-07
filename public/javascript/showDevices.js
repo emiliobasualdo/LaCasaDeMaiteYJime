@@ -244,16 +244,18 @@ function showLights(lightsID) {
         status = status.substring(1,status.length-1);
         var brightness = JSON.stringify(data.result.brightness,null, 2);
 
-        // var onOffStatus;
-        // if(status == "off"){
-        //     onOffStatus = '<div class="mbr-section-btn"><a class="btn btn-md btn-black-outline display-7" href="roomI.html">ON</a>\
-        //                         <a class= "btn btn-md btn-black display-7" href="room.html">OFF</a>\
-        //                     </div>';
-        // } else {
-        //     onOffStatus = '<div class="mbr-section-btn"><a class="btn btn-md btn-black display-7" href="roomI.html">ON</a>\
-        //                         <a class="btn btn-md btn-black-outline display-7" href="room.html">OFF</a></div>\
-        //                     </div>';
-        // }
+        var onOffStatus;
+        if(status == "off"){
+            brightness = 0;
+            // onOffStatus = '<div class="mbr-section-btn"><a class="btn btn-md btn-black-outline display-7" href="roomI.html">ON</a>\
+            //                     <a class= "btn btn-md btn-black display-7" href="room.html">OFF</a>\
+            //                 </div>';
+        } else {
+    
+            // onOffStatus = '<div class="mbr-section-btn"><a class="btn btn-md btn-black display-7" href="roomI.html">ON</a>\
+            //                     <a class="btn btn-md btn-black-outline display-7" href="room.html">OFF</a></div>\
+            //                 </div>';
+        }
 
 
         contenido.append('<section class="header3 cid-r5JWc4Jvbq" id="header3-5c">\
