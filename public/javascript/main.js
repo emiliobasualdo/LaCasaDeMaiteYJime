@@ -154,3 +154,21 @@ function addRoutine() {
             window.alert("ERROR: adding new routine");
         });
 }
+
+function goToLoadedDevice(deviceId, deviceType){
+    localStorage.setItem('currentLoadedDeviceId', deviceId);
+    localStorage.setItem('currentLoadedDeviceType', deviceType);
+    location.href = 'chooseaction.html';
+}
+
+function addDeviceToRoutine(deviceId) {
+    console.log("adding device to routine");
+    console.log(deviceId);
+    location.href = 'addsaveddevice.html'
+}
+
+function endRoutine(deviceId) {
+    console.log("adding device to routine and ending");
+    console.log(deviceId);
+    location.href='routines.html';
+}
