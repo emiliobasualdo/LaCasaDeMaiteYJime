@@ -65,7 +65,7 @@ function addDeviceToRoom(deviceType, deviceName) {
                     newdevice.id = data.device.id;
                     api.roomDevice.add(newdevice.id, roomId)
                         .then((data) => {
-                            location.href = 'addroomWithDevices.html'; // vuelvo al cuarto en el que estoy
+                            location.href = 'room.html'; // vuelvo al cuarto en el que estoy
                         })
                         .catch((error) => {
                             console.log('error');
