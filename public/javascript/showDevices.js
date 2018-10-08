@@ -287,3 +287,115 @@ function showLights(lightsID) {
             console.log('error');
     });
 }
+
+
+function showLightsImg() {
+    var contenido = $('#addedDevices');
+    contenido.append('\
+    <section class="features13 cid-r5yZWJv2j1" id="features13-2c">\
+        <div class="container">\
+        <div class="media-container-row container">\
+        <div class="card col-12 col-md-6 p-5 m-3 align-center">\
+        <div class="card-img">\
+        <img src="assets/images/mbr-5-1200x675.jpg" alt="Mobirise" title="">\
+        </div>\
+        <h4 class="card-title py-2 mbr-fonts-style display-5">Lights</h4>\
+        </div>\
+        </div>\
+        </div>\
+        </section>\
+    ');
+}
+
+function showAcImg() {
+    var contenido = $('#addedDevices');
+    contenido.append('\
+    <section class="features13 cid-r5yZWJv2j1" id="features13-2c">\
+        <div class="container">\
+        <div class="media-container-row container">\
+        <div class="card col-12 col-md-6 p-5 m-3 align-center">\
+        <div class="card-img">\
+        <img src="assets/images/mbr-1-720x480.jpg" alt="Mobirise" title="">\
+        </div>\
+        <h4 class="card-title py-2 mbr-fonts-style display-5">AC</h4>\
+        </div>\
+        </div>\
+        </div>\
+        </section>\
+    ');
+}
+
+function showDoorImg() {
+    var contenido = $('#addedDevices');
+    contenido.append('\
+    <section class="features13 cid-r5yZWJv2j1" id="features13-2c">\
+        <div class="container">\
+        <div class="media-container-row container">\
+        <div class="card col-12 col-md-6 p-5 m-3 align-center">\
+        <div class="card-img">\
+        <img src="assets/images/mbr-1-1200x803.jpg" alt="Mobirise" title="">\
+        </div>\
+        <h4 class="card-title py-2 mbr-fonts-style display-5">Door</h4>\
+        </div>\
+        </div>\
+        </div>\
+        </section>\
+    ');
+}
+
+function showBlindsImg() {
+    var contenido = $('#addedDevices');
+    contenido.append('\
+    <section class="features13 cid-r5yZWJv2j1" id="features13-2c">\
+        <div class="container">\
+        <div class="media-container-row container">\
+        <div class="card col-12 col-md-6 p-5 m-3 align-center">\
+        <div class="card-img">\
+        <img src="assets/images/mbr-14-1200x800.jpg" alt="Mobirise" title="">\
+        </div>\
+        <h4 class="card-title py-2 mbr-fonts-style display-5">Blinds</h4>\
+        </div>\
+        </div>\
+        </div>\
+        </section>\
+    ');
+}
+
+function showFridgeImg() {
+    var contenido = $('#addedDevices');
+    contenido.append('\
+    <section class="features13 cid-r5yZWJv2j1" id="features13-2c">\
+        <div class="container">\
+        <div class="media-container-row container">\
+        <div class="card col-12 col-md-6 p-5 m-3 align-center">\
+        <div class="card-img">\
+        <img src="assets/images/mbr-1200x690.jpg" alt="Mobirise" title="">\
+        </div>\
+        <h4 class="card-title py-2 mbr-fonts-style display-5">Fridge</h4>\
+        </div>\
+        </div>\
+        </div>\
+        </section>\
+    ');
+}
+
+function showOvenImg() {
+    var contenido = $('#addedDevices');
+    if (contenido) {
+        console.log('enonctre');
+    }
+    contenido.append('\
+    <section class="features13 cid-r5yZWJv2j1" id="features13-2c">\
+        <div class="container">\
+        <div class="media-container-row container">\
+        <div class="card col-12 col-md-6 p-5 m-3 align-center">\
+        <div class="card-img">\
+        <img src="assets/images/mbr-1200x704.jpg" alt="Mobirise" title="">\
+        </div>\
+        <h4 class="card-title py-2 mbr-fonts-style display-5">Oven</h4>\
+        </div>\
+        </div>\
+        </div>\
+        </section>\
+    ');
+}
