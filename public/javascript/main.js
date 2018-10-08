@@ -30,7 +30,6 @@ function goToRoom(roomId) {
     location.href = 'room.html';
 }
 
-   
 function deleteRoom() {
     var roomId = localStorage.getItem('currentRoomId');
     api.room.delete(roomId)
@@ -129,7 +128,6 @@ function trigger(deviceId, action) {
         .catch((error) => {
             console.log('error');
         });
-
 }
 
 function deleteDeviceFromRoom(deviceId) {
@@ -137,4 +135,22 @@ function deleteDeviceFromRoom(deviceId) {
     api.device.delete(deviceId);
     location.href = 'room.html';
     //location.reload();
+}
+
+function addRoutine() {
+    var newRoutine;
+
+    var routineName = document.getElementById("name-header13-2f").value;
+
+    var actions = getActions(document.getElementById("myActions"));
+
+    newRoutine = new api.model.routine(null, routineName, actions ,'{}');
+    api.routine.add(newRoutine)
+        .then((data) =>{
+            newRoutine.id = data.routine.id;
+            location.href= 'routines.html';
+        })
+        .catch((error) => {
+            window.alert("ERROR: adding new routine");
+        });
 }
