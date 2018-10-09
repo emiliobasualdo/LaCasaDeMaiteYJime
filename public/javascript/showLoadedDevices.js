@@ -1,21 +1,21 @@
 function showOven(ovenID) {
     var contenido = $('#myDevice');
-    api.device.action(ovenID,'getState')
-        .then((data) => {
-            var temperature = JSON.stringify(data.result.temperature, null, 2);
-            var status = JSON.stringify(data.result.status, null, 2);
-            status = status.substring(1, status.length - 1);
-
             var onOffStatus;
+            var temperature = "0";
 
-            if (status == "off") {
-                onOffStatus = '<div class="mbr-section-btn"><a class="btn btn-md btn-black-outline display-7"  onclick="trigger(\'' + ovenID + '\',\'turnOn\')">ON</a>\
-                                <a class= "btn btn-md btn-black display-7" onclick="trigger(\'' + ovenID + '\',\'turnOff\')">OFF</a>\
-                            </div>';
+            if (localStorage.getItem('ovenOnOffStatus') == "turnOff") {
+                console.log("entro off");
+                onOffStatus = '<div class="mbr-section-btn"><a class="btn btn-md btn-black-outline display-7"  onclick="routineTrigger(\'im77xxyulpegfmv8\',\'' + ovenID + '\',\'turnOn\')">ON</a>\
+                                <a class= "btn btn-md btn-black display-7" onclick="routineTrigger(\'im77xxyulpegfmv8\',\'' + ovenID + '\',\'turnOff\')">OFF</a>\
+                            </div>\
+                            <param value="off" id="oven123"/>';
+
             } else {
-                onOffStatus = '<div class="mbr-section-btn"><a class="btn btn-md btn-black display-7" onclick="trigger(\'' + ovenID + '\',\'turnOn\')">ON</a>\
-                                <a class="btn btn-md btn-black-outline display-7" onclick="trigger(\'' + ovenID + '\',\'turnOff\')">OFF</a></div>\
-                            </div>';
+                console.log("entro on");
+                onOffStatus = '<div class="mbr-section-btn"><a class="btn btn-md btn-black display-7"  onclick="routineTrigger(\'im77xxyulpegfmv8\',\'' + ovenID + '\',\'turnOn\')">ON</a>\
+                                <a class="btn btn-md btn-black-outline display-7" onclick="routineTrigger(\'im77xxyulpegfmv8\',\'' + ovenID + '\',\'turnOff\')">OFF</a></div>\
+                            </div>\
+                            <param value="on" id="oven123"/>';
             }
 
             contenido.append('<section class="header3 cid-r5JWcBA5eR" id="header3-5d">\
@@ -32,7 +32,7 @@ function showOven(ovenID) {
                     </h1>\
                 <div class="mbr-section-text mbr-white pb-3 ">\
                 </div>\
-                <h7>TEMPERATURE(ºC):  </h7><input type="text" value="' + temperature + '" id="tempOven">' + onOffStatus + '\
+                <h7>TEMPERATURE(ºC):  </h7><input type="text" id="tempOven">' + onOffStatus + '\
                 </div>\
                 </div>\
                 </section>\
@@ -40,16 +40,12 @@ function showOven(ovenID) {
                 '    <div class="container">' +
                 '        <div class="media-container-row title">' +
                 '            <div class="col-12 col-md-8">' +
-                '                <div class="mbr-section-btn align-center"><a class="btn btn-black-outline display-4" onclick="addDeviceToRoutine(\'' + ovenID + '\')"><span class="mbri-plus mbr-iconfont mbr-iconfont-btn"></span>ADD MORE DEVICES</a>' +
-                '                    <a class="btn btn-black display-4" onclick="endRoutine(\'' + ovenID + '\')"><span class="mbri-success mbr-iconfont mbr-iconfont-btn"></span>END ROUTINE</a></div>' +
+                '                <div class="mbr-section-btn align-center"><a class="btn btn-black-outline display-4" onclick="addDeviceToRoutine(\'im77xxyulpegfmv8\',\'' + ovenID + '\')"><span class="mbri-plus mbr-iconfont mbr-iconfont-btn"></span>ADD MORE DEVICES</a>' +
+                '                    <a class="btn btn-black display-4" onclick="endRoutine(\'im77xxyulpegfmv8\',\'' + ovenID + '\')"><span class="mbri-success mbr-iconfont mbr-iconfont-btn"></span>END ROUTINE</a></div>' +
                 '            </div>' +
                 '        </div>' +
                 '    </div>' +
                 '</section>');
-        })
-        .catch((error) => {
-            console.log('error');
-        });
 
 }
 

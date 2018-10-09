@@ -155,20 +155,168 @@ function addRoutine() {
         });
 }
 
+function setRoutineName(){
+    var aux = document.getElementById('name-header13-2f').value.toString();
+    console.log(aux);
+    if(aux == "" || aux.length == 0 || aux == null){
+        window.alert("Please enter a routine name.");
+        return null;
+    }
+
+    //var rName;
+    //despues cambiar esto. guardar variables en local storage asi no hace tantos fetchs a la db
+    // api.routine.getAll()
+    //     .then((data) => {
+    //         for(var i = 0; i < data.routines.length; i++) {
+    //             rName = JSON.stringify(data.routines[i].name).toString();
+    //             //console.log(rName);
+    //             //console.log(aux);
+    //             //AGREGAR ESTO Y SOLUCIONARLO
+    //             // if(rName == aux){
+    //             //     console.log("entor");
+    //             //     window.alert("Already existing routine name. Please enter anotherone.");
+    //             //     return null;
+    //             // }
+    //         }
+    //     })
+    //     .catch((error) => {
+    //         console.log('error');
+    //     });
+    localStorage.setItem('currentRoutineName', aux );
+    location.href = 'addsaveddevice.html';
+}
+
 function goToLoadedDevice(deviceId, deviceType){
     localStorage.setItem('currentLoadedDeviceId', deviceId);
     localStorage.setItem('currentLoadedDeviceType', deviceType);
     location.href = 'chooseaction.html';
 }
 
-function addDeviceToRoutine(deviceId) {
-    console.log("adding device to routine");
-    console.log(deviceId);
+function addDeviceToRoutine(deviceType, deviceId) {
+    console.log("routineConstructor before concating");
+    console.log(localStorage.getItem('routineConstructor'));
+    var aux = getAndConcatCurrentAction(deviceType, deviceId);
+    console.log("routineConstructor after concating");
+    console.log(localStorage.getItem('routineConstructor'));
+    localStorage.setItem('maite', "maite");
+    console.log(localStorage.getItem('maite'));
     location.href = 'addsaveddevice.html'
 }
 
-function endRoutine(deviceId) {
-    console.log("adding device to routine and ending");
-    console.log(deviceId);
-    location.href='routines.html';
+function getAndConcatCurrentAction(deviceType, devId){
+    var currAction;
+    if (deviceType == "go46xmbqeomjrsjr"){ //lamp
+
+    }
+    else if(deviceType == "im77xxyulpegfmv8"){ //oven
+        currAction = getOvenState(devId);
+    }
+    else if(deviceType == 'eu0v2xgprrhhg41g'){//blinds
+
+    }
+    else if(deviceType == 'lsf78ly0eqrjbz91'){//door
+
+    }
+    else if(deviceType == 'li6cbv5sdlatti0j'){//ac
+
+    }
+    else if(deviceType == 'rnizejqr2di0okho'){//fridge
+
+    }
+
+    if(currAction == null){
+        location.reload();
+        return null;
+    }
+    var combined;
+    var routineConstructorAux = localStorage.getItem('routineConstructor');
+    if(routineConstructorAux == "" || routineConstructorAux.length == 0 || routineConstructorAux  == null){
+        combined = currAction;
+    }
+    else{
+        combined = currAction.concat(JSON.parse(localStorage.getItem('routineConstructor')));
+     }
+
+     localStorage.setItem('routineConstructor', JSON.stringify(combined));
+     console.log("routineConstructor en el medio");
+     console.log(localStorage.getItem('routineConstructor'));
+
+return combined;
+}
+
+
+
+
+
+
+function endRoutine(deviceType, devId) {
+     var combined = getAndConcatCurrentAction(deviceType, devId);
+     var routineName = localStorage.getItem('currentRoutineName');
+     var routineToAdd = new api.model.routine(null, routineName, combined, "{}");
+     console.log("ROUTINE ACTIONS FINAL");
+     console.log(combined);
+     console.log("routineTOAdd");
+     console.log(routineToAdd);
+     console.log("routineName");
+     console.log(routineName);
+
+
+     //ojo que no se por que la primera vez q se agrega una routine, la variable routineName hace q se genere un error. si pones un string constante funciona bien para la primer routine. ver q onda
+     api.routine.add(routineToAdd)
+         .then((data) =>{
+             //location.href= 'routines.html';
+         })
+         .catch((error) => {
+             window.alert("ERROR: adding new routine");
+         });
+}
+
+
+
+
+function getOvenState(devId){
+    var actions =[];
+    var ovenOnOff = document.getElementById("oven123").value;
+    var temperature = document.getElementById("tempOven").value;
+
+    if(ovenOnOff == "off"){
+        actions.push(new api.model.action(devId,"turnOff",[], "nada"));
+    }
+    else{
+         actions.push(new api.model.action(devId,"turnOn",[],"nada"));
+    }
+
+
+    if(!$.isNumeric(temperature) && ovenOnOff != 'off'){
+        window.alert("Please insert a number in the temperature field");
+        return null;
+    }
+    else if(temperature >= 90 && temperature <= 230){
+        actions.push(new api.model.action(devId,"setTemperature",[temperature],"nada"));
+    }
+    else{
+        if(ovenOnOff != "off"){
+            window.alert("Please insert a valid temperature between 90 and 230 degrees");
+            return null;
+        }
+    }
+return actions;
+}
+
+
+function routineTrigger(genericDeviceId, deviceId, action){
+    var aux;
+    if(genericDeviceId == 'im77xxyulpegfmv8'){
+        if(action == 'turnOn'){
+            localStorage.setItem('ovenOnOffStatus', 'turnOn');
+            aux = document.getElementById("tempOven").value;
+            localStorage.setItem('ovenTemp', aux);
+            location.reload();
+        }
+        else if(action == 'turnOff'){
+            localStorage.setItem('ovenOnOffStatus', 'turnOff');
+            location.reload();
+        }
+    }
+
 }
