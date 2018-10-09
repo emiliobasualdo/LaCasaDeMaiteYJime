@@ -19,24 +19,29 @@ window.addEventListener('load', function () {
                 deviceType = deviceType.substring(1, deviceType.length-1);
                 var deviceId = JSON.stringify(data.devices[i].id, null, 2);
                 deviceId = deviceId.substring(1, deviceId.length-1);
+                var deviceName = data.devices[i].name;
+                var fav = (data.devices[i].meta == 'fav') ? 'fav' : null;
+                console.log(deviceName);
+                deviceName = deviceName.substr(0, deviceName.indexOf('_'));
+                console.log(deviceName);
                 console.log(deviceId);
                 if (deviceType == "go46xmbqeomjrsjr") {
-                    showLights(deviceId);
+                    showLights(deviceId, deviceName, fav);
                     console.log('lamp');
                 } else if (deviceType == "im77xxyulpegfmv8") {
-                    showOven(deviceId)
+                    showOven(deviceId, deviceName, fav)
                     console.log('oven');
                 } else if (deviceType == 'eu0v2xgprrhhg41g') {
-                    showBlinds(deviceId);
+                    showBlinds(deviceId, deviceName, fav);
                     console.log('blinds');
                 } else if (deviceType == 'lsf78ly0eqrjbz91') {
-                    showDoor(deviceId);
+                    showDoor(deviceId, deviceName, fav);
                     console.log('doors');
                 } else if (deviceType == 'li6cbv5sdlatti0j') {
-                    showAC(deviceId);
+                    showAC(deviceId, deviceName, fav);
                     console.log('AC');
                 } else if (deviceType == 'rnizejqr2di0okho') {
-                    showFridge(deviceId);
+                    showFridge(deviceId, deviceName, fav);
                     console.log('fridge');
                 }
             }
