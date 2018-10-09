@@ -315,6 +315,7 @@ function addTofavourites(deviceId) {
             api.device.modify(data.device)
                 .then((data) => {
                     console.log(data);
+                    location.reload();
                 })
                 .catch((error) => {
                     console.log('error in modify');
