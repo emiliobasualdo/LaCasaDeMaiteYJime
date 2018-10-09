@@ -85,24 +85,38 @@ function addDeviceToRoom(deviceType, deviceName) {
     var name = "";
     var userName = prompt("Please enter a name", "Device Name");
     var Exp = /^[A-Za-z0-9- ]+$/;
-    if (!userName || userName == "Device Name" || !userName.match(Exp)) {
+    if (!userName || userName == "Device Name") {
+        swal({
+            title: "Error",
+            text: "Enter a device name first",
+            type: "error",
+            closeOnConfirm: true
+        });
+        return;
+    } if (!userName.match(Exp)) {
+        swal({
+            title: "Error",
+            text: "Device name must be alphanumeric",
+            type: "error",
+            closeOnConfirm: true
+        });
         return;
     }
     console.log(userName);
     api.roomDevice.get(roomId)
         .then((data) => {
             if ( deviceType == 'go46xmbqeomjrsjr') {
-                name += userName + 'roomId' + roomId + data.devices.length;
+                name += userName + '_' + roomId + data.devices.length;
             } else if (deviceType == 'im77xxyulpegfmv8') {
-                name += userName + 'roomId' + roomId + data.devices.length;
+                name += userName + '_' + roomId + data.devices.length;
             } else if (deviceType == 'eu0v2xgprrhhg41g') {
-                name += userName  + 'roomId' + roomId + data.devices.length;
+                name += userName  + '_' + roomId + data.devices.length;
             } else if (deviceType == 'lsf78ly0eqrjbz91') {
-                name += userName  + 'roomId' + roomId + data.devices.length;
+                name += userName  + '_' + roomId + data.devices.length;
             } else if (deviceType == 'li6cbv5sdlatti0j') {
-                name += userName  + 'roomId' + roomId + data.devices.length;
+                name += userName  + '_' + roomId + data.devices.length;
             } else if (deviceType == 'rnizejqr2di0okho') {
-                name += userName  + 'roomId' + roomId + data.devices.length;
+                name += userName  + '_' + roomId + data.devices.length;
             }
             var newdevice = new api.model.device(null, deviceType, name, "{}");
             api.device.add(newdevice)
@@ -151,17 +165,17 @@ function addDeviceToRoomWithDevices(deviceType, deviceName) {
     api.roomDevice.get(roomId)
         .then((data) => {
             if ( deviceType == 'go46xmbqeomjrsjr') {
-                name += userName + 'roomId' + roomId + data.devices.length;
+                name += userName + '_' + roomId + data.devices.length;
             } else if (deviceType == 'im77xxyulpegfmv8') {
-                name += userName + 'roomId' + roomId + data.devices.length;
+                name += userName + '_' + roomId + data.devices.length;
             } else if (deviceType == 'eu0v2xgprrhhg41g') {
-                name += userName + 'roomId' + roomId + data.devices.length;
+                name += userName + '_' + roomId + data.devices.length;
             } else if (deviceType == 'lsf78ly0eqrjbz91') {
-                name += userName + 'roomId' + roomId + data.devices.length;
+                name += userName + '_' + roomId + data.devices.length;
             } else if (deviceType == 'li6cbv5sdlatti0j') {
-                name += userName + 'roomId' + roomId + data.devices.length;
+                name += userName + '_' + roomId + data.devices.length;
             } else if (deviceType == 'rnizejqr2di0okho') {
-                name += userName + 'roomId' + roomId + data.devices.length;
+                name += userName + '_' + roomId + data.devices.length;
             }
             var newdevice = new api.model.device(null, deviceType, name, "{}");
             api.device.add(newdevice)
@@ -303,7 +317,11 @@ function switchButtons(buttonOn, buttonOff, onOff) {
 function deleteDeviceFromRoom(deviceId) {
     api.roomDevice.delete(deviceId);
     api.device.delete(deviceId);
-    location.href = 'room.html';
+    var id = deviceId + 'delete1';
+    document.getElementById(id).remove();
+    id = deviceId + 'delete2';
+    document.getElementById(id).remove();
+    //location.href = 'room.html';
     //location.reload();
 }
 
@@ -315,7 +333,12 @@ function addTofavourites(deviceId) {
             api.device.modify(data.device)
                 .then((data) => {
                     console.log(data);
-                    location.reload();
+                    var id = deviceId + 'fav';
+                    // var span = document.createElement('span', {class: 'mbri-star mbr-iconfont mbr-iconfont-btn'});
+                    // document.getElementById(id).appendChild(span);
+                    document.getElementById(id).innerText = 'DELETE FROM FAVOURITES';
+                    document.getElementById(id).setAttribute( "onClick", "deleteFavourite(\'"+deviceId+"\')");
+                    //location.reload();
                 })
                 .catch((error) => {
                     console.log('error in modify');
@@ -334,7 +357,36 @@ function deleteFavourite(deviceId) {
             api.device.modify(data.device)
                 .then((data) => {
                     console.log(data);
-                    location.reload();
+                    var id = deviceId + 'fav';
+                    var contenido = document.getElementById(id);
+                    // var span = document.createElement('span', {class: 'mbri-star mbr-iconfont mbr-iconfont-btn'});
+                    // document.getElementById(id).appendChild(span);
+                    document.getElementById(id).innerText = 'ADD TO FAVOURITES';
+                    document.getElementById(id).setAttribute( "onClick", "addTofavourites(\'"+deviceId+"\')");
+                    //location.reload();
+                })
+                .catch((error) => {
+                    console.log('error in modify');
+                });
+        })
+        .catch((error) => {
+            console.log('error in retiving device');
+        });
+}
+
+function deleteFavourite1(deviceId) {
+    api.device.get(deviceId)
+        .then((data) => {
+            console.log(data);
+            data.device.meta = null;
+            api.device.modify(data.device)
+                .then((data) => {
+                    console.log(data);
+                    var id = deviceId + 'delete1';
+                    document.getElementById(id).remove();
+                    id = deviceId + 'delete2';
+                    document.getElementById(id).remove();
+                    //location.reload();
                 })
                 .catch((error) => {
                     console.log('error in modify');

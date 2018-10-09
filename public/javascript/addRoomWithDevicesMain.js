@@ -21,7 +21,7 @@ window.addEventListener('load', function () {
                 deviceId = deviceId.substring(1, deviceId.length-1);
                 var deviceName = data.devices[i].name;
                 console.log(deviceName);
-                deviceName = deviceName.substr(0, deviceName.indexOf('roomId'));
+                deviceName = deviceName.substr(0, deviceName.indexOf('_'));
                 console.log(deviceName);
                 console.log(deviceId);
                 if (deviceType == "go46xmbqeomjrsjr") {

@@ -22,7 +22,7 @@ window.addEventListener('load', function () {
                 var deviceName = data.devices[i].name;
                 var fav = (data.devices[i].meta == 'fav') ? 'fav' : null;
                 console.log(deviceName);
-                deviceName = deviceName.substr(0, deviceName.indexOf('roomId'));
+                deviceName = deviceName.substr(0, deviceName.indexOf('_'));
                 console.log(deviceName);
                 console.log(deviceId);
                 if (deviceType == "go46xmbqeomjrsjr") {

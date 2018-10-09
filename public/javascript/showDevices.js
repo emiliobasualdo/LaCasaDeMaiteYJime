@@ -20,12 +20,12 @@ function showOven(ovenID, deviceName, fav) {
             }
 
             if (fav) {
-                favStatus = '<a class="btn btn-md btn-success-outline display-4" onclick="deleteFavourite(\'' + ovenID + '\')"><span class="mbri-star mbr-iconfont mbr-iconfont-btn"></span>DELETE FROM FAVOURITES</a>';
+                favStatus = '<a class="btn btn-md btn-success-outline display-4" id="' + ovenID + 'fav" onclick="deleteFavourite(\'' + ovenID + '\')"><span class="mbri-star mbr-iconfont mbr-iconfont-btn"></span>DELETE FROM FAVOURITES</a>';
             } else {
-                favStatus = '<a class="btn btn-md btn-success-outline display-4" onclick="addTofavourites(\'' + ovenID + '\')"><span class="mbri-star mbr-iconfont mbr-iconfont-btn"></span>ADD TO FAVOURITES</a>';
+                favStatus = '<a class="btn btn-md btn-success-outline display-4" id="' + ovenID + 'fav" onclick="addTofavourites(\'' + ovenID + '\')"><span class="mbri-star mbr-iconfont mbr-iconfont-btn"></span>ADD TO FAVOURITES</a>';
             }
 
-            contenido.append('<section class="header3 cid-r5JWcBA5eR" id="header3-5d">\
+            contenido.append('<section class="header3 cid-r5JWcBA5eR" id="' + ovenID + 'delete1">\
                 <div class="container">\
                     <div class="media-container-row">\
                         <div class="mbr-figure" style="width: 35%;">\
@@ -41,7 +41,7 @@ function showOven(ovenID, deviceName, fav) {
                 </div>\
                 </div>\
                 </section>\
-                <section class="header11 cid-r5JVGBoliw" id="header11-53">\
+                <section class="header11 cid-r5JVGBoliw" id="' + ovenID + 'delete2">\
                 <div class="container align-left">\
                 <div class="media-container-column mbr-white col-md-12">\
                 <div class="mbr-section-btn py-4"><a class="btn btn-md btn-secondary-outline display-4" onclick="deleteDeviceFromRoom(\'' + ovenID + '\')"><span class="mbri-trash mbr-iconfont mbr-iconfont-btn"></span>DELETE</a>\
@@ -75,12 +75,12 @@ function showDoor(doorID,  deviceName, fav) {
         }
 
         if (fav) {
-            favStatus = '<a class="btn btn-md btn-success-outline display-4" onclick="deleteFavourite(\'' + doorID + '\')"><span class="mbri-star mbr-iconfont mbr-iconfont-btn"></span>DELETE FROM FAVOURITES</a>';
+            favStatus = '<a class="btn btn-md btn-success-outline display-4" id="' + doorID + 'fav" onclick="deleteFavourite(\'' + doorID + '\')"><span class="mbri-star mbr-iconfont mbr-iconfont-btn"></span>DELETE FROM FAVOURITES</a>';
         } else {
-            favStatus = '<a class="btn btn-md btn-success-outline display-4" onclick="addTofavourites(\'' + doorID + '\')"><span class="mbri-star mbr-iconfont mbr-iconfont-btn"></span>ADD TO FAVOURITES</a>';
+            favStatus = '<a class="btn btn-md btn-success-outline display-4" id="' + doorID + 'fav" onclick="addTofavourites(\'' + doorID + '\')"><span class="mbri-star mbr-iconfont mbr-iconfont-btn"></span>ADD TO FAVOURITES</a>';
         }
 
-        contenido.append('<section class="header3 cid-r5K0VsSp7w" id="header3-5i">\
+        contenido.append('<section class="header3 cid-r5K0VsSp7w" id="' + doorID + 'delete1"">\
             <div class="container">\
                 <div class="media-container-row">\
                     <div class="mbr-figure" style="width: 35%;">\
@@ -95,7 +95,7 @@ function showDoor(doorID,  deviceName, fav) {
                 </div>\
             </div>\
         </section>\
-        <section class="header11 cid-r5JVKsyeI9" id="header11-59">\
+        <section class="header11 cid-r5JVKsyeI9" id="' + doorID + 'delete2">\
             <div class="container align-left">\
                 <div class="media-container-column mbr-white col-md-12">\
                     <div class="mbr-section-btn py-4"><a class="btn btn-md btn-secondary-outline display-4" onclick="deleteDeviceFromRoom(\'' + doorID + '\')"><span class="mbri-trash mbr-iconfont mbr-iconfont-btn"></span>DELETE</a>\
@@ -130,12 +130,12 @@ function showAC(acID,  deviceName, fav) {
         }
 
         if (fav) {
-            favStatus = '<a class="btn btn-md btn-success-outline display-4" onclick="deleteFavourite(\'' + acID + '\')"><span class="mbri-star mbr-iconfont mbr-iconfont-btn"></span>DELETE FROM FAVOURITES</a>';
+            favStatus = '<a class="btn btn-md btn-success-outline display-4" id="' + acID + 'fav" onclick="deleteFavourite(\'' + acID + '\')"><span class="mbri-star mbr-iconfont mbr-iconfont-btn"></span>DELETE FROM FAVOURITES</a>';
         } else {
-            favStatus = '<a class="btn btn-md btn-success-outline display-4" onclick="addTofavourites(\'' + acID + '\')"><span class="mbri-star mbr-iconfont mbr-iconfont-btn"></span>ADD TO FAVOURITES</a>';
+            favStatus = '<a class="btn btn-md btn-success-outline display-4"id="' + acID + 'fav" onclick="addTofavourites(\'' + acID + '\')"><span class="mbri-star mbr-iconfont mbr-iconfont-btn"></span>ADD TO FAVOURITES</a>';
         }
 
-        contenido.append('<section class="header3 cid-r5JWdFEF1r" id="header3-5f">\
+        contenido.append('<section class="header3 cid-r5JWdFEF1r" id="' + acID + 'delete1">\
             <div class="container">\
                 <div class="media-container-row">\
                     <div class="mbr-figure" style="width: 35%;">\
@@ -151,7 +151,7 @@ function showAC(acID,  deviceName, fav) {
                 </div>\
             </div>\
         </section>\
-        <section class="header11 cid-r5JVJxh7r9" id="header11-57">\
+        <section class="header11 cid-r5JVJxh7r9" id="' + acID + 'delete2">\
             <div class="container align-left">\
                 <div class="media-container-column mbr-white col-md-12">\
                     <div class="mbr-section-btn py-4"><a class="btn btn-md btn-secondary-outline display-4" onclick="deleteDeviceFromRoom(\'' + acID + '\')"><span class="mbri-trash mbr-iconfont mbr-iconfont-btn"></span>DELETE</a>\
@@ -172,12 +172,12 @@ function showFridge(fridgeID,  deviceName, fav) {
 
         var favStatus;
         if (fav) {
-            favStatus = '<a class="btn btn-md btn-success-outline display-4" onclick="deleteFavourite(\'' + fridgeID + '\')"><span class="mbri-star mbr-iconfont mbr-iconfont-btn"></span>DELETE FROM FAVOURITES</a>';
+            favStatus = '<a class="btn btn-md btn-success-outline display-4" id="' + fridgeID + 'fav"onclick="deleteFavourite(\'' + fridgeID + '\')"><span class="mbri-star mbr-iconfont mbr-iconfont-btn"></span>DELETE FROM FAVOURITES</a>';
         } else {
-            favStatus = '<a class="btn btn-md btn-success-outline display-4" onclick="addTofavourites(\'' + fridgeID + '\')"><span class="mbri-star mbr-iconfont mbr-iconfont-btn"></span>ADD TO FAVOURITES</a>';
+            favStatus = '<a class="btn btn-md btn-success-outline display-4"id="' + fridgeID + 'fav" onclick="addTofavourites(\'' + fridgeID + '\')"><span class="mbri-star mbr-iconfont mbr-iconfont-btn"></span>ADD TO FAVOURITES</a>';
         }
 
-        contenido.append('<section class="header3 cid-r5JWd5XdmE" id="header3-5e">\
+        contenido.append('<section class="header3 cid-r5JWd5XdmE" id="' + fridgeID + 'delete1">\
             <div class="container">\
                 <div class="media-container-row">\
                     <div class="mbr-figure" style="width: 35%;">\
@@ -193,7 +193,7 @@ function showFridge(fridgeID,  deviceName, fav) {
                 </div>\
             </div>\
         </section>\
-        <section class="header11 cid-r5JVIrRlI9" id="header11-55">\
+        <section class="header11 cid-r5JVIrRlI9" id="' + fridgeID + 'delete2">\
             <div class="container align-left">\
                 <div class="media-container-column mbr-white col-md-12">\
                     <div class="mbr-section-btn py-4"><a class="btn btn-md btn-secondary-outline display-4" onclick="deleteDeviceFromRoom(\'' + fridgeID + '\')"><span class="mbri-trash mbr-iconfont mbr-iconfont-btn"></span>DELETE</a>\
@@ -226,11 +226,11 @@ function showBlinds(blindsID,  deviceName, fav) {
         }
         var favStatus;
         if (fav) {
-            favStatus = '<a class="btn btn-md btn-success-outline display-4" onclick="deleteFavourite(\'' + blindsID + '\')"><span class="mbri-star mbr-iconfont mbr-iconfont-btn"></span>DELETE FROM FAVOURITES</a>';
+            favStatus = '<a class="btn btn-md btn-success-outline display-4" id="' + blindsID + 'fav"onclick="deleteFavourite(\'' + blindsID + '\')"><span class="mbri-star mbr-iconfont mbr-iconfont-btn"></span>DELETE FROM FAVOURITES</a>';
         } else {
-            favStatus = '<a class="btn btn-md btn-success-outline display-4" onclick="addTofavourites(\'' + blindsID + '\')"><span class="mbri-star mbr-iconfont mbr-iconfont-btn"></span>ADD TO FAVOURITES</a>';
+            favStatus = '<a class="btn btn-md btn-success-outline display-4" id="' + blindsID + 'fav"onclick="addTofavourites(\'' + blindsID + '\')"><span class="mbri-star mbr-iconfont mbr-iconfont-btn"></span>ADD TO FAVOURITES</a>';
         }
-        contenido.append('<section class="header3 cid-r5K0Vz6aVk" id="header3-5j">\
+        contenido.append('<section class="header3 cid-r5K0Vz6aVk" id="' + blindsID + 'delete1">\
             <div class="container">\
                 <div class="media-container-row">\
                     <div class="mbr-figure" style="width: 35%;">\
@@ -245,7 +245,7 @@ function showBlinds(blindsID,  deviceName, fav) {
                 </div>\
             </div>\
         </section>\
-        <section class="header11 cid-r5JVLDfCxK" id="header11-5b">\
+        <section class="header11 cid-r5JVLDfCxK" id="' + blindsID + 'delete2">\
             <div class="container align-left">\
                 <div class="media-container-column mbr-white col-md-12">\
                     <div class="mbr-section-btn py-4"><a class="btn btn-md btn-secondary-outline display-4" onclick="deleteDeviceFromRoom(\'' + blindsID + '\')"><span class="mbri-trash mbr-iconfont mbr-iconfont-btn"></span>DELETE</a>\
@@ -282,12 +282,12 @@ function showLights(lightsID, deviceName, fav) {
         }
         var favStatus;
         if (fav) {
-            favStatus = '<a class="btn btn-md btn-success-outline display-4" onclick="deleteFavourite(\'' + lightsID + '\')"><span class="mbri-star mbr-iconfont mbr-iconfont-btn"></span>DELETE FROM FAVOURITES</a>';
+            favStatus = '<a class="btn btn-md btn-success-outline display-4" id="' + lightsID + 'fav"onclick="deleteFavourite(\'' + lightsID + '\')"><span class="mbri-star mbr-iconfont mbr-iconfont-btn"></span>DELETE FROM FAVOURITES</a>';
         } else {
-            favStatus = '<a class="btn btn-md btn-success-outline display-4" onclick="addTofavourites(\'' + lightsID + '\')"><span class="mbri-star mbr-iconfont mbr-iconfont-btn"></span>ADD TO FAVOURITES</a>';
+            favStatus = '<a class="btn btn-md btn-success-outline display-4" id="' + lightsID + 'fav"onclick="addTofavourites(\'' + lightsID + '\')"><span class="mbri-star mbr-iconfont mbr-iconfont-btn"></span>ADD TO FAVOURITES</a>';
         }
 
-        contenido.append('<section class="header3 cid-r5JWc4Jvbq" id="header3-5c">\
+        contenido.append('<section class="header3 cid-r5JWc4Jvbq" id="' + lightsID + 'delete1">\
             <div class="container">\
                 <div class="media-container-row">\
                     <div class="mbr-figure" style="width: 35%;">\
@@ -306,7 +306,7 @@ function showLights(lightsID, deviceName, fav) {
                 </div>\
             </div>\
         </section>\
-        <section class="header11 cid-r5Fx2fBS3m" id="header11-4u">\
+        <section class="header11 cid-r5Fx2fBS3m" id="' + lightsID + 'delete2">\
             <div class="container align-left">\
                 <div class="media-container-column mbr-white col-md-12">\
                     <div class="mbr-section-btn py-4"><a class="btn btn-md btn-secondary-outline display-4" onclick="deleteDeviceFromRoom(\'' + lightsID + '\')"><span class="mbri-trash mbr-iconfont mbr-iconfont-btn"></span>DELETE</a>\
