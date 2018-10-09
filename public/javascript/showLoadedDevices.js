@@ -1,11 +1,10 @@
 function showOven(ovenID) {
-    var contenido = $('#myDevices');
+    var contenido = $('#myDevice');
     api.device.action(ovenID,'getState')
         .then((data) => {
             var temperature = JSON.stringify(data.result.temperature, null, 2);
             var status = JSON.stringify(data.result.status, null, 2);
             status = status.substring(1, status.length - 1);
-
 
             var onOffStatus;
 
@@ -27,7 +26,9 @@ function showOven(ovenID) {
                         </div>\
                 <div class="media-content">\
                     <h1 class="mbr-section-title mbr-white pb-3 mbr-fonts-style display-5">\
-                        <p>\OVEN</p>\
+                        <p>\
+                        '+ovenID+'\
+                    </p>\
                     </h1>\
                 <div class="mbr-section-text mbr-white pb-3 ">\
                 </div>\
@@ -35,7 +36,16 @@ function showOven(ovenID) {
                 </div>\
                 </div>\
                 </section>\
-            ');
+                <section class="mbr-section content8 cid-r5RRFtzuPy" id="content8-67">' +
+                '    <div class="container">' +
+                '        <div class="media-container-row title">' +
+                '            <div class="col-12 col-md-8">' +
+                '                <div class="mbr-section-btn align-center"><a class="btn btn-black-outline display-4" onclick="addDeviceToRoutine(\'' + ovenID + '\')"><span class="mbri-plus mbr-iconfont mbr-iconfont-btn"></span>ADD MORE DEVICES</a>' +
+                '                    <a class="btn btn-black display-4" onclick="endRoutine(\'' + ovenID + '\')"><span class="mbri-success mbr-iconfont mbr-iconfont-btn"></span>END ROUTINE</a></div>' +
+                '            </div>' +
+                '        </div>' +
+                '    </div>' +
+                '</section>');
         })
         .catch((error) => {
             console.log('error');
@@ -44,7 +54,7 @@ function showOven(ovenID) {
 }
 
 function showDoor(doorID) {
-    var contenido = $('#myDevices');
+    var contenido = $('#myDevice');
     api.device.action(doorID, 'getState')
         .then((data) => {
             var status = JSON.stringify(data.result.status, null, 2);
@@ -75,7 +85,17 @@ function showDoor(doorID) {
                     </div>\
                 </div>\
             </div>\
-        </section>');
+        </section>' +
+'        <section class="mbr-section content8 cid-r5RRFtzuPy" id="content8-67">' +
+'                <div class="container">' +
+'                    <div class="media-container-row title">' +
+'                        <div class="col-12 col-md-8">' +
+'                            <div class="mbr-section-btn align-center"><a class="btn btn-black-outline display-4" onclick="addDeviceToRoutine(\'' + doorID + '\')"><span class="mbri-plus mbr-iconfont mbr-iconfont-btn"></span>ADD MORE DEVICES</a>' +
+'                                <a class="btn btn-black display-4" onclick="endRoutine(\'' + doorID + '\')"><span class="mbri-success mbr-iconfont mbr-iconfont-btn"></span>END ROUTINE</a></div>' +
+'                        </div>' +
+'                    </div>' +
+'                </div>' +
+'            </section>');
         })
         .catch((error) => {
             console.log('error');
@@ -83,9 +103,8 @@ function showDoor(doorID) {
 }
 
 
-
 function showAC(acID) {
-    var contenido = $('#myDevices');
+    var contenido = $('#myDevice');
     api.device.action(acID,'getState').then((data) => {
         var temperature = JSON.stringify(data.result.temperature,null, 2);
         var status = JSON.stringify(data.result.status,null,2);
@@ -116,7 +135,17 @@ function showAC(acID) {
                     </div>\
                 </div>\
             </div>\
-        </section>');
+        </section>' +
+            '        <section class="mbr-section content8 cid-r5RRFtzuPy" id="content8-67">' +
+            '                <div class="container">' +
+            '                    <div class="media-container-row title">' +
+            '                       <div class="col-12 col-md-8">' +
+            '                            <div class="mbr-section-btn align-center"><a class="btn btn-black-outline display-4" onclick="addDeviceToRoutine(\'' + acID + '\')"><span class="mbri-plus mbr-iconfont mbr-iconfont-btn"></span>ADD MORE DEVICES</a>' +
+            '                                <a class="btn btn-black display-4" onclick="endRoutine(\'' + acID + '\')"><span class="mbri-success mbr-iconfont mbr-iconfont-btn"></span>END ROUTINE</a></div>' +
+            '                        </div>' +
+            '                    </div>' +
+            '                </div>' +
+            '            </section>');
     }).catch((error) => {
         console.log('error');
     });
@@ -124,7 +153,7 @@ function showAC(acID) {
 
 
 function showFridge(fridgeID) {
-    var contenido = $('#myDevices');
+    var contenido = $('#myDevice');
     api.device.action(fridgeID,'getState').then((data) => {
         var temperature = JSON.stringify(data.result.temperature,null, 2);
 
@@ -144,7 +173,17 @@ function showFridge(fridgeID) {
                     </div>\
                 </div>\
             </div>\
-        </section>');
+        </section>' +
+            '        <section class="mbr-section content8 cid-r5RRFtzuPy" id="content8-67">' +
+            '                <div class="container">' +
+            '                    <div class="media-container-row title">' +
+            '                        <div class="col-12 col-md-8">' +
+            '                            <div class="mbr-section-btn align-center"><a class="btn btn-black-outline display-4" onclick="addDeviceToRoutine(\'' + fridgeID + '\')"><span class="mbri-plus mbr-iconfont mbr-iconfont-btn"></span>ADD MORE DEVICES</a>' +
+            '                                <a class="btn btn-black display-4" onclick="endRoutine(\'' + fridgeID + '\')"><span class="mbri-success mbr-iconfont mbr-iconfont-btn"></span>END ROUTINE</a></div>' +
+            '                        </div>' +
+            '                    </div>' +
+            '                </div>' +
+            '            </section>');
     }).catch((error) => {
         console.log('error');
     });
@@ -152,22 +191,20 @@ function showFridge(fridgeID) {
 
 
 function showBlinds(blindsID) {
-    var contenido = $('#myDevices');
+    var contenido = $('#myDevice');
     api.device.action(blindsID,'getState').then((data) => {
 
         var status = JSON.stringify(data.result.status,null,2);
         status = status.substring(1,status.length-1);
 
-        var openCLosedStatus;
-        // if(status == "opening") status="opened";
-        //         // if(status == "closing") status="closed";
+        var openClosedStatus;
 
         if(status == "closed"){
-            openCLosedStatus = '<div class="mbr-section-btn"><a class="btn btn-md btn-black-outline display-7" onclick="trigger(\'' + blindsID + '\',\'up\')">OPEN</a>\
+            openClosedStatus = '<div class="mbr-section-btn"><a class="btn btn-md btn-black-outline display-7" onclick="trigger(\'' + blindsID + '\',\'up\')">OPEN</a>\
                                 <a class= "btn btn-md btn-black display-7" onclick="trigger(\'' + blindsID + '\',\'down\')">CLOSE</a>\
                             </div>';
         } else {
-            openCLosedStatus = '<div class="mbr-section-btn"><a class="btn btn-md btn-black display-7" onclick="trigger(\'' + blindsID + '\',\'up\')">OPEN</a>\
+            openClosedStatus = '<div class="mbr-section-btn"><a class="btn btn-md btn-black display-7" onclick="trigger(\'' + blindsID + '\',\'up\')">OPEN</a>\
                                 <a class="btn btn-md btn-black-outline display-7"onclick="trigger(\'' + blindsID + '\',\'down\')">CLOSE</a></div>\
                             </div>';
         }
@@ -183,11 +220,21 @@ function showBlinds(blindsID) {
                         <h1 class="mbr-section-title mbr-white pb-3 mbr-fonts-style display-5">\
                         <p>\BLINDS</p></h1>\
                         <div class="mbr-section-text mbr-white pb-3 ">\
-                        </div>' + openCLosedStatus + '\
+                        </div>' + openClosedStatus + '\
                     </div>\
                 </div>\
             </div>\
-        </section>');
+        </section>' +
+            '        <section class="mbr-section content8 cid-r5RRFtzuPy" id="content8-67">' +
+            '                <div class="container">' +
+            '                    <div class="media-container-row title">' +
+            '                        <div class="col-12 col-md-8">' +
+            '                            <div class="mbr-section-btn align-center"><a class="btn btn-black-outline display-4" onclick="addDeviceToRoutine(\'' + blindsID + '\')"><span class="mbri-plus mbr-iconfont mbr-iconfont-btn"></span>ADD MORE DEVICES</a>' +
+            '                                <a class="btn btn-black display-4" onclick="endRoutine(\'' + blindsID + '\')"><span class="mbri-success mbr-iconfont mbr-iconfont-btn"></span>END ROUTINE</a></div>' +
+            '                        </div>' +
+            '                    </div>' +
+            '                </div>' +
+            '            </section>');
     })
         .catch((error) => {
             console.log('error');
@@ -196,24 +243,24 @@ function showBlinds(blindsID) {
 
 
 function showLights(lightsID) {
-    var contenido = $('#myDevices');
+    var contenido = $('#myDevice');
     api.device.action(lightsID,'getState').then((data) => {
 
         var status = JSON.stringify(data.result.status,null,2);
         status = status.substring(1,status.length-1);
         var brightness = JSON.stringify(data.result.brightness,null, 2);
 
-        var onOffStatus;
-        if(status == "off"){
-            brightness = 0;
-            onOffStatus = '<div class="mbr-section-btn"><a class="btn btn-md btn-black-outline display-7" onclick="trigger(\'' + lightsID + '\',\'turnOn\')">ON</a>\
-                                <a class= "btn btn-md btn-black display-7" onclick="trigger(\'' + lightsID + '\',\'turnOff\')">OFF</a>\
-                            </div>';
-        } else {
-            onOffStatus = '<div class="mbr-section-btn"><a class="btn btn-md btn-black display-7" onclick="trigger(\'' + lightsID + '\',\'turnOn\')">ON</a>\
-                                <a class="btn btn-md btn-black-outline display-7" onclick="trigger(\'' + lightsID + '\',\'turnOff\')">OFF</a></div>\
-                            </div>';
-        }
+        /*        var onOffStatus;
+                if(status == "off"){
+                    brightness = 0;
+                    onOffStatus = '<div class="mbr-section-btn"><a class="btn btn-md btn-black-outline display-7" onclick="trigger(\'' + lightsID + '\',\'turnOn\')">ON</a>\
+                                        <a class= "btn btn-md btn-black display-7" onclick="trigger(\'' + lightsID + '\',\'turnOff\')">OFF</a>\
+                                    </div>';
+                } else {
+                    onOffStatus = '<div class="mbr-section-btn"><a class="btn btn-md btn-black display-7" onclick="trigger(\'' + lightsID + '\',\'turnOn\')">ON</a>\
+                                        <a class="btn btn-md btn-black-outline display-7" onclick="trigger(\'' + lightsID + '\',\'turnOff\')">OFF</a></div>\
+                                    </div>';
+                }*/
 
 
         contenido.append('<section class="header3 cid-r5JWc4Jvbq" id="header3-5c">\
@@ -233,8 +280,18 @@ function showLights(lightsID) {
                     </div>\
                 </div>\
             </div>\
-        </section>');
+        </section>\
+        <section class="mbr-section content8 cid-r5RRFtzuPy" id="content8-67">' +
+            '    <div class="container">' +
+            '        <div class="media-container-row title">' +
+            '            <div class="col-12 col-md-8">' +
+            '                <div class="mbr-section-btn align-center"><a class="btn btn-black-outline display-4" onclick="addDeviceToRoutine(\'' + lightsID + '\')"><span class="mbri-plus mbr-iconfont mbr-iconfont-btn"></span>ADD MORE DEVICES</a>' +
+            '                    <a class="btn btn-black display-4" onclick="endRoutine(\'' + lightsID + '\')"><span class="mbri-success mbr-iconfont mbr-iconfont-btn"></span>END ROUTINE</a></div>' +
+            '            </div>' +
+            '        </div>' +
+            '    </div>' +
+            '</section>');
     }).catch((error) => {
-        console.log('error');
+        window.alert(error);
     });
 }

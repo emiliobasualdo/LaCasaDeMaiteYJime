@@ -2,18 +2,19 @@ function showOven(ovenID, deviceName) {
     var contenido = $('#myDevices');
     api.device.action(ovenID,'getState')
         .then((data) => {
-            var temperature = JSON.stringify(data.result.temperature, null, 2);
-            var status = JSON.stringify(data.result.status, null, 2);
-            status = status.substring(1, status.length - 1);
+            var temperature = data.result.temperature;
+            var status = data.result.status;
+
+
             var onOffStatus;
 
-            if (status == "off") {
-                onOffStatus = '<div class="mbr-section-btn"><a class="btn btn-md btn-black-outline display-7"  onclick="trigger(\'' + ovenID + '\',\'turnOn\')">ON</a>\
-                                <a class= "btn btn-md btn-black display-7" onclick="trigger(\'' + ovenID + '\',\'turnOff\')">OFF</a>\
+            if (status === "off") {
+                onOffStatus = '<div class="mbr-section-btn"><a class="btn btn-md btn-black-outline display-7"  id="'+ ovenID +'on" onclick="trigger(\'' + ovenID + '\',\'turnOn\' ,\'oven\')">ON</a>\
+                                <a class= "btn btn-md btn-black display-7" id="'+ ovenID +'off" onclick="trigger(\'' + ovenID + '\',\'turnOff\' ,\'oven\' )">OFF</a>\
                             </div>';
             } else {
-                onOffStatus = '<div class="mbr-section-btn"><a class="btn btn-md btn-black display-7" onclick="trigger(\'' + ovenID + '\',\'turnOn\')">ON</a>\
-                                <a class="btn btn-md btn-black-outline display-7" onclick="trigger(\'' + ovenID + '\',\'turnOff\')">OFF</a></div>\
+                onOffStatus = '<div class="mbr-section-btn"><a class="btn btn-md btn-black display-7" id="'+ ovenID +'on" onclick="trigger(\'' + ovenID + '\',\'turnOn\' ,\'oven\')">ON</a>\
+                                <a class="btn btn-md btn-black-outline display-7" id="'+ ovenID +'off" onclick="trigger(\'' + ovenID + '\',\'turnOff\' ,\'oven\')">OFF</a></div>\
                             </div>';
             }
 
@@ -29,7 +30,7 @@ function showOven(ovenID, deviceName) {
                     </h1>\
                 <div class="mbr-section-text mbr-white pb-3 ">\
                 </div>\
-                <h7>TEMPERATURE(ºC):  </h7><input type="text" value="' + temperature + '" id="tempOven">' + onOffStatus + '\
+                <h7>TEMPERATURE(ºC):  </h7><input type="text" value="' + temperature + '" id="'+ ovenID +'temp"><button type="button" onclick="trigger(\'' + ovenID + '\',\'setTemperature\', \'oven\')" >Set!</button>' + onOffStatus + '\
                 </div>\
                 </div>\
                 </section>\
@@ -41,6 +42,7 @@ function showOven(ovenID, deviceName) {
                 </div>\
                 </div>\
                 </section>\
+                \
             ');
         })
         .catch((error) => {
@@ -53,18 +55,17 @@ function showDoor(doorID,  deviceName) {
     var contenido = $('#myDevices');
     api.device.action(doorID, 'getState')
         .then((data) => {
-        var status = JSON.stringify(data.result.status, null, 2);
-        status = status.substring(1, status.length-1);
-        var openClosedStatus;
+        var status = data.result.lock;
+        var lockedUnlockedStatus;
 
-        if(status == "closed"){
-            openClosedStatus = '<div class="mbr-section-btn"><a class="btn btn-md btn-black-outline display-7" onclick="trigger(\'' + doorID + '\',\'open\')">UNLOCK</a>\
-                                <a class= "btn btn-md btn-black display-7" onclick="trigger(\'' + doorID + '\',\'close\')">LOCK</a>\
-                            </div>';
+        if(status == "unlocked"){
+            lockedUnlockedStatus = '<div class="mbr-section-btn"><a class="btn btn-md btn-black-outline display-7" id="'+ doorID +'lock" onclick="trigger(\'' + doorID + '\',\'lock\', \'door\')">LOCK</a>\
+                            <a class= "btn btn-md btn-black display-7" id="'+ doorID +'unlock" onclick="trigger(\'' + doorID + '\',\'unlock\', \'door\')">UNLOCK</a>\
+                        </div>';
         } else {
-            openClosedStatus = '<div class="mbr-section-btn"><a class="btn btn-md btn-black display-7" onclick="trigger(\'' + doorID + '\',\'open\')">UNLOCK</a>\
-                                <a class="btn btn-md btn-black-outline display-7"onclick="trigger(\'' + doorID + '\',\'close\')">LOCK</a></div>\
-                            </div>';
+            lockedUnlockedStatus = '<div class="mbr-section-btn"><a class="btn btn-md btn-black display-7" id="'+ doorID +'lock" onclick="trigger(\'' + doorID + '\',\'lock\', \'door\')">LOCK</a>\
+                            <a class="btn btn-md btn-black-outline display-7" id="'+ doorID +'unlock" onclick="trigger(\'' + doorID + '\',\'unlock\', \'door\')">UNLOCK</a></div>\
+                        </div>';
         }
 
         contenido.append('<section class="header3 cid-r5K0VsSp7w" id="header3-5i">\
@@ -77,7 +78,7 @@ function showDoor(doorID,  deviceName) {
                         <h1 class="mbr-section-title mbr-white pb-3 mbr-fonts-style display-5">\
                         <p>' + deviceName + ' </p></h1>\
                         <div class="mbr-section-text mbr-white pb-3 ">\
-                        </div>' + openClosedStatus + '\
+                        </div>' + lockedUnlockedStatus + '\
                     </div>\
                 </div>\
             </div>\
@@ -101,17 +102,16 @@ function showDoor(doorID,  deviceName) {
 function showAC(acID,  deviceName) {
     var contenido = $('#myDevices');
     api.device.action(acID,'getState').then((data) => {
-        var temperature = JSON.stringify(data.result.temperature,null, 2);
-        var status = JSON.stringify(data.result.status,null,2);
-        status = status.substring(1,status.length-1);
+        var temperature = data.result.temperature;
+        var status = data.result.status;
         var onOffStatus;
         if(status == "off"){
-            onOffStatus = '<div class="mbr-section-btn"><a class="btn btn-md btn-black-outline display-7" onclick="trigger(\'' + acID + '\',\'turnOn\')">ON</a>\
-                                <a class= "btn btn-md btn-black display-7" onclick="trigger(\'' + acID + '\',\'turnOff\')">OFF</a>\
+            onOffStatus = '<div class="mbr-section-btn"><a class="btn btn-md btn-black-outline display-7" id="'+ acID +'on" onclick="trigger(\'' + acID + '\',\'turnOn\', \'ac\')">ON</a>\
+                                <a class= "btn btn-md btn-black display-7" id="'+ acID +'off" onclick="trigger(\'' + acID + '\',\'turnOff\', \'ac\')">OFF</a>\
                             </div>';
         } else {
-            onOffStatus = '<div class="mbr-section-btn"><a class="btn btn-md btn-black display-7" onclick="trigger(\'' + acID + '\',\'turnOn\')">ON</a>\
-                                <a class="btn btn-md btn-black-outline display-7" onclick="trigger(\'' + acID + '\',\'turnOff\')">OFF</a></div>\
+            onOffStatus = '<div class="mbr-section-btn"><a class="btn btn-md btn-black display-7" id="'+ acID +'on" onclick="trigger(\'' + acID + '\',\'turnOn\', \'ac\')">ON</a>\
+                                <a class="btn btn-md btn-black-outline display-7" id="'+ acID +'off" onclick="trigger(\'' + acID + '\',\'turnOff\', \'ac\')">OFF</a></div>\
                             </div>';
         }
 
@@ -126,7 +126,7 @@ function showAC(acID,  deviceName) {
                         <p>' + deviceName + '</p></h1>\
                         <div class="mbr-section-text mbr-white pb-3 ">\
                         </div>\
-                        <h7>TEMPERATURE(ºC):  </h7><input type="text" value="' + temperature + '" id="tempAir">' + onOffStatus + '\
+                        <h7>TEMPERATURE(ºC):  </h7><input type="text" value="' + temperature + '" id="'+ acID +'temp"><button type="button" onclick="trigger(\'' + acID + '\',\'setTemperature\', \'ac\')" >Set!</button>' + onOffStatus + '\
                     </div>\
                 </div>\
             </div>\
@@ -148,7 +148,7 @@ function showAC(acID,  deviceName) {
 function showFridge(fridgeID,  deviceName) {
     var contenido = $('#myDevices');
     api.device.action(fridgeID,'getState').then((data) => {
-        var temperature = JSON.stringify(data.result.temperature,null, 2);
+    var temperature = data.result.temperature;
 
 
         contenido.append('<section class="header3 cid-r5JWd5XdmE" id="header3-5e">\
@@ -162,7 +162,7 @@ function showFridge(fridgeID,  deviceName) {
                         <p> ' + deviceName + ' </p></h1>\
                         <div class="mbr-section-text mbr-white pb-3 ">\
                         </div>\
-                        <h7>TEMPERATURE(ºC):  </h7><input type="text" value="' + temperature + '" id="tempFridge">\
+                        <h7>TEMPERATURE(ºC):  </h7><input type="text" value="' + temperature + '" id="'+ fridgeID +'temp"><button type="button" onclick="trigger(\'' + fridgeID + '\',\'setTemperature\', \'fridge\')" >Set!</button>\
                     </div>\
                 </div>\
             </div>\
@@ -185,20 +185,17 @@ function showBlinds(blindsID,  deviceName) {
     var contenido = $('#myDevices');
     api.device.action(blindsID,'getState').then((data) => {
 
-        var status = JSON.stringify(data.result.status,null,2);
-        status = status.substring(1,status.length-1);
+        var status = data.result.status;
 
         var openCLosedStatus;
-        // if(status == "opening") status="opened";
-        //         // if(status == "closing") status="closed";
 
-        if(status == "closed"){
-            openCLosedStatus = '<div class="mbr-section-btn"><a class="btn btn-md btn-black-outline display-7" onclick="trigger(\'' + blindsID + '\',\'up\')">OPEN</a>\
-                                <a class= "btn btn-md btn-black display-7" onclick="trigger(\'' + blindsID + '\',\'down\')">CLOSE</a>\
+        if(status == "closed" || status == "closing"){
+            openCLosedStatus = '<div class="mbr-section-btn"><a class="btn btn-md btn-black-outline display-7" id="'+ blindsID +'open" onclick="trigger(\'' + blindsID + '\',\'up\',\'blinds\')">OPEN</a>\
+                                <a class= "btn btn-md btn-black display-7" id="'+ blindsID +'close" onclick="trigger(\'' + blindsID + '\',\'down\',\'blinds\')">CLOSE</a>\
                             </div>';
         } else {
-            openCLosedStatus = '<div class="mbr-section-btn"><a class="btn btn-md btn-black display-7" onclick="trigger(\'' + blindsID + '\',\'up\')">OPEN</a>\
-                                <a class="btn btn-md btn-black-outline display-7"onclick="trigger(\'' + blindsID + '\',\'down\')">CLOSE</a></div>\
+            openCLosedStatus = '<div class="mbr-section-btn"><a class="btn btn-md btn-black display-7" id="'+ blindsID +'open" onclick="trigger(\'' + blindsID + '\',\'up\',\'blinds\')">OPEN</a>\
+                                <a class="btn btn-md btn-black-outline display-7" id="'+ blindsID +'close" onclick="trigger(\'' + blindsID + '\',\'down\',\'blinds\')">CLOSE</a></div>\
                             </div>';
         }
 
@@ -238,19 +235,19 @@ function showLights(lightsID, deviceName) {
     var contenido = $('#myDevices');
     api.device.action(lightsID,'getState').then((data) => {
 
-        var status = JSON.stringify(data.result.status,null,2);
-        status = status.substring(1,status.length-1);
-        var brightness = JSON.stringify(data.result.brightness,null, 2);
+        var brightness = data.result.brightness;
+        var status = data.result.status;
+
 
         var onOffStatus;
-        if(status == "off"){
-            brightness = 0;
-            onOffStatus = '<div class="mbr-section-btn"><a class="btn btn-md btn-black-outline display-7" onclick="trigger(\'' + lightsID + '\',\'turnOn\')">ON</a>\
-                                <a class= "btn btn-md btn-black display-7" onclick="trigger(\'' + lightsID + '\',\'turnOff\')">OFF</a>\
+
+        if (status === "off") {
+            onOffStatus = '<div class="mbr-section-btn"><a class="btn btn-md btn-black-outline display-7"  id="'+ lightsID +'on" onclick="trigger(\'' + lightsID + '\',\'turnOn\' ,\'lights\')">ON</a>\
+                                <a class= "btn btn-md btn-black display-7" id="'+ lightsID +'off" onclick="trigger(\'' + lightsID + '\',\'turnOff\' ,\'lights\' )">OFF</a>\
                             </div>';
         } else {
-            onOffStatus = '<div class="mbr-section-btn"><a class="btn btn-md btn-black display-7" onclick="trigger(\'' + lightsID + '\',\'turnOn\')">ON</a>\
-                                <a class="btn btn-md btn-black-outline display-7" onclick="trigger(\'' + lightsID + '\',\'turnOff\')">OFF</a></div>\
+            onOffStatus = '<div class="mbr-section-btn"><a class="btn btn-md btn-black display-7" id="'+ lightsID +'on" onclick="trigger(\'' + lightsID + '\',\'turnOn\' ,\'lights\')">ON</a>\
+                                <a class="btn btn-md btn-black-outline display-7" id="'+ lightsID +'off" onclick="trigger(\'' + lightsID + '\',\'turnOff\' ,\'lights\')">OFF</a></div>\
                             </div>';
         }
 
@@ -267,7 +264,8 @@ function showLights(lightsID, deviceName) {
                         <div class="mbr-section-text mbr-white pb-3 ">\
                         </div>\
                         <div class="slidecontainer">\
-                            <h7>BRIGHTNESS:  </h7> <input type="range" min="1" max="100" value="' + brightness + '" class="slider" id="slideLights">\
+                            <h7>BRIGHTNESS:  </h7> <input type="range" min="1" max="100" value="' + brightness + '" class="slider" id="'+ lightsID +'slider" onchange="trigger(\'' + lightsID + '\',\'setBrightness\', \'lights\')">\
+                            ' + onOffStatus + '\
                         </div>\
                     </div>\
                 </div>\
