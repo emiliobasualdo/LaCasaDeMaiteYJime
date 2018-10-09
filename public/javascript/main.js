@@ -44,6 +44,14 @@ function addRoomWithDevices() {
             closeOnConfirm: true
         });
         return;
+    } else if (roomName.length <= 2) {
+        swal({
+            title: "Error",
+            text: "Room name must have at least 3 charaters long",
+            type: "error",
+            closeOnConfirm: true
+        });
+        return;
     }
     newRoom = new api.model.room(null, roomName, '{}');
     api.room.add(newRoom)
