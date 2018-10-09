@@ -1,10 +1,99 @@
-function showOven(ovenID, deviceName) {
-    var contenido = $('#myDevices');
+window.addEventListener('load', function () {
+    api.device.getAllDevices()
+        .then((data) => {
+            for (var i = 0; i < data.devices.length; i++) {
+                if (data.devices[i].meta == 'fav') {
+                    if (data.devices[i].typeId == "go46xmbqeomjrsjr") {
+                        console.log(data.devices[i].id);
+                        showLights(data.devices[i].id);
+                        console.log('lamp');
+                    } else if (data.devices[i].typeId == "im77xxyulpegfmv8") {
+                        showOven(data.devices[i].id);
+                        console.log('oven');
+                    } else if (data.devices[i].typeId == 'eu0v2xgprrhhg41g') {
+                        showBlinds(data.devices[i].id);
+                        console.log('blinds');
+                    } else if (data.devices[i].typeId == 'lsf78ly0eqrjbz91') {
+                        showDoor(data.devices[i].id);
+                        console.log('doors');
+                    } else if (data.devices[i].typeId == 'li6cbv5sdlatti0j') {
+                        showAC(data.devices[i].id);
+                        console.log('AC');
+                    } else if (data.devices[i].typeId == 'rnizejqr2di0okho') {
+                        showFridge(data.devices[i].id);
+                        console.log('fridge');
+                    }
+                } else {
+                    continue;
+                }
+            }
+        })
+        .catch((error) => {
+            console.log('error en retriving favourite');
+        });
+}, false);
+
+function showLights(lightsID) {
+    var contenido = $('#devicesFav');
+    api.device.action(lightsID,'getState').then((data) => {
+
+        var status = JSON.stringify(data.result.status,null,2);
+        status = status.substring(1,status.length-1);
+        var brightness = JSON.stringify(data.result.brightness,null, 2);
+
+        var onOffStatus;
+        if(status == "off"){
+            brightness = 0;
+            onOffStatus = '<div class="mbr-section-btn"><a class="btn btn-md btn-black-outline display-7" onclick="trigger(\'' + lightsID + '\',\'turnOn\')">ON</a>\
+                                <a class= "btn btn-md btn-black display-7" onclick="trigger(\'' + lightsID + '\',\'turnOff\')">OFF</a>\
+                            </div>';
+        } else {
+            onOffStatus = '<div class="mbr-section-btn"><a class="btn btn-md btn-black display-7" onclick="trigger(\'' + lightsID + '\',\'turnOn\')">ON</a>\
+                                <a class="btn btn-md btn-black-outline display-7" onclick="trigger(\'' + lightsID + '\',\'turnOff\')">OFF</a></div>\
+                            </div>';
+        }
+
+
+        contenido.append('<section class="header3 cid-r5JWc4Jvbq" id="header3-5c">\
+            <div class="container">\
+                <div class="media-container-row">\
+                    <div class="mbr-figure" style="width: 35%;">\
+                        <img src="assets/images/mbr-5-1200x675.jpg" alt="Mobirise" title="">\
+                    </div>\
+                    <div class="media-content">\
+                        <h1 class="mbr-section-title mbr-white pb-3 mbr-fonts-style display-5">\
+                        <p>\LIGHTS</p></h1>\
+                        <div class="mbr-section-text mbr-white pb-3 ">\
+                        </div>\
+                        <div class="slidecontainer">\
+                            <h7>BRIGHTNESS:  </h7> <input type="range" min="1" max="100" value="' + brightness + '" class="slider" id="slideLights">\
+                        </div>\
+                    </div>\
+                </div>\
+            </div>\
+        </section>\
+        <section class="header11 cid-r5Fx2fBS3m" id="header11-4u">\
+            <div class="container align-left">\
+                <div class="media-container-column mbr-white col-md-12">\
+                    <div class="mbr-section-btn py-4"><a class="btn btn-md btn-secondary-outline display-4" onclick="deleteDeviceFromRoom(\'' + lightsID + '\')"><span class="mbri-trash mbr-iconfont mbr-iconfont-btn"></span>DELETE</a>\
+                        <a class="btn btn-md btn-success-outline display-4" onclick=" deleteFavourite(\'' + lightsID + '\')"><span class="mbri-star mbr-iconfont mbr-iconfont-btn"></span>DELETE FROM FAVOURITES</a></div>\
+                </div>\
+            </div>\
+        </section>');
+    }).catch((error) => {
+        console.log('error');
+    });
+}
+
+function showOven(ovenID) {
+    var contenido = $('#devicesFav');
     api.device.action(ovenID,'getState')
         .then((data) => {
             var temperature = JSON.stringify(data.result.temperature, null, 2);
             var status = JSON.stringify(data.result.status, null, 2);
             status = status.substring(1, status.length - 1);
+
+
             var onOffStatus;
 
             if (status == "off") {
@@ -25,7 +114,7 @@ function showOven(ovenID, deviceName) {
                         </div>\
                 <div class="media-content">\
                     <h1 class="mbr-section-title mbr-white pb-3 mbr-fonts-style display-5">\
-                        <p>' + deviceName + '</p>\
+                        <p>\OVEN</p>\
                     </h1>\
                 <div class="mbr-section-text mbr-white pb-3 ">\
                 </div>\
@@ -37,7 +126,7 @@ function showOven(ovenID, deviceName) {
                 <div class="container align-left">\
                 <div class="media-container-column mbr-white col-md-12">\
                 <div class="mbr-section-btn py-4"><a class="btn btn-md btn-secondary-outline display-4" onclick="deleteDeviceFromRoom(\'' + ovenID + '\')"><span class="mbri-trash mbr-iconfont mbr-iconfont-btn"></span>DELETE</a>\
-                <a class="btn btn-md btn-success-outline display-4" onclick="addTofavourites(\'' + ovenID + '\')"><span class="mbri-star mbr-iconfont mbr-iconfont-btn"></span>ADD TO FAVOURITES</a></div>\
+                <a class="btn btn-md btn-success-outline display-4" onclick=" deleteFavourite(\'' + ovenID + '\')"><span class="mbri-star mbr-iconfont mbr-iconfont-btn"></span>DELETE FROM FAVOURITES</a></div>\
                 </div>\
                 </div>\
                 </section>\
@@ -49,25 +138,25 @@ function showOven(ovenID, deviceName) {
 
 }
 
-function showDoor(doorID,  deviceName) {
-    var contenido = $('#myDevices');
+function showDoor(doorID) {
+    var contenido = $('#devicesFav');
     api.device.action(doorID, 'getState')
         .then((data) => {
-        var status = JSON.stringify(data.result.status, null, 2);
-        status = status.substring(1, status.length-1);
-        var openClosedStatus;
+            var status = JSON.stringify(data.result.status, null, 2);
+            status = status.substring(1, status.length-1);
+            var openClosedStatus;
 
-        if(status == "closed"){
-            openClosedStatus = '<div class="mbr-section-btn"><a class="btn btn-md btn-black-outline display-7" onclick="trigger(\'' + doorID + '\',\'open\')">UNLOCK</a>\
+            if(status == "closed"){
+                openClosedStatus = '<div class="mbr-section-btn"><a class="btn btn-md btn-black-outline display-7" onclick="trigger(\'' + doorID + '\',\'open\')">UNLOCK</a>\
                                 <a class= "btn btn-md btn-black display-7" onclick="trigger(\'' + doorID + '\',\'close\')">LOCK</a>\
                             </div>';
-        } else {
-            openClosedStatus = '<div class="mbr-section-btn"><a class="btn btn-md btn-black display-7" onclick="trigger(\'' + doorID + '\',\'open\')">UNLOCK</a>\
+            } else {
+                openClosedStatus = '<div class="mbr-section-btn"><a class="btn btn-md btn-black display-7" onclick="trigger(\'' + doorID + '\',\'open\')">UNLOCK</a>\
                                 <a class="btn btn-md btn-black-outline display-7"onclick="trigger(\'' + doorID + '\',\'close\')">LOCK</a></div>\
                             </div>';
-        }
+            }
 
-        contenido.append('<section class="header3 cid-r5K0VsSp7w" id="header3-5i">\
+            contenido.append('<section class="header3 cid-r5K0VsSp7w" id="header3-5i">\
             <div class="container">\
                 <div class="media-container-row">\
                     <div class="mbr-figure" style="width: 35%;">\
@@ -75,7 +164,7 @@ function showDoor(doorID,  deviceName) {
                     </div>\
                     <div class="media-content">\
                         <h1 class="mbr-section-title mbr-white pb-3 mbr-fonts-style display-5">\
-                        <p>' + deviceName + ' </p></h1>\
+                        <p>\DOOR</p></h1>\
                         <div class="mbr-section-text mbr-white pb-3 ">\
                         </div>' + openClosedStatus + '\
                     </div>\
@@ -86,7 +175,7 @@ function showDoor(doorID,  deviceName) {
             <div class="container align-left">\
                 <div class="media-container-column mbr-white col-md-12">\
                     <div class="mbr-section-btn py-4"><a class="btn btn-md btn-secondary-outline display-4" onclick="deleteDeviceFromRoom(\'' + doorID + '\')"><span class="mbri-trash mbr-iconfont mbr-iconfont-btn"></span>DELETE</a>\
-                        <a class="btn btn-md btn-success-outline display-4" onclick="addTofavourites(\'' + doorID + '\')"><span class="mbri-star mbr-iconfont mbr-iconfont-btn"></span>ADD TO FAVOURITES</a></div>\
+                        <a class="btn btn-md btn-success-outline display-4" onclick=" deleteFavourite(\'' + doorID + '\')"><span class="mbri-star mbr-iconfont mbr-iconfont-btn"></span>DELETE FROM FAVOURITES</a></div>\
                 </div>\
             </div>\
         </section>');
@@ -98,8 +187,8 @@ function showDoor(doorID,  deviceName) {
 
 
 
-function showAC(acID,  deviceName) {
-    var contenido = $('#myDevices');
+function showAC(acID) {
+    var contenido = $('#devicesFav');
     api.device.action(acID,'getState').then((data) => {
         var temperature = JSON.stringify(data.result.temperature,null, 2);
         var status = JSON.stringify(data.result.status,null,2);
@@ -123,7 +212,7 @@ function showAC(acID,  deviceName) {
                     </div>\
                     <div class="media-content">\
                         <h1 class="mbr-section-title mbr-white pb-3 mbr-fonts-style display-5">\
-                        <p>' + deviceName + '</p></h1>\
+                        <p>\AIR CONDITIONER</p></h1>\
                         <div class="mbr-section-text mbr-white pb-3 ">\
                         </div>\
                         <h7>TEMPERATURE(ºC):  </h7><input type="text" value="' + temperature + '" id="tempAir">' + onOffStatus + '\
@@ -135,18 +224,18 @@ function showAC(acID,  deviceName) {
             <div class="container align-left">\
                 <div class="media-container-column mbr-white col-md-12">\
                     <div class="mbr-section-btn py-4"><a class="btn btn-md btn-secondary-outline display-4" onclick="deleteDeviceFromRoom(\'' + acID + '\')"><span class="mbri-trash mbr-iconfont mbr-iconfont-btn"></span>DELETE</a>\
-                        <a class="btn btn-md btn-success-outline display-4" onclick="addTofavourites(\'' + acID + '\')"><span class="mbri-star mbr-iconfont mbr-iconfont-btn"></span>ADD TO FAVOURITES</a></div>\
+                        <a class="btn btn-md btn-success-outline display-4" onclick=" deleteFavourite(\'' + acID + '\')"><span class="mbri-star mbr-iconfont mbr-iconfont-btn"></span>DELETE FROM FAVOURITES</a></div>\
                 </div>\
             </div>\
         </section>');
     }).catch((error) => {
-            console.log('error');
+        console.log('error');
     });
 }
 
 
-function showFridge(fridgeID,  deviceName) {
-    var contenido = $('#myDevices');
+function showFridge(fridgeID) {
+    var contenido = $('#devicesFav');
     api.device.action(fridgeID,'getState').then((data) => {
         var temperature = JSON.stringify(data.result.temperature,null, 2);
 
@@ -159,7 +248,7 @@ function showFridge(fridgeID,  deviceName) {
                     </div>\
                     <div class="media-content">\
                         <h1 class="mbr-section-title mbr-white pb-3 mbr-fonts-style display-5">\
-                        <p> ' + deviceName + ' </p></h1>\
+                        <p>\FRIDGE</p></h1>\
                         <div class="mbr-section-text mbr-white pb-3 ">\
                         </div>\
                         <h7>TEMPERATURE(ºC):  </h7><input type="text" value="' + temperature + '" id="tempFridge">\
@@ -171,18 +260,18 @@ function showFridge(fridgeID,  deviceName) {
             <div class="container align-left">\
                 <div class="media-container-column mbr-white col-md-12">\
                     <div class="mbr-section-btn py-4"><a class="btn btn-md btn-secondary-outline display-4" onclick="deleteDeviceFromRoom(\'' + fridgeID + '\')"><span class="mbri-trash mbr-iconfont mbr-iconfont-btn"></span>DELETE</a>\
-                        <a class="btn btn-md btn-success-outline display-4" onclick="addTofavourites(\'' + fridgeID + '\')"><span class="mbri-star mbr-iconfont mbr-iconfont-btn"></span>ADD TO FAVOURITES</a></div>\
+                        <a class="btn btn-md btn-success-outline display-4" onclick=" deleteFavourite(\'' + fridgeID + '\')"><span class="mbri-star mbr-iconfont mbr-iconfont-btn"></span>DELETE FROM FAVOURITES</a></div>\
                 </div>\
             </div>\
         </section>');
     }).catch((error) => {
-            console.log('error');
+        console.log('error');
     });
 }
 
 
-function showBlinds(blindsID,  deviceName) {
-    var contenido = $('#myDevices');
+function showBlinds(blindsID) {
+    var contenido = $('#devicesFav');
     api.device.action(blindsID,'getState').then((data) => {
 
         var status = JSON.stringify(data.result.status,null,2);
@@ -211,7 +300,7 @@ function showBlinds(blindsID,  deviceName) {
                     </div>\
                     <div class="media-content">\
                         <h1 class="mbr-section-title mbr-white pb-3 mbr-fonts-style display-5">\
-                        <p> ' + deviceName + ' </p></h1>\
+                        <p>\BLINDS</p></h1>\
                         <div class="mbr-section-text mbr-white pb-3 ">\
                         </div>' + openCLosedStatus + '\
                     </div>\
@@ -222,7 +311,7 @@ function showBlinds(blindsID,  deviceName) {
             <div class="container align-left">\
                 <div class="media-container-column mbr-white col-md-12">\
                     <div class="mbr-section-btn py-4"><a class="btn btn-md btn-secondary-outline display-4" onclick="deleteDeviceFromRoom(\'' + blindsID + '\')"><span class="mbri-trash mbr-iconfont mbr-iconfont-btn"></span>DELETE</a>\
-                        <a class="btn btn-md btn-success-outline display-4" onclick="addTofavourites(\'' + blindsID + '\')"><span class="mbri-star mbr-iconfont mbr-iconfont-btn"></span>ADD TO FAVOURITES</a></div>\
+                        <a class="btn btn-md btn-success-outline display-4" onclick=" deleteFavourite(\'' + blindsID + '\')"><span class="mbri-star mbr-iconfont mbr-iconfont-btn"></span>DELETE FROM FAVOURITES</a></div>\
                 </div>\
             </div>\
         </section>\
@@ -230,170 +319,7 @@ function showBlinds(blindsID,  deviceName) {
     })
         .catch((error) => {
             console.log('error');
-    });
+        });
 }
 
 
-function showLights(lightsID, deviceName) {
-    var contenido = $('#myDevices');
-    api.device.action(lightsID,'getState').then((data) => {
-
-        var status = JSON.stringify(data.result.status,null,2);
-        status = status.substring(1,status.length-1);
-        var brightness = JSON.stringify(data.result.brightness,null, 2);
-
-        var onOffStatus;
-        if(status == "off"){
-            brightness = 0;
-            onOffStatus = '<div class="mbr-section-btn"><a class="btn btn-md btn-black-outline display-7" onclick="trigger(\'' + lightsID + '\',\'turnOn\')">ON</a>\
-                                <a class= "btn btn-md btn-black display-7" onclick="trigger(\'' + lightsID + '\',\'turnOff\')">OFF</a>\
-                            </div>';
-        } else {
-            onOffStatus = '<div class="mbr-section-btn"><a class="btn btn-md btn-black display-7" onclick="trigger(\'' + lightsID + '\',\'turnOn\')">ON</a>\
-                                <a class="btn btn-md btn-black-outline display-7" onclick="trigger(\'' + lightsID + '\',\'turnOff\')">OFF</a></div>\
-                            </div>';
-        }
-
-
-        contenido.append('<section class="header3 cid-r5JWc4Jvbq" id="header3-5c">\
-            <div class="container">\
-                <div class="media-container-row">\
-                    <div class="mbr-figure" style="width: 35%;">\
-                        <img src="assets/images/mbr-5-1200x675.jpg" alt="Mobirise" title="">\
-                    </div>\
-                    <div class="media-content">\
-                        <h1 class="mbr-section-title mbr-white pb-3 mbr-fonts-style display-5">\
-                        <p>' + deviceName + ' </p></h1>\
-                        <div class="mbr-section-text mbr-white pb-3 ">\
-                        </div>\
-                        <div class="slidecontainer">\
-                            <h7>BRIGHTNESS:  </h7> <input type="range" min="1" max="100" value="' + brightness + '" class="slider" id="slideLights">\
-                        </div>\
-                    </div>\
-                </div>\
-            </div>\
-        </section>\
-        <section class="header11 cid-r5Fx2fBS3m" id="header11-4u">\
-            <div class="container align-left">\
-                <div class="media-container-column mbr-white col-md-12">\
-                    <div class="mbr-section-btn py-4"><a class="btn btn-md btn-secondary-outline display-4" onclick="deleteDeviceFromRoom(\'' + lightsID + '\')"><span class="mbri-trash mbr-iconfont mbr-iconfont-btn"></span>DELETE</a>\
-                        <a class="btn btn-md btn-success-outline display-4" onclick="addTofavourites(\'' + lightsID + '\')"><span class="mbri-star mbr-iconfont mbr-iconfont-btn"></span>ADD TO FAVOURITES</a></div>\
-                </div>\
-            </div>\
-        </section>');
-    }).catch((error) => {
-            console.log('error');
-    });
-}
-
-
-function showLightsImg(deviceName) {
-    var contenido = $('#addedDevices');
-    contenido.append('\
-    <section class="features13 cid-r5yZWJv2j1" id="features13-2c">\
-        <div class="container">\
-        <div class="media-container-row container">\
-        <div class="card col-12 col-md-6 p-5 m-3 align-center">\
-        <div class="card-img">\
-        <img src="assets/images/mbr-5-1200x675.jpg" alt="Mobirise" title="">\
-        </div>\
-        <h4 class="card-title py-2 mbr-fonts-style display-5"> ' + deviceName + ' </h4>\
-        </div>\
-        </div>\
-        </div>\
-        </section>\
-    ');
-}
-
-function showAcImg(deviceName) {
-    var contenido = $('#addedDevices');
-    contenido.append('\
-    <section class="features13 cid-r5yZWJv2j1" id="features13-2c">\
-        <div class="container">\
-        <div class="media-container-row container">\
-        <div class="card col-12 col-md-6 p-5 m-3 align-center">\
-        <div class="card-img">\
-        <img src="assets/images/mbr-1-720x480.jpg" alt="Mobirise" title="">\
-        </div>\
-        <h4 class="card-title py-2 mbr-fonts-style display-5"> ' + deviceName + '</h4>\
-        </div>\
-        </div>\
-        </div>\
-        </section>\
-    ');
-}
-
-function showDoorImg(deviceName) {
-    var contenido = $('#addedDevices');
-    contenido.append('\
-    <section class="features13 cid-r5yZWJv2j1" id="features13-2c">\
-        <div class="container">\
-        <div class="media-container-row container">\
-        <div class="card col-12 col-md-6 p-5 m-3 align-center">\
-        <div class="card-img">\
-        <img src="assets/images/mbr-1-1200x803.jpg" alt="Mobirise" title="">\
-        </div>\
-        <h4 class="card-title py-2 mbr-fonts-style display-5">' + deviceName + ' </h4>\
-        </div>\
-        </div>\
-        </div>\
-        </section>\
-    ');
-}
-
-function showBlindsImg(deviceName) {
-    var contenido = $('#addedDevices');
-    contenido.append('\
-    <section class="features13 cid-r5yZWJv2j1" id="features13-2c">\
-        <div class="container">\
-        <div class="media-container-row container">\
-        <div class="card col-12 col-md-6 p-5 m-3 align-center">\
-        <div class="card-img">\
-        <img src="assets/images/mbr-14-1200x800.jpg" alt="Mobirise" title="">\
-        </div>\
-        <h4 class="card-title py-2 mbr-fonts-style display-5">' + deviceName + ' </h4>\
-        </div>\
-        </div>\
-        </div>\
-        </section>\
-    ');
-}
-
-function showFridgeImg(deviceName) {
-    var contenido = $('#addedDevices');
-    contenido.append('\
-    <section class="features13 cid-r5yZWJv2j1" id="features13-2c">\
-        <div class="container">\
-        <div class="media-container-row container">\
-        <div class="card col-12 col-md-6 p-5 m-3 align-center">\
-        <div class="card-img">\
-        <img src="assets/images/mbr-1200x690.jpg" alt="Mobirise" title="">\
-        </div>\
-        <h4 class="card-title py-2 mbr-fonts-style display-5"> ' + deviceName + ' </h4>\
-        </div>\
-        </div>\
-        </div>\
-        </section>\
-    ');
-}
-
-function showOvenImg(deviceName) {
-    var contenido = $('#addedDevices');
-    if (contenido) {
-        console.log('enonctre');
-    }
-    contenido.append('\
-    <section class="features13 cid-r5yZWJv2j1" id="features13-2c">\
-        <div class="container">\
-        <div class="media-container-row container">\
-        <div class="card col-12 col-md-6 p-5 m-3 align-center">\
-        <div class="card-img">\
-        <img src="assets/images/mbr-1200x704.jpg" alt="Mobirise" title="">\
-        </div>\
-        <h4 class="card-title py-2 mbr-fonts-style display-5"> ' + deviceName + ' </h4>\
-        </div>\
-        </div>\
-        </div>\
-        </section>\
-    ');
-}

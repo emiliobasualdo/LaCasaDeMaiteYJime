@@ -114,7 +114,7 @@ api.device = class {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json; charset=utf-8'
-            },
+            }
         });
     }
 //Retrieve all devices
