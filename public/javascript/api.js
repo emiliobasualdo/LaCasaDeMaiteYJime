@@ -109,12 +109,14 @@ api.device = class {
         return api.fetch(api.device.url + id);
     }
 //Executes action in a specific device
-    static action(id, actionName) {
+    static action(id, actionName, params) {
+        console.log("Action:", "id: "+id, "actionName: "+actionName, "params: "+params);
         return api.fetch(api.device.url+ id +"/"+ actionName, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json; charset=utf-8'
             },
+            body: params
         });
     }
 //Retrieve all devices
