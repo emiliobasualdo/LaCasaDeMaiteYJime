@@ -5,7 +5,6 @@ function showOven(ovenID, deviceName, fav) {
             var temperature = data.result.temperature;
             var status = data.result.status;
 
-
             var onOffStatus;
             var favStatus;
 
@@ -60,27 +59,27 @@ function showDoor(doorID,  deviceName, fav) {
     var contenido = $('#myDevices');
     api.device.action(doorID, 'getState')
         .then((data) => {
-        var status = data.result.lock;
-        var lockedUnlockedStatus;
-        var favStatus;
+            var status = data.result.lock;
+            var lockedUnlockedStatus;
+            var favStatus;
 
-        if(status == "unlocked"){
-            lockedUnlockedStatus = '<div class="mbr-section-btn"><a class="btn btn-md btn-black-outline display-7" id="'+ doorID +'lock" onclick="trigger(\'' + doorID + '\',\'lock\', \'door\')">LOCK</a>\
+            if(status == "unlocked"){
+                lockedUnlockedStatus = '<div class="mbr-section-btn"><a class="btn btn-md btn-black-outline display-7" id="'+ doorID +'lock" onclick="trigger(\'' + doorID + '\',\'lock\', \'door\')">LOCK</a>\
                             <a class= "btn btn-md btn-black display-7" id="'+ doorID +'unlock" onclick="trigger(\'' + doorID + '\',\'unlock\', \'door\')">UNLOCK</a>\
                         </div>';
-        } else {
-            lockedUnlockedStatus = '<div class="mbr-section-btn"><a class="btn btn-md btn-black display-7" id="'+ doorID +'lock" onclick="trigger(\'' + doorID + '\',\'lock\', \'door\')">LOCK</a>\
+            } else {
+                lockedUnlockedStatus = '<div class="mbr-section-btn"><a class="btn btn-md btn-black display-7" id="'+ doorID +'lock" onclick="trigger(\'' + doorID + '\',\'lock\', \'door\')">LOCK</a>\
                             <a class="btn btn-md btn-black-outline display-7" id="'+ doorID +'unlock" onclick="trigger(\'' + doorID + '\',\'unlock\', \'door\')">UNLOCK</a></div>\
                         </div>';
-        }
+            }
 
-        if (fav) {
-            favStatus = '<a class="btn btn-md btn-success-outline display-4" id="' + doorID + 'fav" onclick="deleteFavourite(\'' + doorID + '\')"><span class="mbri-star mbr-iconfont mbr-iconfont-btn"></span>DELETE FROM FAVOURITES</a>';
-        } else {
-            favStatus = '<a class="btn btn-md btn-success-outline display-4" id="' + doorID + 'fav" onclick="addTofavourites(\'' + doorID + '\')"><span class="mbri-star mbr-iconfont mbr-iconfont-btn"></span>ADD TO FAVOURITES</a>';
-        }
+            if (fav) {
+                favStatus = '<a class="btn btn-md btn-success-outline display-4" id="' + doorID + 'fav" onclick="deleteFavourite(\'' + doorID + '\')"><span class="mbri-star mbr-iconfont mbr-iconfont-btn"></span>DELETE FROM FAVOURITES</a>';
+            } else {
+                favStatus = '<a class="btn btn-md btn-success-outline display-4" id="' + doorID + 'fav" onclick="addTofavourites(\'' + doorID + '\')"><span class="mbri-star mbr-iconfont mbr-iconfont-btn"></span>ADD TO FAVOURITES</a>';
+            }
 
-        contenido.append('<section class="header3 cid-r5K0VsSp7w" id="' + doorID + 'delete1"">\
+            contenido.append('<section class="header3 cid-r5K0VsSp7w" id="' + doorID + 'delete1"">\
             <div class="container">\
                 <div class="media-container-row">\
                     <div class="mbr-figure" style="width: 35%;">\
@@ -160,7 +159,7 @@ function showAC(acID,  deviceName, fav) {
             </div>\
         </section>');
     }).catch((error) => {
-            console.log('error');
+        console.log('error');
     });
 }
 
@@ -168,7 +167,7 @@ function showAC(acID,  deviceName, fav) {
 function showFridge(fridgeID,  deviceName, fav) {
     var contenido = $('#myDevices');
     api.device.action(fridgeID,'getState').then((data) => {
-    var temperature = data.result.temperature;
+        var temperature = data.result.temperature;
 
         var favStatus;
         if (fav) {
@@ -202,7 +201,7 @@ function showFridge(fridgeID,  deviceName, fav) {
             </div>\
         </section>');
     }).catch((error) => {
-            console.log('error');
+        console.log('error');
     });
 }
 
@@ -257,7 +256,7 @@ function showBlinds(blindsID,  deviceName, fav) {
     })
         .catch((error) => {
             console.log('error');
-    });
+        });
 }
 
 
@@ -315,7 +314,7 @@ function showLights(lightsID, deviceName, fav) {
             </div>\
         </section>');
     }).catch((error) => {
-            console.log('error');
+        console.log('error');
     });
 }
 
