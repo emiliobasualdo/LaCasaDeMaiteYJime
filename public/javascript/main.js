@@ -261,6 +261,11 @@ function updateStates(deviceId, deviceType){
                     }else{
                         switchButtons(deviceId+"lock",deviceId+"unlock", "unlock");
                     }
+                    if(data.result.status == "closed"){
+                        switchButtons(deviceId+"open",deviceId+"close", "closed");
+                    }else{
+                        switchButtons(deviceId+"open",deviceId+"close", "opened");
+                    }
                     break;
                 case "blinds":
                     console.log("Caso blinds");
@@ -291,7 +296,7 @@ function changeText(textID, newText)
 }
 
 function switchButtons(buttonOn, buttonOff, onOff) {
-    if (onOff == "on" || onOff == "lock" || onOff == "up") {
+    if (onOff == "on" || onOff == "lock" || onOff == "opened") {
         document.getElementById(buttonOn).classList.add("btn-black");
         document.getElementById(buttonOn).classList.remove("btn-black-outline");
         document.getElementById(buttonOff).classList.add("btn-black-outline");

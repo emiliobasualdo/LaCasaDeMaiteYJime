@@ -60,11 +60,23 @@ function showDoor(doorID,  deviceName, fav) {
     var contenido = $('#myDevices');
     api.device.action(doorID, 'getState')
         .then((data) => {
-        var status = data.result.lock;
+        var lock = data.result.lock;
+        var status = data.result.status;
         var lockedUnlockedStatus;
         var favStatus;
+        var openCLosedStatus;
 
-        if(status == "unlocked"){
+        if(status == "closed"){
+            openCLosedStatus = '<div class="mbr-section-btn"><a class="btn btn-md btn-black-outline display-7" id="'+ doorID +'open" onclick="trigger(\'' + doorID + '\',\'open\',\'door\')">OPEN</a>\
+                            <a class= "btn btn-md btn-black display-7" id="'+ doorID +'close" onclick="trigger(\'' + doorID + '\',\'close\',\'door\')">CLOSE</a>\
+                        </div>';
+        } else {
+            openCLosedStatus = '<div class="mbr-section-btn"><a class="btn btn-md btn-black display-7" id="'+ doorID +'open" onclick="trigger(\'' + doorID + '\',\'open\',\'door\')">OPEN</a>\
+                            <a class="btn btn-md btn-black-outline display-7" id="'+ doorID +'close" onclick="trigger(\'' + doorID + '\',\'close\',\'door\')">CLOSE</a></div>\
+                        </div>';
+        }
+
+        if(lock == "unlocked"){
             lockedUnlockedStatus = '<div class="mbr-section-btn"><a class="btn btn-md btn-black-outline display-7" id="'+ doorID +'lock" onclick="trigger(\'' + doorID + '\',\'lock\', \'door\')">LOCK</a>\
                             <a class= "btn btn-md btn-black display-7" id="'+ doorID +'unlock" onclick="trigger(\'' + doorID + '\',\'unlock\', \'door\')">UNLOCK</a>\
                         </div>';
@@ -90,7 +102,7 @@ function showDoor(doorID,  deviceName, fav) {
                         <h1 class="mbr-section-title mbr-white pb-3 mbr-fonts-style display-5">\
                         <p>' + deviceName + ' </p></h1>\
                         <div class="mbr-section-text mbr-white pb-3 ">\
-                        </div>' + lockedUnlockedStatus + '\
+                        </div>' + lockedUnlockedStatus + openCLosedStatus+ '\
                     </div>\
                 </div>\
             </div>\
@@ -105,7 +117,7 @@ function showDoor(doorID,  deviceName, fav) {
         </section>');
         })
         .catch((error) => {
-            console.log('error');
+            console.log(error);
         });
 }
 
