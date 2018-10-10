@@ -4,7 +4,7 @@ window.addEventListener('load', function () {
         localStorage.setItem('data',JSON.stringify(data["deviceLogs"]));
 
         var logs = remove_duplicates_es6('data');
-        console.log(logs);
+        //console.log(logs);
         addToTable(logs);
 
 
@@ -23,13 +23,12 @@ function remove_duplicates_es6(name) {
     var resp= [];
     var arr = JSON.parse(localStorage.getItem(name));
     arr.sort(comparator);
-    console.log(arr.length);
+    //console.log(arr.length);
     var i,j;
     for (i = 0; i <arr.length-1; i++) {
         //console.log(arr[i]);
         if (arr[i]["timestamp"].includes(arr[i+1]["timestamp"].substring(0,arr[i+1]["timestamp"].indexOf('.')))
             && arr[i]["deviceId"] == arr[i+1]["deviceId"] ) { // son iguales
-            console.log("son iguales");
         }else {
             resp.push(arr[i]);
         }
@@ -40,7 +39,6 @@ function remove_duplicates_es6(name) {
 function comparator(a,b){
     var ts1 = (new Date(a.timestamp).getTime());
     var ts2 = (new Date(b.timestamp).getTime());
-    console.log(ts1,ts2);
     if (ts1 > ts2)
         return -1;
     if (ts1 < ts2)
@@ -50,7 +48,7 @@ function comparator(a,b){
 
 function addToTable(data){
     //var data = JSON.parse(localStorage.getItem('data'));
-    console.log(data);
+    //console.log(data);
     data.sort(comparator);
 
     for (let i = 0; i <data.length; i++) {
@@ -58,13 +56,12 @@ function addToTable(data){
         data[i]["timestamp"] = data[i]["timestamp"].replace('T',' ');
         data[i]["timestamp"] = data[i]["timestamp"].slice(0, 19);
 
-
         api.device.get(data[i].deviceId)
             .then(device => {
-                console.log(device);
+                //console.log(device);
                 //localStorage.setItem('name', JSON.stringify(device.device.name));
                 //data[i]["deviceId"]  = JSON.parse(localStorage.getItem('name'));
-                data[i]["deviceId"]  = device.device.name;
+                data[i]["deviceId"] = device.device.name.substr(0, device.device.name.indexOf('_'));
                 //console.log(localStorage.getItem('name'));
 
                 if (showableRow(data[i]))

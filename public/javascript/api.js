@@ -128,6 +128,7 @@ api.device = class {
     //Retrieve events for a specific device
     //Retrieve logs for a specific device
     //Retrieve devices from specific device type
+
 };
 
 //ROUTINE
