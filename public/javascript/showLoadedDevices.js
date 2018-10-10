@@ -77,23 +77,23 @@ function showDoor(devID) {
 }
 
 
-function showAC(acID) {
+function showAC(devID) {
     var contenido = $('#myDevice');
 
 }
 
 
-function showFridge(fridgeID) {
+function showFridge(devID) {
     var contenido = $('#myDevice');
 }
 
 
-function showBlinds(blindsID) {
+function showBlinds(devID) {
     var contenido = $('#myDevice');
 
 }
 
 
-function showLights(lightsID) {
+function showLights(devID) {
     var contenido = $('#myDevice');
 }

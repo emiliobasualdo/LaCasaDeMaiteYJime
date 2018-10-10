@@ -577,7 +577,6 @@ return new api.model.action(devId,'unlock',[], "nada");
 function showSelection(deviceType, deviceId, action){
     switch (deviceType) {
         case "oven":
-        case "ac":
             if(action == 'turnOff'){
                 switchButtons(deviceId+"on",deviceId+"off", "off");
                 var elem = document.getElementById("ovenOnOff");
@@ -591,7 +590,8 @@ function showSelection(deviceType, deviceId, action){
                 //POR SI PONEMOS EL BOTON SET
             }
             break;
-
+        case "ac":
+            break;
         case "fridge":
             //aca puede ir el set.
             break;
