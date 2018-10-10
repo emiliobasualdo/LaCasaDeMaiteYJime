@@ -100,9 +100,11 @@ function showDoor(doorID,  deviceName, fav) {
                     </div>\
                     <div class="media-content">\
                         <h1 class="mbr-section-title mbr-white pb-3 mbr-fonts-style display-5">\
-                        <p>' + deviceName + ' </p></h1>\
-                        <div class="mbr-section-text mbr-white pb-3 ">\
-                        </div>' + lockedUnlockedStatus + openCLosedStatus+ '\
+                            <p>' + deviceName + ' </p>\
+                        </h1>\
+                        <div class="mbr-section-text mbr-white pb-3 "></div>\
+                        <div>' + lockedUnlockedStatus+'</div> \
+                       <div>' + openCLosedStatus+ ' </div>\
                     </div>\
                 </div>\
             </div>\
@@ -158,7 +160,7 @@ function showAC(acID,  deviceName, fav) {
                         <p>' + deviceName + '</p></h1>\
                         <div class="mbr-section-text mbr-white pb-3 ">\
                         </div>\
-                        <h7>TEMPERATURE(ºC):  </h7><input type="text" value="' + temperature + '" id="'+ acID +'temp"><button type="button" onclick="trigger(\'' + acID + '\',\'setTemperature\', \'ac\')" >Set!</button>' + onOffStatus + '\
+                        <h7>TEMPERATURE(ºC):  </h7><input type="text" value="' + temperature + '" id="'+ acID +'temp"><button type="button" class="btn btn-warning" onclick="trigger(\'' + acID + '\',\'setTemperature\', \'ac\')" >Set!</button>' + onOffStatus + '\
                     </div>\
                 </div>\
             </div>\
@@ -200,7 +202,7 @@ function showFridge(fridgeID,  deviceName, fav) {
                         <p> ' + deviceName + ' </p></h1>\
                         <div class="mbr-section-text mbr-white pb-3 ">\
                         </div>\
-                        <h7>TEMPERATURE(ºC):  </h7><input type="text" value="' + temperature + '" id="'+ fridgeID +'temp"><button type="button" onclick="trigger(\'' + fridgeID + '\',\'setTemperature\', \'fridge\')" >Set!</button>\
+                        <h7>TEMPERATURE(ºC):  </h7><input type="text" value="' + temperature + '" id="'+ fridgeID +'temp"><button type="button" class="btn btn-warning" onclick="trigger(\'' + fridgeID + '\',\'setTemperature\', \'fridge\')" >Set!</button>\
                     </div>\
                 </div>\
             </div>\
