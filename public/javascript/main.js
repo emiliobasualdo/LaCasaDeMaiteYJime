@@ -580,7 +580,7 @@ function showSelection(deviceType, deviceId, action){
         case "ac":
             if(action == 'turnOff'){
                 switchButtons(deviceId+"on",deviceId+"off", "off");
-                console.log(elem.value);
+                var elem = document.getElementById("ovenOnOff");
                 elem.value = "off";
             }else if(action == 'turnOn'){
                 switchButtons(deviceId+"on",deviceId+"off", "on");
