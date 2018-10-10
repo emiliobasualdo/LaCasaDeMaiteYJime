@@ -533,7 +533,7 @@ function endRoutine(deviceType, devId) {
      //ojo que no se por que la primera vez q se agrega una routine, la variable routineName hace q se genere un error. si pones un string constante funciona bien para la primer routine. ver q onda
      api.routine.add(routineToAdd)
          .then((data) =>{
-             //location.href= 'routines.html';
+             location.href= 'routines.html';
          })
          .catch((error) => {
              window.alert("ERROR: adding new routine");
@@ -568,13 +568,18 @@ function getOvenState(devId){
 return actions;
 }
 
+//agregar open y closed en tooooodo el programa
 function getDoorState(devId){
+    var actions = [];
     console.log("entro a door");
     var doorLockUnlock = document.getElementById("doorLockUnlock").value;
     if(doorLockUnlock == "lock"){
-        return new api.model.action(devId,'lock',[], "nada");
+        actions.push(new api.model.action(devId,"lock",[], "nada"));
     }
-return new api.model.action(devId,'unlock',[], "nada");
+    else{
+        actions.push(new api.model.action(devId,"unlock",[], "nada"));
+    }
+return actions;
 }
 
 
