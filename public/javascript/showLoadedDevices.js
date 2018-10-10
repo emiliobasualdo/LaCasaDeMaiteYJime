@@ -67,8 +67,8 @@ function showDoor(devID) {
         '    <div class="container">' +
         '        <div class="media-container-row title">' +
         '            <div class="col-12 col-md-8">' +
-        '                <div class="mbr-section-btn align-center"><a class="btn btn-black-outline display-4" onclick="addDeviceToRoutine(\'im77xxyulpegfmv8\',\'' + devID + '\')"><span class="mbri-plus mbr-iconfont mbr-iconfont-btn"></span>ADD MORE DEVICES</a>' +
-        '                    <a class="btn btn-black display-4" onclick="endRoutine(\'im77xxyulpegfmv8\',\'' + devID + '\')"><span class="mbri-success mbr-iconfont mbr-iconfont-btn"></span>END ROUTINE</a></div>' +
+        '                <div class="mbr-section-btn align-center"><a class="btn btn-black-outline display-4" onclick="addDeviceToRoutine(\'door\',\'' + devID + '\')"><span class="mbri-plus mbr-iconfont mbr-iconfont-btn"></span>ADD MORE DEVICES</a>' +
+        '                    <a class="btn btn-black display-4" onclick="endRoutine(\'door\',\'' + devID + '\')"><span class="mbri-success mbr-iconfont mbr-iconfont-btn"></span>END ROUTINE</a></div>' +
         '            </div>' +
         '        </div>' +
         '    </div>' +

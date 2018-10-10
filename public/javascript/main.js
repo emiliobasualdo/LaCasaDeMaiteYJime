@@ -463,7 +463,9 @@ function addDeviceToRoutine(deviceType, deviceId) {
     var aux = getAndConcatCurrentAction(deviceType, deviceId);
     // console.log("routineConstructor after concating");
     // console.log(localStorage.getItem('routineConstructor'));
-    location.href = 'addsaveddevice.html'
+    if(aux!=null){
+        location.href = 'addsaveddevice.html'
+    }
 }
 
 function getAndConcatCurrentAction(deviceType, devId){
@@ -487,9 +489,8 @@ function getAndConcatCurrentAction(deviceType, devId){
     else if(deviceType == 'fridge'){//fridge
 
     }
-
+    //si el estado de la current action que está buscando tiene algún parámetro incorrecto, no puede seguir
     if(currAction == null){
-        location.reload();
         return null;
     }
     var combined;
@@ -515,6 +516,9 @@ return combined;
 
 function endRoutine(deviceType, devId) {
      var combined = getAndConcatCurrentAction(deviceType, devId);
+     if(combined == null){ //significa que no hay ninguna action que agregar y la api no lo deja
+         return null;
+     }
      var routineName = localStorage.getItem('currentRoutineName');
      var routineToAdd = new api.model.routine(null, routineName, combined, "{}");
      //console.log("ROUTINE ACTIONS FINAL");
