@@ -418,8 +418,13 @@ function addRoutine() {
 function setRoutineName(){
     var aux = document.getElementById('name-header13-2f').value.toString();
     console.log(aux);
-    if(aux == "" || aux.length == 0 || aux == null){
+    if(aux == "" || aux.length == 0 || aux == null ){
         window.alert("Please enter a routine name.");
+        return null;
+    }
+    var letters = /^[A-Za-z]+$/;
+    if($.isNumeric(aux) || !aux.match("^[a-zA-Z]+$")){
+        window.alert("Routine names can only contain letters");
         return null;
     }
 
@@ -453,34 +458,33 @@ function goToLoadedDevice(deviceId, deviceType){
 }
 
 function addDeviceToRoutine(deviceType, deviceId) {
-    console.log("routineConstructor before concating");
-    console.log(localStorage.getItem('routineConstructor'));
+    // console.log("routineConstructor before concating");
+    // console.log(localStorage.getItem('routineConstructor'));
     var aux = getAndConcatCurrentAction(deviceType, deviceId);
-    console.log("routineConstructor after concating");
-    console.log(localStorage.getItem('routineConstructor'));
-    localStorage.setItem('maite', "maite");
-    console.log(localStorage.getItem('maite'));
+    // console.log("routineConstructor after concating");
+    // console.log(localStorage.getItem('routineConstructor'));
     location.href = 'addsaveddevice.html'
 }
 
 function getAndConcatCurrentAction(deviceType, devId){
     var currAction;
-    if (deviceType == "go46xmbqeomjrsjr"){ //lamp
+    if (deviceType == 'lamp'){ //lamp
 
     }
-    else if(deviceType == "im77xxyulpegfmv8"){ //oven
+    else if(deviceType == 'oven'){ //oven
         currAction = getOvenState(devId);
     }
-    else if(deviceType == 'eu0v2xgprrhhg41g'){//blinds
+    else if(deviceType == 'blinds'){//blinds
 
     }
-    else if(deviceType == 'lsf78ly0eqrjbz91'){//door
+    else if(deviceType == 'door'){//door
+        currAction = getDoorState(devId);
+        console.log(currAction);
+    }
+    else if(deviceType == 'ac'){//ac
 
     }
-    else if(deviceType == 'li6cbv5sdlatti0j'){//ac
-
-    }
-    else if(deviceType == 'rnizejqr2di0okho'){//fridge
+    else if(deviceType == 'fridge'){//fridge
 
     }
 
@@ -498,8 +502,8 @@ function getAndConcatCurrentAction(deviceType, devId){
      }
 
      localStorage.setItem('routineConstructor', JSON.stringify(combined));
-     console.log("routineConstructor en el medio");
-     console.log(localStorage.getItem('routineConstructor'));
+     //console.log("routineConstructor en el medio");
+     //console.log(localStorage.getItem('routineConstructor'));
 
 return combined;
 }
@@ -513,12 +517,13 @@ function endRoutine(deviceType, devId) {
      var combined = getAndConcatCurrentAction(deviceType, devId);
      var routineName = localStorage.getItem('currentRoutineName');
      var routineToAdd = new api.model.routine(null, routineName, combined, "{}");
-     console.log("ROUTINE ACTIONS FINAL");
-     console.log(combined);
-     console.log("routineTOAdd");
-     console.log(routineToAdd);
+     //console.log("ROUTINE ACTIONS FINAL");
+     //console.log(combined);
      console.log("routineName");
      console.log(routineName);
+     console.log("routineTOAdd");
+     console.log(routineToAdd);
+
 
 
      //ojo que no se por que la primera vez q se agrega una routine, la variable routineName hace q se genere un error. si pones un string constante funciona bien para la primer routine. ver q onda
@@ -536,7 +541,7 @@ function endRoutine(deviceType, devId) {
 
 function getOvenState(devId){
     var actions =[];
-    var ovenOnOff = document.getElementById("oven123").value;
+    var ovenOnOff = document.getElementById("ovenOnOff").value;
     var temperature = document.getElementById("tempOven").value;
 
     if(ovenOnOff == "off"){
@@ -544,39 +549,81 @@ function getOvenState(devId){
     }
     else{
          actions.push(new api.model.action(devId,"turnOn",[],"nada"));
-    }
-
-
-    if(!$.isNumeric(temperature) && ovenOnOff != 'off'){
-        window.alert("Please insert a number in the temperature field");
-        return null;
-    }
-    else if(temperature >= 90 && temperature <= 230){
-        actions.push(new api.model.action(devId,"setTemperature",[temperature],"nada"));
-    }
-    else{
-        if(ovenOnOff != "off"){
-            window.alert("Please insert a valid temperature between 90 and 230 degrees");
-            return null;
-        }
+         if(!$.isNumeric(temperature)){
+             window.alert("Please insert a number in the temperature field");
+             return null;
+         }
+         else if(temperature >= 90 && temperature <= 230){
+             actions.push(new api.model.action(devId,"setTemperature",[temperature],"nada"));
+         }
+         else{
+                 window.alert("Please insert a valid temperature between 90 and 230 degrees");
+                 return null;
+         }
     }
 return actions;
 }
 
+function getDoorState(devId){
+    console.log("entro a door");
+    var doorLockUnlock = document.getElementById("doorLockUnlock").value;
+    if(doorLockUnlock == "lock"){
+        return new api.model.action(devId,'lock',[], "nada");
+    }
+return new api.model.action(devId,'unlock',[], "nada");
+}
 
-function routineTrigger(genericDeviceId, deviceId, action){
-    var aux;
-    if(genericDeviceId == 'im77xxyulpegfmv8'){
-        if(action == 'turnOn'){
-            localStorage.setItem('ovenOnOffStatus', 'turnOn');
-            aux = document.getElementById("tempOven").value;
-            localStorage.setItem('ovenTemp', aux);
-            location.reload();
-        }
-        else if(action == 'turnOff'){
-            localStorage.setItem('ovenOnOffStatus', 'turnOff');
-            location.reload();
-        }
+
+function showSelection(deviceType, deviceId, action){
+    switch (deviceType) {
+        case "oven":
+        case "ac":
+            if(action == 'turnOff'){
+                switchButtons(deviceId+"on",deviceId+"off", "off");
+                console.log(elem.value);
+                elem.value = "off";
+            }else if(action == 'turnOn'){
+                switchButtons(deviceId+"on",deviceId+"off", "on");
+                var elem = document.getElementById("ovenOnOff");
+                elem.value = "on";
+            }
+            else if(action == 'setTemperature'){
+                //POR SI PONEMOS EL BOTON SET
+            }
+            break;
+
+        case "fridge":
+            //aca puede ir el set.
+            break;
+        case "door":
+            if(action == "lock"){
+                switchButtons(deviceId+"lock",deviceId+"unlock", "lock");
+                var elem = document.getElementById("doorLockUnlock");
+                console.log(elem.value);
+                elem.value = "lock";
+                console.log(elem.value);
+            }else{
+                switchButtons(deviceId+"lock",deviceId+"unlock", "unlock");
+                var elem = document.getElementById("doorLockUnlock");
+                console.log(elem.value);
+                elem.value = "unlock";
+                console.log(elem.value);
+            }
+            break;
+        case "blinds":
+            if(action == "closed" || action == "closing"){
+                switchButtons(deviceId+"open",deviceId+"close", "closed");
+            }else{
+                switchButtons(deviceId+"open",deviceId+"close", "opened");
+            }
+            break;
+        case "lights":
+            if(action == 'off'){
+                switchButtons(deviceId+"on",deviceId+"off", "off");
+            }else{
+                switchButtons(deviceId+"on",deviceId+"off", "on");
+            }
+            //document.getElementById(deviceId+"slider").value = data.result.brightness;
     }
 
 }

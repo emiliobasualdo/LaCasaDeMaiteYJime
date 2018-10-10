@@ -7,9 +7,6 @@ window.addEventListener('load', function () {
         showLights(deviceId);
     } else if (deviceType == "im77xxyulpegfmv8") {      // oven
         showOven(deviceId);
-        if(localStorage.getItem('ovenTemp') != null){
-            document.getElementById("tempOven").value = localStorage.getItem('ovenTemp');
-        }
     } else if (deviceType == 'eu0v2xgprrhhg41g') {      // blinds
         showBlinds(deviceId);
     } else if (deviceType == 'lsf78ly0eqrjbz91') {      // door

@@ -1,6 +1,4 @@
 window.addEventListener('load', function () {
-    localStorage.setItem('ovenOnOffStatus', 'turnOff');
-    localStorage.setItem('ovenTemperature', '0');
     var contenido = $('#mySavedDevices');
     contenido.html("");
     api.device.getAllDevices()
@@ -37,12 +35,12 @@ window.addEventListener('load', function () {
                     //     '                <h4 onclick="goToLoadedDevice(\'' + deviceId + '\',\'' + deviceType + '\')" class="card-title py-2 mbr-fonts-style display-5">' + deviceId + '</h4>' +
                     //     '            </div>');
                 } else if (deviceType == 'lsf78ly0eqrjbz91') {      // door
-                    // contenido.append('<div class="card col-12 col-md-6 p-5 m-3 align-center col-lg-4">' +
-                    //     '                <div class="card-img">' +
-                    //     '                    <img onclick="goToLoadedDevice(\'' + deviceId + '\',\'' + deviceType + '\')" src="assets/images/mbr-1-1200x803.jpg" alt="Mobirise" title="">' +
-                    //     '                </div>' +
-                    //     '                <h4 onclick="goToLoadedDevice(\'' + deviceId + '\',\'' + deviceType + '\')" class="card-title py-2 mbr-fonts-style display-5">' + deviceId + '</h4>' +
-                    //     '            </div>');
+                    contenido.append('<div class="card col-12 col-md-6 p-5 m-3 align-center col-lg-4">' +
+                        '                <div class="card-img">' +
+                        '                    <img onclick="goToLoadedDevice(\'' + deviceId + '\',\'' + deviceType + '\')" src="assets/images/mbr-1-1200x803.jpg" alt="Mobirise" title="">' +
+                        '                </div>' +
+                        '                <h4 onclick="goToLoadedDevice(\'' + deviceId + '\',\'' + deviceType + '\')" class="card-title py-2 mbr-fonts-style display-5">' + deviceId + '</h4>' +
+                        '            </div>');
                 } else if (deviceType == 'li6cbv5sdlatti0j') {      // ac
                     // contenido.append('<div class="card col-12 col-md-6 p-5 m-3 align-center col-lg-4">' +
                     //     '                <div class="card-img">' +
