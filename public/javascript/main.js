@@ -248,39 +248,70 @@ function updateStates(deviceId, deviceType){
                     // prendimo o apagamos -> hacemos un switch
                     if(data.result.status == 'off'){
                         switchButtons(deviceId+"on",deviceId+"off", "off");
+                        visible(deviceId+"cont",false);
+                        visible(deviceId+"off",false);
+                        visible(deviceId+"on",true);
                     }else{
+                        visible(deviceId+"cont",true);
+                        visible(deviceId+"off",true);
+                        visible(deviceId+"on",false);
                         switchButtons(deviceId+"on",deviceId+"off", "on");
                     } // sin break para que aplique el cambio de temperatura
                 case "fridge":
-                    changeText(deviceId+"temp", data.result.temperature);
+                    changeText(deviceId+"cont", data.result.temperature);
                     break;
                 case "door":
                     console.log("Caso door");
-                    if(data.result.lock == "locked"){
-                        switchButtons(deviceId+"lock",deviceId+"unlock", "lock");
-                    }else{
-                        switchButtons(deviceId+"lock",deviceId+"unlock", "unlock");
-                    }
                     if(data.result.status == "closed"){
-                        switchButtons(deviceId+"open",deviceId+"close", "closed");
-                    }else{
-                        switchButtons(deviceId+"open",deviceId+"close", "opened");
+                        if(data.result.lock  == "locked"){
+                            visible(deviceId+"lock", false);
+                            visible(deviceId+"unlock", true);
+                            visible(deviceId+"open", false);
+                            visible(deviceId+"close", false);
+                        }else{
+                            visible(deviceId+"lock", true);
+                            visible(deviceId+"unlock", false);
+                            visible(deviceId+"open", true);
+                            visible(deviceId+"close", false);
+                        }
+                    } else {
+                        if(data.result.lock == "locked"){ // no deberia pasar pero que se yo
+                            visible(deviceId+"lock", false);
+                            visible(deviceId+"unlock", true); // solo le doy la opcion de desbloqeuar
+                            visible(deviceId+"open", false);
+                            visible(deviceId+"close", false);
+                        } else{
+                            visible(deviceId+"lock", false);
+                            visible(deviceId+"unlock", false); // solo le doy la opcion de desbloqeuar
+                            visible(deviceId+"open", false);
+                            visible(deviceId+"close", true);
+                        }
                     }
                     break;
                 case "blinds":
                     console.log("Caso blinds");
                     if(data.result.status == "closed" || data.result.status == "closing"){
                         switchButtons(deviceId+"open",deviceId+"close", "closed");
+                        visible(deviceId+"close",false);
+                        visible(deviceId+"open",true);
                     }else{
                         switchButtons(deviceId+"open",deviceId+"close", "opened");
+                        visible(deviceId+"open",false);
+                        visible(deviceId+"close",true);
                     }
                     break;
                 case "lights":
                     console.log("Caso lights");
                     if(data.result.status == 'off'){
                         switchButtons(deviceId+"on",deviceId+"off", "off");
+                        visible(deviceId+"off",false);
+                        visible(deviceId+"on",true);
+                        visible(deviceId+"cont",false);
                     }else{
                         switchButtons(deviceId+"on",deviceId+"off", "on");
+                        visible(deviceId+"off",true);
+                        visible(deviceId+"on",false);
+                        visible(deviceId+"cont",true);
                     }
                     document.getElementById(deviceId+"slider").value = data.result.brightness;
             }
@@ -288,6 +319,14 @@ function updateStates(deviceId, deviceType){
         .catch((error) => {
             console.log(error);
         });
+}
+
+function visible(deviceId, visible){
+    if(visible){
+        document.getElementById(deviceId).style.display = "inline-block";
+    }else{
+        document.getElementById(deviceId).style.display = "none";
+    }
 }
 
 function changeText(textID, newText)

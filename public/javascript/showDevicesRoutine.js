@@ -108,8 +108,6 @@ function showDoor(doorID,  deviceName, fav) {
         });
 }
 
-
-
 function showAC(acID,  deviceName, fav) {
     var contenido = $('#myDevices');
     api.device.action(acID,'getState').then((data) => {
@@ -163,7 +161,6 @@ function showAC(acID,  deviceName, fav) {
     });
 }
 
-
 function showFridge(fridgeID,  deviceName, fav) {
     var contenido = $('#myDevices');
     api.device.action(fridgeID,'getState').then((data) => {
@@ -204,7 +201,6 @@ function showFridge(fridgeID,  deviceName, fav) {
         console.log('error');
     });
 }
-
 
 function showBlinds(blindsID,  deviceName, fav) {
     var contenido = $('#myDevices');
@@ -258,7 +254,6 @@ function showBlinds(blindsID,  deviceName, fav) {
             console.log('error');
         });
 }
-
 
 function showLights(lightsID, deviceName, fav) {
     var contenido = $('#myDevices');

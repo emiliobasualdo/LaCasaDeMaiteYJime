@@ -42,8 +42,6 @@ function showOven1(ovenID, deviceName) {
         .then((data) => {
             var temperature = data.result.temperature;
             var status = data.result.status;
-
-
             var onOffStatus;
 
             if (status === "off") {

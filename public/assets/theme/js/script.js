@@ -588,8 +588,8 @@
                         // check to see if this current element is within viewport
                         if ((element_bottom_position >= window_top_position) &&
                             (element_top_position <= window_bottom_position) &&
-                            ($element.hasClass('hidden'))) {
-                            $element.removeClass('hidden').addClass('fadeInUp')
+                            ($element.hasClass('visible'))) {
+                            $element.removeClass('visible').addClass('fadeInUp')
                                 .one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {
                                     $element.removeClass('animated fadeInUp');
                                 });

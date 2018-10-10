@@ -504,8 +504,8 @@ function setCache(elems, overflowing) {
 }
 
 //  (body)                (root)
-//         | hidden | visible | scroll |  auto  |
-// hidden  |   no   |    no   |   YES  |   YES  |
+//         | visible | visible | scroll |  auto  |
+// visible  |   no   |    no   |   YES  |   YES  |
 // visible |   no   |   YES   |   YES  |   YES  |
 // scroll  |   no   |   YES   |   YES  |   YES  |
 // auto    |   no   |   YES   |   YES  |   YES  |
@@ -540,7 +540,7 @@ function isContentOverflowing(el) {
 // typically for <body> and <html>
 function overflowNotHidden(el) {
     var overflow = getComputedStyle(el, '').getPropertyValue('overflow-y');
-    return (overflow !== 'hidden');
+    return (overflow !== 'visible');
 }
 
 // for all other elements

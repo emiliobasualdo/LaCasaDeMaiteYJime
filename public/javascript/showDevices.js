@@ -4,8 +4,6 @@ function showOven(ovenID, deviceName, fav) {
         .then((data) => {
             var temperature = data.result.temperature;
             var status = data.result.status;
-
-
             var onOffStatus;
             var favStatus;
 
@@ -37,8 +35,9 @@ function showOven(ovenID, deviceName, fav) {
                     </h1>\
                 <div class="mbr-section-text mbr-white pb-3 ">\
                 </div>\
-                <h7>TEMPERATURE(ºC):  </h7><input type="text" value="' + temperature + '" id="'+ ovenID +'temp"><button type="button" onclick="trigger(\'' + ovenID + '\',\'setTemperature\', \'oven\')" >Set!</button>' + onOffStatus + '\
+                <div id="'+ovenID+'cont"><h7>TEMPERATURE(ºC):  </h7><input type="text" value="' + temperature + '" id="'+ ovenID +'temp"><button type="button" class="btn btn-warning" onclick="trigger(\'' + ovenID + '\',\'setTemperature\', \'oven\')" >Set!</button>\
                 </div>\
+                <div>' + onOffStatus + '\
                 </div>\
                 </section>\
                 <section class="header11 cid-r5JVGBoliw" id="' + ovenID + 'delete2">\
@@ -49,6 +48,8 @@ function showOven(ovenID, deviceName, fav) {
                 </div>\
                 </div>\
                 </section>');
+
+            updateStates(ovenID, "oven");
         })
         .catch((error) => {
             console.log('error');
@@ -60,70 +61,73 @@ function showDoor(doorID,  deviceName, fav) {
     var contenido = $('#myDevices');
     api.device.action(doorID, 'getState')
         .then((data) => {
-        var lock = data.result.lock;
-        var status = data.result.status;
-        var lockedUnlockedStatus;
-        var favStatus;
-        var openCLosedStatus;
+            var lock = data.result.lock;
+            var status = data.result.status;
+            var lockedUnlockedStatus;
+            var favStatus;
+            var openCLosedStatus;
 
-        if(status == "closed"){
-            openCLosedStatus = '<div class="mbr-section-btn"><a class="btn btn-md btn-black-outline display-7" id="'+ doorID +'open" onclick="trigger(\'' + doorID + '\',\'open\',\'door\')">OPEN</a>\
-                            <a class= "btn btn-md btn-black display-7" id="'+ doorID +'close" onclick="trigger(\'' + doorID + '\',\'close\',\'door\')">CLOSE</a>\
-                        </div>';
-        } else {
-            openCLosedStatus = '<div class="mbr-section-btn"><a class="btn btn-md btn-black display-7" id="'+ doorID +'open" onclick="trigger(\'' + doorID + '\',\'open\',\'door\')">OPEN</a>\
-                            <a class="btn btn-md btn-black-outline display-7" id="'+ doorID +'close" onclick="trigger(\'' + doorID + '\',\'close\',\'door\')">CLOSE</a></div>\
-                        </div>';
-        }
+            if(status == "closed"){
+                openCLosedStatus = '<div class="mbr-section-btn">\
+                                       <a class="btn btn-md btn-black-outline display-7" id="'+ doorID +'open" onclick="trigger(\'' + doorID + '\',\'open\',\'door\')">OPEN</a>\
+                                <a class= "btn btn-md btn-black display-7" id="'+ doorID +'close" onclick="trigger(\'' + doorID + '\',\'close\',\'door\')">CLOSE</a>\
+                            </div>';
+            } else {
+                openCLosedStatus = '<div class="mbr-section-btn"><a class="btn btn-md btn-black display-7" id="'+ doorID +'open" onclick="trigger(\'' + doorID + '\',\'open\',\'door\')">OPEN</a>\
+                                <a class="btn btn-md btn-black-outline display-7" id="'+ doorID +'close" onclick="trigger(\'' + doorID + '\',\'close\',\'door\')">CLOSE</a></div>\
+                            </div>';
+            }
 
-        if(lock == "unlocked"){
-            lockedUnlockedStatus = '<div class="mbr-section-btn"><a class="btn btn-md btn-black-outline display-7" id="'+ doorID +'lock" onclick="trigger(\'' + doorID + '\',\'lock\', \'door\')">LOCK</a>\
-                            <a class= "btn btn-md btn-black display-7" id="'+ doorID +'unlock" onclick="trigger(\'' + doorID + '\',\'unlock\', \'door\')">UNLOCK</a>\
-                        </div>';
-        } else {
-            lockedUnlockedStatus = '<div class="mbr-section-btn"><a class="btn btn-md btn-black display-7" id="'+ doorID +'lock" onclick="trigger(\'' + doorID + '\',\'lock\', \'door\')">LOCK</a>\
-                            <a class="btn btn-md btn-black-outline display-7" id="'+ doorID +'unlock" onclick="trigger(\'' + doorID + '\',\'unlock\', \'door\')">UNLOCK</a></div>\
-                        </div>';
-        }
+            if(lock == "unlocked"){
+                lockedUnlockedStatus = '<div class="mbr-section-btn"><a class="btn btn-md btn-black-outline display-7" id="'+ doorID +'lock" onclick="trigger(\'' + doorID + '\',\'lock\', \'door\')">LOCK</a>\
+                                <a class= "btn btn-md btn-black display-7" id="'+ doorID +'unlock" onclick="trigger(\'' + doorID + '\',\'unlock\', \'door\')">UNLOCK</a>\
+                            </div>';
+            } else {
+                lockedUnlockedStatus = '<div class="mbr-section-btn"><a class="btn btn-md btn-black display-7" id="'+ doorID +'lock" onclick="trigger(\'' + doorID + '\',\'lock\', \'door\')">LOCK</a>\
+                                <a class="btn btn-md btn-black-outline display-7" id="'+ doorID +'unlock" onclick="trigger(\'' + doorID + '\',\'unlock\', \'door\')">UNLOCK</a></div>\
+                            </div>';
+            }
 
-        if (fav) {
-            favStatus = '<a class="btn btn-md btn-success-outline display-4" id="' + doorID + 'fav" onclick="deleteFavourite(\'' + doorID + '\')"><span class="mbri-star mbr-iconfont mbr-iconfont-btn"></span>DELETE FROM FAVOURITES</a>';
-        } else {
-            favStatus = '<a class="btn btn-md btn-success-outline display-4" id="' + doorID + 'fav" onclick="addTofavourites(\'' + doorID + '\')"><span class="mbri-star mbr-iconfont mbr-iconfont-btn"></span>ADD TO FAVOURITES</a>';
-        }
 
-        contenido.append('<section class="header3 cid-r5K0VsSp7w" id="' + doorID + 'delete1"">\
-            <div class="container">\
-                <div class="media-container-row">\
-                    <div class="mbr-figure" style="width: 35%;">\
-                        <img src="assets/images/mbr-1-1200x803.jpg" alt="Mobirise" title="">\
-                    </div>\
-                    <div class="media-content">\
-                        <h1 class="mbr-section-title mbr-white pb-3 mbr-fonts-style display-5">\
-                            <p>' + deviceName + ' </p>\
-                        </h1>\
-                        <div class="mbr-section-text mbr-white pb-3 "></div>\
-                        <div>' + lockedUnlockedStatus+'</div> \
-                       <div>' + openCLosedStatus+ ' </div>\
+            if (fav) {
+                favStatus = '<a class="btn btn-md btn-success-outline display-4" id="' + doorID + 'fav" onclick="deleteFavourite(\'' + doorID + '\')"><span class="mbri-star mbr-iconfont mbr-iconfont-btn"></span>DELETE FROM FAVOURITES</a>';
+            } else {
+                favStatus = '<a class="btn btn-md btn-success-outline display-4" id="' + doorID + 'fav" onclick="addTofavourites(\'' + doorID + '\')"><span class="mbri-star mbr-iconfont mbr-iconfont-btn"></span>ADD TO FAVOURITES</a>';
+            }
+
+            contenido.append('<section class="header3 cid-r5K0VsSp7w" id="' + doorID + 'delete1"">\
+                <div class="container">\
+                    <div class="media-container-row">\
+                        <div class="mbr-figure" style="width: 35%;">\
+                            <img src="assets/images/mbr-1-1200x803.jpg" alt="Mobirise" title="">\
+                        </div>\
+                        <div class="media-content">\
+                            <h1 class="mbr-section-title mbr-white pb-3 mbr-fonts-style display-5">\
+                                <p>' + deviceName + ' </p>\
+                            </h1>\
+                            <div class="mbr-section-text mbr-white pb-3 "> '+ lockedUnlockedStatus + '</div>\
+                            <div class="mbr-section-text mbr-white pb-3 "> '+ openCLosedStatus + '</div>\
                     </div>\
                 </div>\
-            </div>\
-        </section>\
-        <section class="header11 cid-r5JVKsyeI9" id="' + doorID + 'delete2">\
-            <div class="container align-left">\
-                <div class="media-container-column mbr-white col-md-12">\
-                    <div class="mbr-section-btn py-4"><a class="btn btn-md btn-secondary-outline display-4" onclick="deleteDeviceFromRoom(\'' + doorID + '\')"><span class="mbri-trash mbr-iconfont mbr-iconfont-btn"></span>DELETE</a>\
-                     ' + favStatus + '</div>\
+            </section>\
+            <section class="header11 cid-r5JVKsyeI9" id="' + doorID + 'delete2">\
+                <div class="container align-left">\
+                    <div class="media-container-column mbr-white col-md-12">\
+                        <div class="mbr-section-btn py-4">\
+                            <a class="btn btn-md btn-secondary-outline display-4" onclick="deleteDeviceFromRoom(\'' + doorID + '\')">\
+                                <span class="mbri-trash mbr-iconfont mbr-iconfont-btn"></span>DELETE</a>\
+                         ' + favStatus + '</div>\
+                    </div>\
                 </div>\
-            </div>\
-        </section>');
+            </section>');
+
+            updateStates(doorID, "door");
         })
+
         .catch((error) => {
             console.log(error);
         });
 }
-
-
 
 function showAC(acID,  deviceName, fav) {
     var contenido = $('#myDevices');
@@ -160,7 +164,7 @@ function showAC(acID,  deviceName, fav) {
                         <p>' + deviceName + '</p></h1>\
                         <div class="mbr-section-text mbr-white pb-3 ">\
                         </div>\
-                        <h7>TEMPERATURE(ºC):  </h7><input type="text" value="' + temperature + '" id="'+ acID +'temp"><button type="button" class="btn btn-warning" onclick="trigger(\'' + acID + '\',\'setTemperature\', \'ac\')" >Set!</button>' + onOffStatus + '\
+                        <div id="'+acID+'cont"><h7>TEMPERATURE(ºC):  </h7><input type="text" value="' + temperature + '" id="'+ acID +'temp"><button type="button" class="btn btn-warning" onclick="trigger(\'' + acID + '\',\'setTemperature\', \'ac\')" >Set!</button>' + onOffStatus + '</div>\
                     </div>\
                 </div>\
             </div>\
@@ -173,16 +177,17 @@ function showAC(acID,  deviceName, fav) {
                 </div>\
             </div>\
         </section>');
+        updateStates(acID, "ac");
     }).catch((error) => {
             console.log('error');
     });
 }
 
-
 function showFridge(fridgeID,  deviceName, fav) {
     var contenido = $('#myDevices');
     api.device.action(fridgeID,'getState').then((data) => {
-    var temperature = data.result.temperature;
+        var temperature = data.result.temperature;
+
 
         var favStatus;
         if (fav) {
@@ -202,7 +207,7 @@ function showFridge(fridgeID,  deviceName, fav) {
                         <p> ' + deviceName + ' </p></h1>\
                         <div class="mbr-section-text mbr-white pb-3 ">\
                         </div>\
-                        <h7>TEMPERATURE(ºC):  </h7><input type="text" value="' + temperature + '" id="'+ fridgeID +'temp"><button type="button" class="btn btn-warning" onclick="trigger(\'' + fridgeID + '\',\'setTemperature\', \'fridge\')" >Set!</button>\
+                        <div id="'+fridgeID+'cont"><h7>TEMPERATURE(ºC):  </h7><input type="text" value="' + temperature + '" id="'+ fridgeID +'temp"><button type="button" class="btn btn-warning" onclick="trigger(\'' + fridgeID + '\',\'setTemperature\', \'fridge\')" >Set!</button></div>\
                     </div>\
                 </div>\
             </div>\
@@ -215,11 +220,12 @@ function showFridge(fridgeID,  deviceName, fav) {
                 </div>\
             </div>\
         </section>');
+        //updateStates(fridgeID, "fridge");
+
     }).catch((error) => {
             console.log('error');
     });
 }
-
 
 function showBlinds(blindsID,  deviceName, fav) {
     var contenido = $('#myDevices');
@@ -268,12 +274,12 @@ function showBlinds(blindsID,  deviceName, fav) {
             </div>\
         </section>\
         ');
+        updateStates(blindsID, "blinds");
     })
         .catch((error) => {
             console.log('error');
     });
 }
-
 
 function showLights(lightsID, deviceName, fav) {
     var contenido = $('#myDevices');
@@ -312,10 +318,10 @@ function showLights(lightsID, deviceName, fav) {
                         <p>' + deviceName + ' </p></h1>\
                         <div class="mbr-section-text mbr-white pb-3 ">\
                         </div>\
-                        <div class="slidecontainer">\
+                        <div class="slidecontainer" id="'+lightsID+'cont">\
                             <h7>BRIGHTNESS:  </h7> <input type="range" min="1" max="100" value="' + brightness + '" class="slider" id="'+ lightsID +'slider" onchange="trigger(\'' + lightsID + '\',\'setBrightness\', \'lights\')">\
-                            ' + onOffStatus + '\
                         </div>\
+                        ' + onOffStatus + '\
                     </div>\
                 </div>\
             </div>\
@@ -328,6 +334,8 @@ function showLights(lightsID, deviceName, fav) {
                 </div>\
             </div>\
         </section>');
+
+        updateStates(lightsID, "lights");
     }).catch((error) => {
             console.log('error');
     });
