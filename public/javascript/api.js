@@ -1,11 +1,11 @@
 var api = class {
     static get baseUrl() {
         return "http://127.0.0.1:8080/api/";
-    }
+    };
 
     static get timeout() {
         return 60 * 1000;
-    }
+    };
 
     static fetch(url, init) {
         return new Promise(function(resolve, reject) {
@@ -29,7 +29,7 @@ var api = class {
                     reject(error);
                 });
         });
-    }
+    };
 }
 
 //ROOM
@@ -71,7 +71,7 @@ api.room = class {
     static getAll() {
         return api.fetch(api.room.url);
     }
-}
+};
 
 //DEVICE
 api.device = class {
@@ -128,7 +128,7 @@ api.device = class {
     //Retrieve events for a specific device
     //Retrieve logs for a specific device
     //Retrieve devices from specific device type
-}
+};
 
 //ROUTINE
 api.routine = class {
@@ -178,7 +178,7 @@ api.routine = class {
             },
         });
     }
-}
+};
 
 //ROOM DEVICES
 api.roomDevice = class {
@@ -203,4 +203,12 @@ api.roomDevice = class {
         });
     }
 
-}
+};
+
+//DEVICES LOG
+api.devicesLog = class {
+//Retrieve devices in a specific room
+    static getAll(limit) {
+        return api.fetch(api.device.url + "logs/limit/"+limit+"/offset/0");
+    }
+};

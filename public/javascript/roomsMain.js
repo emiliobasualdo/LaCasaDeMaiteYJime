@@ -5,7 +5,6 @@ window.addEventListener('load', function () {
             .then((data) => {
                 for(var i = 0; i < data.rooms.length; ) {
                     var roomName1, roomName2, roomName3, roomId1, roomId2, roomId3;
-                    console.log("aca");
                     if ((i+2) < data.rooms.length) {
                         roomName1 = data.rooms[i].name;
                         roomId1 = data.rooms[i++].id;

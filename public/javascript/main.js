@@ -119,7 +119,6 @@ function addDeviceToRoomWithDevices(deviceType, deviceName) {
         });
 }
 
-// param me parece que no es necesario
 function trigger(deviceId, action, deviceType) {
     var params = getParams(deviceId, deviceType, action);
     console.log("Action:", "deviceId: "+deviceId, "action: "+action,"deviceType: "+deviceType, "params: "+params);
@@ -160,7 +159,7 @@ function getParams(deviceId, deviceType, action){
 
 function updateStates(deviceId, deviceType){
     console.log("updateStates");
-    api.device.action(deviceId,'getState')
+    api.device.action(deviceId,'getState',null)
         .then((data) => {
             console.log("data:",data);
             switch (deviceType) {
@@ -206,7 +205,6 @@ function updateStates(deviceId, deviceType){
             console.log(error);
         });
 }
-
 
 function changeText(textID, newText)
 {
