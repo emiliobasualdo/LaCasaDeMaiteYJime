@@ -69,11 +69,6 @@ function goToRoom(roomId) {
     location.href = 'room.html';
 }
 
-function goToRoutine(routineId) {
-    localStorage.setItem('currentRoutineId', routineId);
-    location.href = 'routine.html';
-}
-
 function deleteRoom() {
     var roomId = localStorage.getItem('currentRoomId');
     api.room.delete(roomId)

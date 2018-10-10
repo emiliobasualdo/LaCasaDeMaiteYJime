@@ -31,3 +31,8 @@ window.addEventListener('load', function () {
 function executeRoutine(routineId) {
     api.routine.get(routineId).execute;
 }
+
+function goToRoutine(routineId) {
+    localStorage.setItem('currentRoutineId', routineId);
+    location.href = 'routine.html';
+}
