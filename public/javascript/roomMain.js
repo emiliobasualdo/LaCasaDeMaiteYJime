@@ -10,7 +10,7 @@ window.addEventListener('load', function () {
             header.append('<div class="container"><div class="row justify-content-md-center"><div class="mbr-white col-md-10"><h1 class="mbr-section-title align-center mbr-bold pb-3 mbr-fonts-style display-1">' + roomName + '</h1></div></div></div>');
         })
         .catch((error) => {
-            console.log('error');
+            window.alert('error');
         });
     api.roomDevice.get(roomId)
         .then((data) => {
@@ -21,32 +21,23 @@ window.addEventListener('load', function () {
                 deviceId = deviceId.substring(1, deviceId.length-1);
                 var deviceName = data.devices[i].name;
                 var fav = (data.devices[i].meta == 'fav') ? 'fav' : null;
-                console.log(deviceName);
                 deviceName = deviceName.substr(0, deviceName.indexOf('_'));
-                console.log(deviceName);
-                console.log(deviceId);
                 if (deviceType == "go46xmbqeomjrsjr") {
                     showLights(deviceId, deviceName, fav);
-                    console.log('lamp');
                 } else if (deviceType == "im77xxyulpegfmv8") {
                     showOven(deviceId, deviceName, fav)
-                    console.log('oven');
                 } else if (deviceType == 'eu0v2xgprrhhg41g') {
                     showBlinds(deviceId, deviceName, fav);
-                    console.log('blinds');
                 } else if (deviceType == 'lsf78ly0eqrjbz91') {
                     showDoor(deviceId, deviceName, fav);
-                    console.log('doors');
                 } else if (deviceType == 'li6cbv5sdlatti0j') {
                     showAC(deviceId, deviceName, fav);
-                    console.log('AC');
                 } else if (deviceType == 'rnizejqr2di0okho') {
                     showFridge(deviceId, deviceName, fav);
-                    console.log('fridge');
                 }
             }
         })
         .catch((error) => {
-            console.log('error');
+            window.alert('error');
         });
 }, false);

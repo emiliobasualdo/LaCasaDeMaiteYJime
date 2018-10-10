@@ -13,48 +13,63 @@ window.addEventListener('load', function () {
                 deviceType = deviceType.substring(1, deviceType.length-1);
                 var deviceId = JSON.stringify(data.devices[i].id, null, 2);
                 deviceId = deviceId.substring(1, deviceId.length-1);
-                if (deviceType == "go46xmbqeomjrsjr") {             // lights
-                    // contenido.append('<div class="card col-12 col-md-6 p-5 m-3 align-center col-lg-4">' +
-                    //     '                <div class="card-img">' +
-                    //     '                    <img onclick="goToLoadedDevice(\'' + deviceId + '\',\'' + deviceType + '\')" src="assets/images/mbr-5-1200x675.jpg" alt="Mobirise" title="">' +
-                    //     '                </div>' +
-                    //     '                <h4 onclick="goToLoadedDevice(\'' + deviceId + '\',\'' + deviceType + '\')" class="card-title py-2 mbr-fonts-style display-5">' + deviceId + '</h4>' +
-                    //     '            </div>');
-                } else if (deviceType == "im77xxyulpegfmv8") {      // oven
+                var devicesAlreadyAddedToRoutine = localStorage.getItem('addedDevicesRoutine');
+                var deviceAdded = false;
+                var currDeviceId = "";
+                var currDeviceIdIndex = 0;
+                while (!deviceAdded && currDeviceIdIndex*16 + 16 <= devicesAlreadyAddedToRoutine.length){
+                    currDeviceId = devicesAlreadyAddedToRoutine.substring(currDeviceIdIndex*16, currDeviceIdIndex*16 + 16);
+                    if (deviceId == currDeviceId){
+                        deviceAdded = true;
+                    }
+                    currDeviceIdIndex++;
+                }
+
+                var deviceName = data.devices[i].name;
+                deviceName = deviceName.substr(0, deviceName.indexOf('_'));
+
+                if (deviceType == "go46xmbqeomjrsjr" && !deviceAdded) {             // lights
+                    contenido.append('<div class="card col-12 col-md-6 p-5 m-3 align-center col-lg-4">' +
+                        '                <div class="card-img">' +
+                        '                    <img onclick="goToLoadedDevice(\'' + deviceId + '\',\'' + deviceType + '\')" src="assets/images/mbr-5-1200x675.jpg" alt="Mobirise" title="">' +
+                        '                </div>' +
+                        '                <h4 onclick="goToLoadedDevice(\'' + deviceId + '\',\'' + deviceType + '\')" class="card-title py-2 mbr-fonts-style display-5">' + deviceName + '</h4>' +
+                        '            </div>');
+                } else if (deviceType == "im77xxyulpegfmv8" && !deviceAdded) {      // oven
                     contenido.append('<div class="card col-12 col-md-6 p-5 m-3 align-center col-lg-4">' +
                         '                <div class="card-img">' +
                         '                    <img onclick="goToLoadedDevice(\'' + deviceId + '\',\'' + deviceType + '\')" src="assets/images/mbr-1200x704.jpg" alt="Mobirise" title="">' +
                         '                </div>' +
-                        '                <h4 onclick="goToLoadedDevice(\'' + deviceId + '\',\'' + deviceType + '\')" class="card-title py-2 mbr-fonts-style display-5">' + deviceId + '</h4>' +
+                        '                <h4 onclick="goToLoadedDevice(\'' + deviceId + '\',\'' + deviceType + '\')" class="card-title py-2 mbr-fonts-style display-5">' + deviceName+ '</h4>' +
                         '            </div>');
-                } else if (deviceType == 'eu0v2xgprrhhg41g') {      // blinds
-                    // contenido.append('<div class="card col-12 col-md-6 p-5 m-3 align-center col-lg-4">' +
-                    //     '                <div class="card-img">' +
-                    //     '                    <img onclick="goToLoadedDevice(\'' + deviceId + '\',\'' + deviceType + '\')" src="assets/images/mbr-14-1200x800.jpg" alt="Mobirise" title="">' +
-                    //     '                </div>' +
-                    //     '                <h4 onclick="goToLoadedDevice(\'' + deviceId + '\',\'' + deviceType + '\')" class="card-title py-2 mbr-fonts-style display-5">' + deviceId + '</h4>' +
-                    //     '            </div>');
-                } else if (deviceType == 'lsf78ly0eqrjbz91') {      // door
+                } else if (deviceType == 'eu0v2xgprrhhg41g' && !deviceAdded) {      // blinds
+                    contenido.append('<div class="card col-12 col-md-6 p-5 m-3 align-center col-lg-4">' +
+                        '                <div class="card-img">' +
+                        '                    <img onclick="goToLoadedDevice(\'' + deviceId + '\',\'' + deviceType + '\')" src="assets/images/mbr-14-1200x800.jpg" alt="Mobirise" title="">' +
+                        '                </div>' +
+                        '                <h4 onclick="goToLoadedDevice(\'' + deviceId + '\',\'' + deviceType + '\')" class="card-title py-2 mbr-fonts-style display-5">' + deviceName + '</h4>' +
+                        '            </div>');
+                } else if (deviceType == 'lsf78ly0eqrjbz91' && !deviceAdded) {      // door
                     contenido.append('<div class="card col-12 col-md-6 p-5 m-3 align-center col-lg-4">' +
                         '                <div class="card-img">' +
                         '                    <img onclick="goToLoadedDevice(\'' + deviceId + '\',\'' + deviceType + '\')" src="assets/images/mbr-1-1200x803.jpg" alt="Mobirise" title="">' +
                         '                </div>' +
-                        '                <h4 onclick="goToLoadedDevice(\'' + deviceId + '\',\'' + deviceType + '\')" class="card-title py-2 mbr-fonts-style display-5">' + deviceId + '</h4>' +
+                        '                <h4 onclick="goToLoadedDevice(\'' + deviceId + '\',\'' + deviceType + '\')" class="card-title py-2 mbr-fonts-style display-5">' + deviceName + '</h4>' +
                         '            </div>');
-                } else if (deviceType == 'li6cbv5sdlatti0j') {      // ac
-                    // contenido.append('<div class="card col-12 col-md-6 p-5 m-3 align-center col-lg-4">' +
-                    //     '                <div class="card-img">' +
-                    //     '                    <img onclick="goToLoadedDevice(\'' + deviceId + '\',\'' + deviceType + '\')" src="assets/images/mbr-1-720x480.jpg" alt="Mobirise" title="">' +
-                    //     '                </div>' +
-                    //     '                <h4 onclick="goToLoadedDevice(\'' + deviceId + '\',\'' + deviceType + '\')" class="card-title py-2 mbr-fonts-style display-5">' + deviceId + '</h4>' +
-                    //     '            </div>');
-                } else if (deviceType == 'rnizejqr2di0okho') {      // fridge
-                    // contenido.append('<div class="card col-12 col-md-6 p-5 m-3 align-center col-lg-4">' +
-                    //     '                <div class="card-img">' +
-                    //     '                    <img onclick="goToLoadedDevice(\'' + deviceId + '\',\'' + deviceType + '\')" src="assets/images/mbr-1200x690.jpg" alt="Mobirise" title="">' +
-                    //     '                </div>' +
-                    //     '                <h4 onclick="goToLoadedDevice(\'' + deviceId + '\',\'' + deviceType + '\')" class="card-title py-2 mbr-fonts-style display-5">' + deviceId + '</h4>' +
-                    //     '            </div>');
+                } else if (deviceType == 'li6cbv5sdlatti0j' && !deviceAdded) {      // ac
+                    contenido.append('<div class="card col-12 col-md-6 p-5 m-3 align-center col-lg-4">' +
+                        '                <div class="card-img">' +
+                        '                    <img onclick="goToLoadedDevice(\'' + deviceId + '\',\'' + deviceType + '\')" src="assets/images/mbr-1-720x480.jpg" alt="Mobirise" title="">' +
+                        '                </div>' +
+                        '                <h4 onclick="goToLoadedDevice(\'' + deviceId + '\',\'' + deviceType + '\')" class="card-title py-2 mbr-fonts-style display-5">' + deviceName + '</h4>' +
+                        '            </div>');
+                } else if (deviceType == 'rnizejqr2di0okho' && !deviceAdded) {      // fridge
+                    contenido.append('<div class="card col-12 col-md-6 p-5 m-3 align-center col-lg-4">' +
+                        '                <div class="card-img">' +
+                        '                    <img onclick="goToLoadedDevice(\'' + deviceId + '\',\'' + deviceType + '\')" src="assets/images/mbr-1200x690.jpg" alt="Mobirise" title="">' +
+                        '                </div>' +
+                        '                <h4 onclick="goToLoadedDevice(\'' + deviceId + '\',\'' + deviceType + '\')" class="card-title py-2 mbr-fonts-style display-5">' + deviceName + '</h4>' +
+                        '            </div>');
                 }
                 if (i == j){
                     contenido.append('</div>\

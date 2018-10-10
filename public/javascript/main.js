@@ -3,34 +3,34 @@
 //Usar para pedir algun input si es que el tipo no lo puso todavia <<<<<======
 
 function addRoom() {
-        var newRoom;
-        var roomName = document.getElementById("name-header13-1x").value;
-        console.log(roomName.length);
-        if (!roomName) {
-            swal({
-                title: "Error",
-                text: "Enter a room name first",
-                type: "error",
-                closeOnConfirm: true
-            });
-            return;
-        } else if (roomName.length <= 2) {
-            swal({
-                title: "Error",
-                text: "Room name must have at least 3 charaters long",
-                type: "error",
-                closeOnConfirm: true
-            });
-            return;
-        }
-        newRoom = new api.model.room(null, roomName, '{}');
-        api.room.add(newRoom)
-            .then((data) => {
-                newRoom.id = data.room.id;
-                location.href = 'rooms.html';
-            })
-            .catch((error) => {
-            });
+    var newRoom;
+    var roomName = document.getElementById("name-header13-1x").value;
+    console.log(roomName.length);
+    if (!roomName) {
+        swal({
+            title: "Error",
+            text: "Enter a room name first",
+            type: "error",
+            closeOnConfirm: true
+        });
+        return;
+    } else if (roomName.length <= 2) {
+        swal({
+            title: "Error",
+            text: "Room name must have at least 3 charaters long",
+            type: "error",
+            closeOnConfirm: true
+        });
+        return;
+    }
+    newRoom = new api.model.room(null, roomName, '{}');
+    api.room.add(newRoom)
+        .then((data) => {
+            newRoom.id = data.room.id;
+            location.href = 'rooms.html';
+        })
+        .catch((error) => {
+        });
 }
 
 function addRoomWithDevices() {
@@ -67,6 +67,11 @@ function addRoomWithDevices() {
 function goToRoom(roomId) {
     localStorage.setItem('currentRoomId', roomId);
     location.href = 'room.html';
+}
+
+function goToRoutine(routineId) {
+    localStorage.setItem('currentRoutineId', routineId);
+    location.href = 'routine.html';
 }
 
 function deleteRoom() {
@@ -234,7 +239,7 @@ function getParams(deviceId, deviceType, action){
         case "door":
         case "blinds":
             return {};
-        }
+    }
 }
 
 function updateStates(deviceId, deviceType){
@@ -286,26 +291,20 @@ function updateStates(deviceId, deviceType){
         });
 }
 
-
-function changeText(textID, newText)
-{
+function changeText(textID, newText) {
     //console.log(textID, newText);
     //console.log(document.getElementById(textID));
     //console.log("old value", document.getElementById(textID)["value"]);
     document.getElementById(textID)["value"] = newText;
 }
+
 function switchButtons(buttonOn, buttonOff, onOff) {
-    console.log(buttonOn, buttonOff, onOff);
-    if (onOff == "on" || onOff == "lock" || onOff == "opened")
-    {
-        console.log("case on");
+    if (onOff == "on" || onOff == "lock" || onOff == "up") {
         document.getElementById(buttonOn).classList.add("btn-black");
         document.getElementById(buttonOn).classList.remove("btn-black-outline");
         document.getElementById(buttonOff).classList.add("btn-black-outline");
         document.getElementById(buttonOff).classList.remove("btn-black");
-    }else
-    {
-        console.log("case off");
+    }else {
         document.getElementById(buttonOff).classList.add("btn-black");
         document.getElementById(buttonOff).classList.remove("btn-black-outline");
         document.getElementById(buttonOn).classList.add("btn-black-outline");
@@ -447,13 +446,16 @@ function setRoutineName(){
     //     .catch((error) => {
     //         console.log('error');
     //     });
-    localStorage.setItem('currentRoutineName', aux );
+    localStorage.setItem('currentRoutineName', aux);
     location.href = 'addsaveddevice.html';
 }
 
 function goToLoadedDevice(deviceId, deviceType){
     localStorage.setItem('currentLoadedDeviceId', deviceId);
     localStorage.setItem('currentLoadedDeviceType', deviceType);
+    var devices = localStorage.getItem('addedDevicesRoutine');
+    devices += "" + deviceId;
+    localStorage.setItem('addedDevicesRoutine', devices);
     location.href = 'chooseaction.html';
 }
 
@@ -463,31 +465,30 @@ function addDeviceToRoutine(deviceType, deviceId) {
     var aux = getAndConcatCurrentAction(deviceType, deviceId);
     // console.log("routineConstructor after concating");
     // console.log(localStorage.getItem('routineConstructor'));
-    if(aux!=null){
+    if(aux != null) {
         location.href = 'addsaveddevice.html'
     }
 }
 
 function getAndConcatCurrentAction(deviceType, devId){
     var currAction;
-    if (deviceType == 'lamp'){ //lamp
-
+    if (deviceType == 'lights'){ //lights
+        currAction = getLightsState(devId);
     }
     else if(deviceType == 'oven'){ //oven
         currAction = getOvenState(devId);
     }
     else if(deviceType == 'blinds'){//blinds
-
+        currAction = getBlindsState(devId);
     }
     else if(deviceType == 'door'){//door
         currAction = getDoorState(devId);
-        console.log(currAction);
     }
     else if(deviceType == 'ac'){//ac
-
+        currAction = getACState(devId);
     }
     else if(deviceType == 'fridge'){//fridge
-
+        currAction = getFridgeState(devId);
     }
     //si el estado de la current action que está buscando tiene algún parámetro incorrecto, no puede seguir
     if(currAction == null){
@@ -500,48 +501,36 @@ function getAndConcatCurrentAction(deviceType, devId){
     }
     else{
         combined = currAction.concat(JSON.parse(localStorage.getItem('routineConstructor')));
-     }
+    }
 
-     localStorage.setItem('routineConstructor', JSON.stringify(combined));
-     //console.log("routineConstructor en el medio");
-     //console.log(localStorage.getItem('routineConstructor'));
+    localStorage.setItem('routineConstructor', JSON.stringify(combined));
 
-return combined;
+    return combined;
 }
-
-
-
-
-
 
 function endRoutine(deviceType, devId) {
-     var combined = getAndConcatCurrentAction(deviceType, devId);
-     if(combined == null){ //significa que no hay ninguna action que agregar y la api no lo deja
-         return null;
-     }
-     var routineName = localStorage.getItem('currentRoutineName');
-     var routineToAdd = new api.model.routine(null, routineName, combined, "{}");
-     //console.log("ROUTINE ACTIONS FINAL");
-     //console.log(combined);
-     console.log("routineName");
-     console.log(routineName);
-     console.log("routineTOAdd");
-     console.log(routineToAdd);
+    var combined = getAndConcatCurrentAction(deviceType, devId);
+    if(combined == null){ //significa que no hay ninguna action que agregar y la api no lo deja
+        return null;
+    }
+    var routineName = localStorage.getItem('currentRoutineName');
+    var routineToAdd = new api.model.routine(null, routineName, combined, "{}");
+    //console.log("ROUTINE ACTIONS FINAL");
+    //console.log(combined);
+    console.log("routineName");
+    console.log(routineName);
+    console.log("routineTOAdd");
+    console.log(routineToAdd);
 
-
-
-     //ojo que no se por que la primera vez q se agrega una routine, la variable routineName hace q se genere un error. si pones un string constante funciona bien para la primer routine. ver q onda
-     api.routine.add(routineToAdd)
-         .then((data) =>{
-             location.href= 'routines.html';
-         })
-         .catch((error) => {
-             window.alert("ERROR: adding new routine");
-         });
+    //ojo que no se por que la primera vez q se agrega una routine, la variable routineName hace q se genere un error. si pones un string constante funciona bien para la primer routine. ver q onda
+    api.routine.add(routineToAdd)
+        .then((data) =>{
+            location.href= 'routines.html';
+        })
+        .catch((error) => {
+            window.alert("ERROR: adding new routine");
+        });
 }
-
-
-
 
 function getOvenState(devId){
     var actions =[];
@@ -550,49 +539,117 @@ function getOvenState(devId){
 
     if(ovenOnOff == "off"){
         actions.push(new api.model.action(devId,"turnOff",[], "nada"));
+    } else {
+        actions.push(new api.model.action(devId,"turnOn",[],"nada"));
+        if(!$.isNumeric(temperature)){
+            window.alert("Please insert a number in the temperature field");
+            return null;
+        } else if(temperature >= 90 && temperature <= 230){
+            actions.push(new api.model.action(devId,"setTemperature",[temperature],"nada"));
+        } else{
+            window.alert("Please insert a valid temperature between 90 and 230 degrees");
+            return null;
+        }
     }
-    else{
-         actions.push(new api.model.action(devId,"turnOn",[],"nada"));
-         if(!$.isNumeric(temperature)){
-             window.alert("Please insert a number in the temperature field");
-             return null;
-         }
-         else if(temperature >= 90 && temperature <= 230){
-             actions.push(new api.model.action(devId,"setTemperature",[temperature],"nada"));
-         }
-         else{
-                 window.alert("Please insert a valid temperature between 90 and 230 degrees");
-                 return null;
-         }
-    }
-return actions;
+
+    return actions;
 }
 
-//agregar open y closed en tooooodo el programa
+//agregar open y closed en tooooodo el programa todo
 function getDoorState(devId){
     var actions = [];
-    console.log("entro a door");
     var doorLockUnlock = document.getElementById("doorLockUnlock").value;
+
     if(doorLockUnlock == "lock"){
         actions.push(new api.model.action(devId,"lock",[], "nada"));
-    }
-    else{
+    } else{
         actions.push(new api.model.action(devId,"unlock",[], "nada"));
     }
-return actions;
+
+    return actions;
 }
 
+function getLightsState(devId) {
+    var actions = [];
+    var lightsOnOff = document.getElementById("lightsOnOff").value;
+    var brightness = document.getElementById("brightness").value;
+
+    if (lightsOnOff == "off"){
+        actions.push(new api.model.action(devId, "turnOff", [], "nada"));
+    } else {
+        actions.push(new api.model.action(devId, "turnOn", [], "nada"));
+        actions.push(new api.model.action(devId, "setBrightness", [brightness], "nada"));
+    }
+
+    return actions;
+}
+
+function getBlindsState(devId) {
+
+    var actions = [];
+    var blindsUpDown = document.getElementById("blindsUpDown").value;
+
+    if(blindsUpDown == "down"){
+        actions.push(new api.model.action(devId, "down", [], "nada"));
+    } else {
+        actions.push(new api.model.action(devId, "up", [], "nada"));
+    }
+
+    return actions;
+}
+
+function getACState(devId) {
+
+    var actions = [];
+    var acOnOff = document.getElementById("acOnOff").value;
+    var tempAC = document.getElementById("tempAC").value;
+
+    if(acOnOff == "off"){
+        actions.push(new api.model.action(devId, "off", [], "nada"));
+    } else {
+        actions.push(new api.model.action(devId, "on", [], "nada"));
+        if(!$.isNumeric(tempAC)){
+            window.alert("Please insert a number in the temperature field");
+            return null;
+        } else if (tempAC >= 16 && tempAC <= 30){
+            actions.push(new api.model.action(devId,"setTemperature", [tempAC], "nada"));
+        } else{
+            window.alert("Please insert a valid temperature between 16 and 30 degrees");
+            return null;
+        }
+    }
+    return actions;
+}
+
+function getFridgeState(devId) {
+
+    var actions = [];
+    var tempFridge = document.getElementById("tempFridge").value;
+
+    if(!$.isNumeric(tempFridge)){
+        window.alert("Please insert a number in the temperature field");
+        return null;
+    } else if(tempFridge >= 0 && tempFridge <= 9){
+        actions.push(new api.model.action(devId,"setTemperature",[tempFridge],"nada"));
+    } else {
+        window.alert("Please insert a valid temperature between 0 and 9 degrees");
+        return null;
+    }
+
+    return actions;
+}
 
 function showSelection(deviceType, deviceId, action){
+    var elem;
     switch (deviceType) {
         case "oven":
             if(action == 'turnOff'){
                 switchButtons(deviceId+"on",deviceId+"off", "off");
-                var elem = document.getElementById("ovenOnOff");
+                elem = document.getElementById("ovenOnOff");
                 elem.value = "off";
             }else if(action == 'turnOn'){
                 switchButtons(deviceId+"on",deviceId+"off", "on");
-                var elem = document.getElementById("ovenOnOff");
+                elem = document.getElementById("ovenOnOff");
                 elem.value = "on";
             }
             else if(action == 'setTemperature'){
@@ -600,6 +657,15 @@ function showSelection(deviceType, deviceId, action){
             }
             break;
         case "ac":
+            if(action == 'turnOff'){
+                switchButtons(deviceId+"on",deviceId+"off", "off");
+                elem = document.getElementById("acOnOff");
+                elem.value = "off";
+            }else if(action == 'turnOn'){
+                switchButtons(deviceId+"on",deviceId+"off", "on");
+                elem = document.getElementById("acOnOff");
+                elem.value = "on";
+            }
             break;
         case "fridge":
             //aca puede ir el set.
@@ -607,32 +673,41 @@ function showSelection(deviceType, deviceId, action){
         case "door":
             if(action == "lock"){
                 switchButtons(deviceId+"lock",deviceId+"unlock", "lock");
-                var elem = document.getElementById("doorLockUnlock");
-                console.log(elem.value);
+                elem = document.getElementById("doorLockUnlock");
                 elem.value = "lock";
-                console.log(elem.value);
             }else{
                 switchButtons(deviceId+"lock",deviceId+"unlock", "unlock");
-                var elem = document.getElementById("doorLockUnlock");
-                console.log(elem.value);
+                elem = document.getElementById("doorLockUnlock");
                 elem.value = "unlock";
-                console.log(elem.value);
             }
             break;
         case "blinds":
-            if(action == "closed" || action == "closing"){
-                switchButtons(deviceId+"open",deviceId+"close", "closed");
+            if(action == "down"){
+                switchButtons(deviceId+"up",deviceId+"down", "down");
+                elem = document.getElementById("blindsUpDown");
+                elem.value = "down";
             }else{
-                switchButtons(deviceId+"open",deviceId+"close", "opened");
+                switchButtons(deviceId+"up",deviceId+"down", "up");
+                elem = document.getElementById("blindsUpDown");
+                elem.value = "up";
             }
+
             break;
         case "lights":
-            if(action == 'off'){
+            if(action == 'turnOff'){
                 switchButtons(deviceId+"on",deviceId+"off", "off");
+                elem = document.getElementById("lightsOnOff")
+                elem.value = "off";
             }else{
                 switchButtons(deviceId+"on",deviceId+"off", "on");
+                elem = document.getElementById("lightsOnOff")
+                elem.value = "on";
             }
-            //document.getElementById(deviceId+"slider").value = data.result.brightness;
     }
 
+}
+
+function initAddedDevicesToRoutine() {
+    localStorage.setItem('addedDevicesRoutine', "");
+    location.href='addroutine.html';
 }

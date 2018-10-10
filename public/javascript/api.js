@@ -205,36 +205,35 @@ api.roomDevice = class {
 
 }
 
-
-
 api.model = api.model || {};
+
 api.model.routine = class {
-  constructor(id, name, actions, meta) {
-    if (id) {
-      this.id = id;
-    } else {
-      delete(this.id);
+    constructor(id, name, actions, meta) {
+        if (id) {
+            this.id = id;
+        } else {
+            delete(this.id);
+        }
+        if (actions) {
+            this.actions = actions;
+        } else {
+            this.actions = new Array();
+        }
+        this.name = name;
+        this.meta = meta;
     }
-    if (actions) {
-      this.actions = actions;
-    } else {
-      this.actions = new Array();
-    }
-    this.name = name;
-    this.meta = meta;
-  }
 }
 
 
 api.model.action = class {
-  constructor(deviceId, actionName, params, meta) {
-  this.deviceId = deviceId;
-  this.actionName = actionName;
-  if(params) {
-    this.params = params;
-  } else {
-    this.params = new Array();
-  }
-  this.meta = meta;
-  }
+    constructor(deviceId, actionName, params, meta) {
+        this.deviceId = deviceId;
+        this.actionName = actionName;
+        if(params) {
+            this.params = params;
+        } else {
+            this.params = new Array();
+        }
+        this.meta = meta;
+    }
 }
