@@ -20,57 +20,58 @@ window.addEventListener('load', function () {
         .catch((error) => {
             window.alert(error);
         });
-    /*api.routine.get(routineId)
+    api.routine.get(routineId)
         .then((data) => {
             var actions = data.routine.actions;
-            var device, deviceActions, numDevices = 0;
+            var devicesAndActions = [[]];
             var devices = [];
+            var deviceAdded;
+            var device, action;
+            var numDevices = 0;
             for (var i=0; i<actions.length; i++){
 
                 device = api.device.get(actions[i].deviceId);
-                devices += device;
+                action = JSON.stringify(actions[i], null, 2);
+                deviceAdded = false;
 
-                deviceActions = localStorage.getItem('' + device.id);
-                if (deviceActions == undefined){
-                    numDevices++;
-                    deviceActions="";
-                }
-                deviceActions += "" + actions[i].actionName + " ";
-                if (actions[i].params != []){
-                    for (var k=0; k<actions[i].params.length; k++){
-                        deviceActions += "" + actions[i].params[k] + " ";
+                for (var j=0; j<numDevices; j++){
+                    if (devices[j].id == device.id){
+                        deviceAdded = true;
+                        devicesAndActions[j].push(action);
                     }
                 }
-                localStorage.setItem('' + device.id + device.typeId, deviceActions);
+                if (!deviceAdded){
+                    devices.push(device);
+                    devicesAndActions.push([]);
+                    devicesAndActions[numDevices++].push(action);
+                }
             }
-            for (var j=0; j<numDevices; j++){
-                var deviceAux = devices[j];
-                var deviceActionsAux = localStorage.getItem('' + deviceAux.id);
-                console.log(deviceAux.name);
-                console.log(deviceActionsAux);
-                if (deviceAux.typeId == "go46xmbqeomjrsjr") {
-                    var brightness, onOffStatus;
+            for (j=0; j<numDevices; j++){
 
-                    //showLights(deviceAux.id, deviceAux.name);
+                device = devices[j];
+                actions = devicesAndActions[j];
+
+                if (device.typeId == "go46xmbqeomjrsjr") {
+                    //showLights(device.id, device.name, actions);
                 }
-                if (deviceAux.typeId == "im77xxyulpegfmv8") {
-                    //showOven(deviceAux.id, deviceAux.name);
+                if (device.typeId == "im77xxyulpegfmv8") {
+                    //showOven(device.id, device.name, actions);
                 }
-                if (deviceAux.typeId == 'eu0v2xgprrhhg41g') {
-                    //showBlinds(deviceAux.id, deviceAux.name);
+                if (device.typeId == 'eu0v2xgprrhhg41g') {
+                    //showBlinds(device.id, device.name, actions);
                 }
-                if (deviceAux.typeId == 'lsf78ly0eqrjbz91') {
-                    //showDoor(deviceAux.id, deviceAux.name);
+                if (device.typeId == 'lsf78ly0eqrjbz91') {
+                    //showDoor(device.id, device.name, actions);
                 }
-                if (deviceAux.typeId == 'li6cbv5sdlatti0j') {
-                    //showAC(deviceAux.id, deviceAux.name);
+                if (device.typeId == 'li6cbv5sdlatti0j') {
+                    //showAC(device.id, device.name, actions);
                 }
-                if (deviceAux.typeId == 'rnizejqr2di0okho') {
-                    //showFridge(deviceAux.id, deviceAux.name);
+                if (device.typeId == 'rnizejqr2di0okho') {
+                    //showFridge(device.id, device.name, actions);
                 }
             }
         })
         .catch((error) => {
             window.alert(error);
-        });*/
+        });
 }, false);

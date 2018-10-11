@@ -471,9 +471,6 @@ function setRoutineName(){
 function goToLoadedDevice(deviceId, deviceType){
     localStorage.setItem('currentLoadedDeviceId', deviceId);
     localStorage.setItem('currentLoadedDeviceType', deviceType);
-    var devices = localStorage.getItem('addedDevicesRoutine');
-    devices += "" + deviceId;
-    localStorage.setItem('addedDevicesRoutine', devices);
     location.href = 'chooseaction.html';
 }
 
@@ -481,6 +478,9 @@ function addDeviceToRoutine(deviceType, deviceId) {
     // console.log("routineConstructor before concating");
     // console.log(localStorage.getItem('routineConstructor'));
     var aux = getAndConcatCurrentAction(deviceType, deviceId);
+    var devices = localStorage.getItem('addedDevicesRoutine');
+    devices += "" + deviceId;
+    localStorage.setItem('addedDevicesRoutine', devices);
     // console.log("routineConstructor after concating");
     // console.log(localStorage.getItem('routineConstructor'));
     if(aux != null) {
@@ -546,7 +546,7 @@ function endRoutine(deviceType, devId) {
             location.href= 'routines.html';
         })
         .catch((error) => {
-            window.alert("ERROR: adding new routine");
+            window.alert("Error en creacion de rutina");
         });
 }
 
@@ -744,4 +744,19 @@ function continueAddedDevicesToRoutine() {
 function goToRoutine(routineId) {
     localStorage.setItem('currentRoutineId', routineId);
     location.href = 'routine.html';
+}
+
+function executeRoutine(routineId) {
+    api.routine.execute(routineId);
+}
+
+function deleteRoutine() {
+    var routineId = localStorage.getItem('currentRoutineId');
+    api.routine.delete(routineId)
+        .then((data) =>{
+            location.href = 'routines.html';
+        })
+        .catch((error) => {
+            window.alert(error);
+        })
 }

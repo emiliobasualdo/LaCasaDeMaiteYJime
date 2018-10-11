@@ -28,7 +28,3 @@ window.addEventListener('load', function () {
         })
 
 }, false);
-
-function executeRoutine(routineId) {
-    api.routine.execute(routineId);
-}
