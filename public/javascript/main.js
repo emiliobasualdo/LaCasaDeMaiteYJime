@@ -335,7 +335,7 @@ function changeText(textID, newText)
 }
 
 function switchButtons(buttonOn, buttonOff, onOff) {
-    if (onOff == "on" || onOff == "lock" || onOff == "opened") {
+    if (onOff == "on" || onOff == "lock" || onOff == "opened" || onOff == "up") {
         document.getElementById(buttonOn).classList.add("btn-black");
         document.getElementById(buttonOn).classList.remove("btn-black-outline");
         document.getElementById(buttonOff).classList.add("btn-black-outline");
@@ -429,24 +429,6 @@ function deleteFavourite1(deviceId) {
         })
         .catch((error) => {
             console.log('error in retiving device');
-        });
-}
-
-function addRoutine() {
-    var newRoutine;
-
-    var routineName = document.getElementById("name-header13-2f").value;
-
-    var actions = getActions(document.getElementById("myActions"));
-
-    newRoutine = new api.model.routine(null, routineName, actions ,'{}');
-    api.routine.add(newRoutine)
-        .then((data) =>{
-            newRoutine.id = data.routine.id;
-            location.href= 'routines.html';
-        })
-        .catch((error) => {
-            window.alert("ERROR: adding new routine");
         });
 }
 
@@ -746,4 +728,20 @@ function showSelection(deviceType, deviceId, action){
 function initAddedDevicesToRoutine() {
     localStorage.setItem('addedDevicesRoutine', "");
     location.href='addroutine.html';
+}
+
+function continueAddedDevicesToRoutine() {
+    var routineId = localStorage.getItem('currentRoutineId');
+    var actions = api.routine.get(routineId).actions;
+    var devices = "";
+    for (var i=0; i<actions.length; i++){
+        devices += "" + actions[i].deviceId;
+    }
+    localStorage.setItem('addedDevicesRoutine', devices);
+    location.href ='addsaveddevice.html';
+}
+
+function goToRoutine(routineId) {
+    localStorage.setItem('currentRoutineId', routineId);
+    location.href = 'routine.html';
 }

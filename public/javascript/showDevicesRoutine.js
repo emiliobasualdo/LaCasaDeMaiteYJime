@@ -1,12 +1,9 @@
-function showOven(ovenID, deviceName, fav) {
+/*function showOven(ovenID, deviceName, onOffStatus, temperature) {
     var contenido = $('#myDevices');
-    api.device.action(ovenID,'getState')
-        .then((data) => {
             var temperature = data.result.temperature;
             var status = data.result.status;
 
             var onOffStatus;
-            var favStatus;
 
             if (status === "off") {
                 onOffStatus = '<div class="mbr-section-btn"><a class="btn btn-md btn-black-outline display-7"  id="'+ ovenID +'on" onclick="trigger(\'' + ovenID + '\',\'turnOn\' ,\'oven\')">ON</a>\
@@ -16,12 +13,6 @@ function showOven(ovenID, deviceName, fav) {
                 onOffStatus = '<div class="mbr-section-btn"><a class="btn btn-md btn-black display-7" id="'+ ovenID +'on" onclick="trigger(\'' + ovenID + '\',\'turnOn\' ,\'oven\')">ON</a>\
                                 <a class="btn btn-md btn-black-outline display-7" id="'+ ovenID +'off" onclick="trigger(\'' + ovenID + '\',\'turnOff\' ,\'oven\')">OFF</a></div>\
                             </div>';
-            }
-
-            if (fav) {
-                favStatus = '<a class="btn btn-md btn-success-outline display-4" id="' + ovenID + 'fav" onclick="deleteFavourite(\'' + ovenID + '\')"><span class="mbri-star mbr-iconfont mbr-iconfont-btn"></span>DELETE FROM FAVOURITES</a>';
-            } else {
-                favStatus = '<a class="btn btn-md btn-success-outline display-4" id="' + ovenID + 'fav" onclick="addTofavourites(\'' + ovenID + '\')"><span class="mbri-star mbr-iconfont mbr-iconfont-btn"></span>ADD TO FAVOURITES</a>';
             }
 
             contenido.append('<section class="header3 cid-r5JWcBA5eR" id="' + ovenID + 'delete1">\
@@ -44,14 +35,10 @@ function showOven(ovenID, deviceName, fav) {
                 <div class="container align-left">\
                 <div class="media-container-column mbr-white col-md-12">\
                 <div class="mbr-section-btn py-4"><a class="btn btn-md btn-secondary-outline display-4" onclick="deleteDeviceFromRoom(\'' + ovenID + '\')"><span class="mbri-trash mbr-iconfont mbr-iconfont-btn"></span>DELETE</a>\
-                ' + favStatus + '</div>\
+                </div>\
                 </div>\
                 </div>\
                 </section>');
-        })
-        .catch((error) => {
-            console.log('error');
-        });
 
 }
 
@@ -108,6 +95,8 @@ function showDoor(doorID,  deviceName, fav) {
         });
 }
 
+
+
 function showAC(acID,  deviceName, fav) {
     var contenido = $('#myDevices');
     api.device.action(acID,'getState').then((data) => {
@@ -161,6 +150,7 @@ function showAC(acID,  deviceName, fav) {
     });
 }
 
+
 function showFridge(fridgeID,  deviceName, fav) {
     var contenido = $('#myDevices');
     api.device.action(fridgeID,'getState').then((data) => {
@@ -201,6 +191,7 @@ function showFridge(fridgeID,  deviceName, fav) {
         console.log('error');
     });
 }
+
 
 function showBlinds(blindsID,  deviceName, fav) {
     var contenido = $('#myDevices');
@@ -254,6 +245,7 @@ function showBlinds(blindsID,  deviceName, fav) {
             console.log('error');
         });
 }
+
 
 function showLights(lightsID, deviceName, fav) {
     var contenido = $('#myDevices');
@@ -424,3 +416,4 @@ function showOvenImg(deviceName) {
         </section>\
     ');
 }
+*/

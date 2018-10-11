@@ -10,6 +10,7 @@ window.addEventListener('load', function () {
                 routineName = JSON.stringify(data.routines[i].name, null, 2);
                 routineName = routineName.substring(1, routineName.length-1);
                 routineId = JSON.stringify(data.routines[i].id, null, 2);
+                routineId = routineId.substring(1, routineId.length-1);
                 contenido.append('<section class="mbr-section info1 cid-r5ziqKy8Dr" id="info1-37">\
                     <div class="container">\
                     <div class="row justify-content-center content-row">\
@@ -29,10 +30,5 @@ window.addEventListener('load', function () {
 }, false);
 
 function executeRoutine(routineId) {
-    api.routine.get(routineId).execute;
-}
-
-function goToRoutine(routineId) {
-    localStorage.setItem('currentRoutineId', routineId);
-    location.href = 'routine.html';
+    api.routine.execute(routineId);
 }
