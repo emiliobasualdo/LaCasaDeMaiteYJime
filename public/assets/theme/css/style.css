@@ -91,7 +91,7 @@ section .mbr-background-video, section .mbr-background-video-preview {
 
 /*! Base colors */
 .mbr-white {
-    color: #ffffff
+    color: #ffffff;
 }
 
 .mbr-black {

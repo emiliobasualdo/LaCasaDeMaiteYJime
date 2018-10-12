@@ -1,7 +1,3 @@
-//Window prompt() Method
-//Display a prompt box which ask the user for her/his name, and output a message:
-//Usar para pedir algun input si es que el tipo no lo puso todavia <<<<<======
-
 function addRoom() {
     var newRoom;
     var roomName = document.getElementById("name-header13-1x").value;
@@ -80,10 +76,93 @@ function deleteRoom() {
         });
 }
 
+function addDeviceToRoom2(deviceId) {
+    var roomId = localStorage.getItem('currentRoomId');
+    api.device.get(deviceId)
+        .then((data) => {
+            console.log(data);
+            var m = JSON.parse(data.device.meta);
+            m.room = roomId;
+            data.device.meta = JSON.stringify(m);
+            api.device.modify(data.device)
+                .then((data) => {
+                    api.roomDevice.add(deviceId, roomId)
+                        .then((data) => {
+                            location.href = 'room.html'; // vuelvo al cuarto en el que estoy
+                        })
+                        .catch((error) => {
+                            console.log('error');
+                        });
+                })
+                .catch((error) => {
+                    console.log('error in modify');
+                });
+        })
+        .catch((error) => {
+            console.log('error in retiving device');
+        });
+}
+
+function addDevice(deviceType) {
+    var name = "";
+    var userName = document.getElementById("name-header13-69").value;// prompt("Please enter a name", "Device Name");
+    var Exp = /^[A-Za-z0-9- ]+$/;
+    if (!userName || userName == "Device Name") {
+        swal({
+            title: "Error",
+            text: "Enter a device name first",
+            type: "error",
+            closeOnConfirm: true
+        });
+        return;
+    } if (!userName.match(Exp)) {
+        swal({
+            title: "Error",
+            text: "Device name must be alphanumeric",
+            type: "error",
+            closeOnConfirm: true
+        });
+        return;
+    }
+    console.log('user device name: ' + userName);
+    api.device.getAllDevicesByType(deviceType)
+        .then((data) => {
+            if ( deviceType == 'go46xmbqeomjrsjr') {
+                name += userName + '_' + data.devices.length;
+            } else if (deviceType == 'im77xxyulpegfmv8') {
+                name += userName + '_' + data.devices.length;
+            } else if (deviceType == 'eu0v2xgprrhhg41g') {
+                name += userName  + '_' + data.devices.length;
+            } else if (deviceType == 'lsf78ly0eqrjbz91') {
+                name += userName  + '_' + data.devices.length;
+            } else if (deviceType == 'li6cbv5sdlatti0j') {
+                name += userName  + '_' + data.devices.length;
+            } else if (deviceType == 'rnizejqr2di0okho') {
+                name += userName  + '_' + data.devices.length;
+            }
+            var m = {
+                fav: null,
+                room: null
+            };
+            var newdevice = new api.model.device(null, deviceType, name, JSON.stringify(m));
+            api.device.add(newdevice)
+                .then((data) => {
+                    newdevice.id = data.device.id;
+                    location.href = 'devices.html'; // vuelvo al cuarto en el que estoy
+                })
+                .catch((error) => {
+                    console.log('error');
+                });
+        })
+        .catch((error) => {
+            console.log('error');
+        });
+}
+
 function addDeviceToRoom(deviceType, deviceName) {
     var roomId = localStorage.getItem('currentRoomId');
     var name = "";
-    var userName = prompt("Please enter a name", "Device Name");
+    var userName = document.getElementById("name-header13-69").value; //prompt("Please enter a name", "Device Name");
     var Exp = /^[A-Za-z0-9- ]+$/;
     if (!userName || userName == "Device Name") {
         swal({
@@ -118,7 +197,11 @@ function addDeviceToRoom(deviceType, deviceName) {
             } else if (deviceType == 'rnizejqr2di0okho') {
                 name += userName  + '_' + roomId + data.devices.length;
             }
-            var newdevice = new api.model.device(null, deviceType, name, "{}");
+            var m = {
+                fav: null,
+                room: roomId
+            };
+            var newdevice = new api.model.device(null, deviceType, name,  JSON.stringify(m));
             api.device.add(newdevice)
                 .then((data) => {
                     newdevice.id = data.device.id;
@@ -142,7 +225,7 @@ function addDeviceToRoom(deviceType, deviceName) {
 function addDeviceToRoomWithDevices(deviceType, deviceName) {
     var roomId = localStorage.getItem('currentRoomId');
     var name = "";
-    var userName = prompt("Please enter a name", "Device Name");
+    var userName = prompt("Please enter a name", "Device Name"); //document.getElementById("name-header13-69").value;
     var Exp = /^[A-Za-z0-9- ]+$/;
     if (!userName || userName == "Device Name") {
         swal({
@@ -177,7 +260,11 @@ function addDeviceToRoomWithDevices(deviceType, deviceName) {
             } else if (deviceType == 'rnizejqr2di0okho') {
                 name += userName + '_' + roomId + data.devices.length;
             }
-            var newdevice = new api.model.device(null, deviceType, name, "{}");
+            var m = {
+                fav: null,
+                room: roomId
+            };
+            var newdevice = new api.model.device(null, deviceType, name, JSON.stringify(m));
             api.device.add(newdevice)
                 .then((data) => {
                     newdevice.id = data.device.id;
@@ -364,7 +451,9 @@ function addTofavourites(deviceId) {
     api.device.get(deviceId)
         .then((data) => {
             console.log(data);
-            data.device.meta = 'fav';
+            var m = JSON.parse(data.device.meta);
+            m.fav = 'fav';
+            data.device.meta = JSON.stringify(m);
             api.device.modify(data.device)
                 .then((data) => {
                     console.log(data);
@@ -388,7 +477,9 @@ function deleteFavourite(deviceId) {
     api.device.get(deviceId)
         .then((data) => {
             console.log(data);
-            data.device.meta = null;
+            var m = JSON.parse(data.device.meta);
+            m.fav = null;
+            data.device.meta = JSON.stringify(m);
             api.device.modify(data.device)
                 .then((data) => {
                     console.log(data);
@@ -413,7 +504,9 @@ function deleteFavourite1(deviceId) {
     api.device.get(deviceId)
         .then((data) => {
             console.log(data);
-            data.device.meta = null;
+            var m = JSON.parse(data.device.meta);
+            m.fav = null;
+            data.device.meta = JSON.stringify(m);
             api.device.modify(data.device)
                 .then((data) => {
                     console.log(data);
