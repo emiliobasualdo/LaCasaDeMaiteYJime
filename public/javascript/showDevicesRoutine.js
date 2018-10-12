@@ -2,20 +2,23 @@ function showOven(ovenID, deviceName, actions){
     var contenido = $('#myDevices');
     var status = "off";
     var temperature;
-
+    var action;
+    console.log(ovenID);
+    console.log(actions);
     for(var i =0; i< actions.length ; i++){
-        if(actions[i].actionName == "turnOn"){
+        action = JSON.parse(actions[i]);
+        if(action.actionName == "turnOn"){
             status = "on";
             console.log("action turnOn");
             console.log(status);
         }
-        else if(actions[i].actionName == "turnOff"){
+        else if(action.actionName == "turnOff"){
             status = "off";
             console.log("action turnOff");
             console.log(status);
         }
-        else if(actions[i].actionName == "setTemperature"){
-            temperature = actions[i].params[0];
+        else if(action.actionName == "setTemperature"){
+            temperature = action.params[0];
             console.log("action temperature");
             console.log("tempereature = " + temperature);
         }
@@ -70,16 +73,18 @@ function showAC(devID, deviceName, actions){
     var contenido = $('#myDevices');
     var status = "off";
     var temperature;
+    var action;
 
     for(var i =0; i< actions.length ; i++){
-        if(actions[i].actionName == "turnOn"){
+        action = JSON.parse(actions[i]);
+        if(action.actionName == "turnOn"){
             status = "on";
         }
-        else if(actions[i].actionName == "turnOff"){
+        else if(action.actionName == "turnOff"){
             status = "off";
         }
-        else if(actions[i].actionName == "setTemperature"){
-            temperature = actions[i].params[0];
+        else if(action.actionName == "setTemperature"){
+            temperature = action.params[0];
         }
     }
 
@@ -131,10 +136,12 @@ function showAC(devID, deviceName, actions){
 function showFridge(devID, deviceName, actions) {
     var contenido = $('#myDevices');
     var temperature;
+    var action;
 
     for(var i =0; i< actions.length ; i++){
-        if(actions[i].actionName == "setTemperature"){
-            temperature = actions[i].params[0];
+        action = JSON.parse(actions[i]);
+        if(action.actionName == "setTemperature"){
+            temperature = action.params[0];
         }
     }
 
@@ -159,16 +166,18 @@ function showLights(devID, deviceName, actions){
     var contenido = $('#myDevices');
     var status = "off";
     var brightness;
+    var action;
 
     for(var i =0; i< actions.length ; i++){
-        if(actions[i].actionName == "turnOn"){
+        action = JSON.parse(actions[i]);
+        if(action.actionName == "turnOn"){
             status = "on";
         }
-        else if(actions[i].actionName == "turnOff"){
+        else if(action.actionName == "turnOff"){
             status = "off";
         }
-        else if(actions[i].actionName == "brightness"){
-            brightness = actions[i].params[0];
+        else if(action.actionName == "brightness"){
+            brightness = action.params[0];
         }
     }
 
@@ -223,12 +232,14 @@ function showLights(devID, deviceName, actions){
 function showDoor(devID, deviceName, actions){
     var contenido = $('#myDevices');
     var status = "locked";
+    var action;
 
     for(var i =0; i< actions.length ; i++){
-        if(actions[i].actionName == "unlocked"){
+        action = JSON.parse(actions[i]);
+        if(action.actionName == "unlocked"){
             status = "unlocked";
         }
-        else if(actions[i].actionName == "locked"){
+        else if(action.actionName == "locked"){
             status = "locked";
         }
     }
@@ -264,12 +275,14 @@ function showDoor(devID, deviceName, actions){
 function showBlinds(devID, deviceName, actions){
     var contenido = $('#myDevices');
     var status = "down";
+    var action;
 
     for(var i =0; i< actions.length ; i++){
-        if(actions[i].actionName == "down"){
+        action = JSON.parse(actions[i]);
+        if(action.actionName == "down"){
             status = "down";
         }
-        else if(actions[i].actionName == "up"){
+        else if(action.actionName == "up"){
             status = "up";
         }
     }
