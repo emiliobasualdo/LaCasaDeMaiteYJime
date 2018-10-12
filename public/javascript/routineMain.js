@@ -30,45 +30,62 @@ window.addEventListener('load', function () {
             var numDevices = 0;
             for (var i=0; i<actions.length; i++){
 
-                device = api.device.get(actions[i].deviceId);
-                action = JSON.stringify(actions[i], null, 2);
-                deviceAdded = false;
+                api.device.get(actions[i].deviceId)
+                    .then((data) => {
+                        if (i == actions.length) {
+                            i=0;
+                        }
+                        device = data.device;
+                        action = JSON.stringify(actions[i], null, 2);
+                        deviceAdded = false;
 
-                for (var j=0; j<numDevices; j++){
-                    if (devices[j].id == device.id){
-                        deviceAdded = true;
-                        devicesAndActions[j].push(action);
-                    }
-                }
-                if (!deviceAdded){
-                    devices.push(device);
-                    devicesAndActions.push([]);
-                    devicesAndActions[numDevices++].push(action);
-                }
-            }
-            for (j=0; j<numDevices; j++){
+                        for (var j=0; j<numDevices && !deviceAdded; j++){
+                            if (devices[j].id == device.id){
+                                deviceAdded = true;
+                                devicesAndActions[j].push(action);
+                            }
+                        }
 
-                device = devices[j];
-                actions = devicesAndActions[j];
+                        if (!deviceAdded){
+                            devices.push(device);
+                            devicesAndActions.push([]);
+                            devicesAndActions[numDevices++].push(action);
+                        }
+                        i++;
+                        if (i == actions.length){
+                            for (var j=0; j<numDevices; j++){
+                                var deviceType = JSON.stringify(devices[j].typeId, null, 2);
+                                deviceType = deviceType.substring(1, deviceType.length-1);
+                                var deviceId = JSON.stringify(devices[j].id, null, 2);
+                                deviceId = deviceId.substring(1, deviceId.length-1);
+                                var deviceName = devices[j].name;
+                                deviceName = deviceName.substr(0, deviceName.indexOf('_'));
+                                actions = devicesAndActions[j];
 
-                if (device.typeId == "go46xmbqeomjrsjr") {
-                    //showLights(device.id, device.name, actions);
-                }
-                if (device.typeId == "im77xxyulpegfmv8") {
-                    //showOven(device.id, device.name, actions);
-                }
-                if (device.typeId == 'eu0v2xgprrhhg41g') {
-                    //showBlinds(device.id, device.name, actions);
-                }
-                if (device.typeId == 'lsf78ly0eqrjbz91') {
-                    //showDoor(device.id, device.name, actions);
-                }
-                if (device.typeId == 'li6cbv5sdlatti0j') {
-                    //showAC(device.id, device.name, actions);
-                }
-                if (device.typeId == 'rnizejqr2di0okho') {
-                    //showFridge(device.id, device.name, actions);
-                }
+                                if (deviceType == "go46xmbqeomjrsjr") {
+                                    showLights(deviceId, deviceName, actions);
+                                }
+                                if (deviceType == "im77xxyulpegfmv8") {
+                                    showOven(deviceId, deviceName, actions);
+                                }
+                                if (deviceType == 'eu0v2xgprrhhg41g') {
+                                    showBlinds(deviceId, deviceName, actions);
+                                }
+                                if (deviceType == 'lsf78ly0eqrjbz91') {
+                                    showDoor(deviceId, deviceName, actions);
+                                }
+                                if (deviceType == 'li6cbv5sdlatti0j') {
+                                    showAC(deviceId, deviceName, actions);
+                                }
+                                if (deviceType == 'rnizejqr2di0okho') {
+                                    showFridge(deviceId, deviceName, actions);
+                                }
+                            }
+                        }
+                    })
+                    .catch((error) =>{
+                        window.alert(error);
+                    });
             }
         })
         .catch((error) => {

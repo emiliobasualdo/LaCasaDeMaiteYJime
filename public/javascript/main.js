@@ -522,7 +522,6 @@ function getAndConcatCurrentAction(deviceType, devId){
     }
 
     localStorage.setItem('routineConstructor', JSON.stringify(combined));
-
     return combined;
 }
 
@@ -531,19 +530,13 @@ function endRoutine(deviceType, devId) {
     if(combined == null){ //significa que no hay ninguna action que agregar y la api no lo deja
         return null;
     }
+    console.log(combined);
     var routineName = localStorage.getItem('currentRoutineName');
     var routineToAdd = new api.model.routine(null, routineName, combined, "{}");
-    //console.log("ROUTINE ACTIONS FINAL");
-    //console.log(combined);
-    console.log("routineName");
-    console.log(routineName);
-    console.log("routineTOAdd");
-    console.log(routineToAdd);
-
     //ojo que no se por que la primera vez q se agrega una routine, la variable routineName hace q se genere un error. si pones un string constante funciona bien para la primer routine. ver q onda
     api.routine.add(routineToAdd)
         .then((data) =>{
-            location.href= 'routines.html';
+            //location.href= 'routines.html';
         })
         .catch((error) => {
             window.alert("Error en creacion de rutina");
