@@ -723,17 +723,6 @@ function initAddedDevicesToRoutine() {
     location.href='addroutine.html';
 }
 
-function continueAddedDevicesToRoutine() {
-    var routineId = localStorage.getItem('currentRoutineId');
-    var actions = api.routine.get(routineId).actions;
-    var devices = "";
-    for (var i=0; i<actions.length; i++){
-        devices += "" + actions[i].deviceId;
-    }
-    localStorage.setItem('addedDevicesRoutine', devices);
-    location.href ='addsaveddevice.html';
-}
-
 function goToRoutine(routineId) {
     localStorage.setItem('currentRoutineId', routineId);
     location.href = 'routine.html';
