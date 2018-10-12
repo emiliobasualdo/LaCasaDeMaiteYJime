@@ -564,9 +564,6 @@ function setRoutineName(){
 function goToLoadedDevice(deviceId, deviceType){
     localStorage.setItem('currentLoadedDeviceId', deviceId);
     localStorage.setItem('currentLoadedDeviceType', deviceType);
-    var devices = localStorage.getItem('addedDevicesRoutine');
-    devices += "" + deviceId;
-    localStorage.setItem('addedDevicesRoutine', devices);
     location.href = 'chooseaction.html';
 }
 
@@ -574,6 +571,9 @@ function addDeviceToRoutine(deviceType, deviceId) {
     // console.log("routineConstructor before concating");
     // console.log(localStorage.getItem('routineConstructor'));
     var aux = getAndConcatCurrentAction(deviceType, deviceId);
+    var devices = localStorage.getItem('addedDevicesRoutine');
+    devices += "" + deviceId;
+    localStorage.setItem('addedDevicesRoutine', devices);
     // console.log("routineConstructor after concating");
     // console.log(localStorage.getItem('routineConstructor'));
     if(aux != null) {
@@ -615,7 +615,6 @@ function getAndConcatCurrentAction(deviceType, devId){
     }
 
     localStorage.setItem('routineConstructor', JSON.stringify(combined));
-
     return combined;
 }
 
@@ -624,22 +623,16 @@ function endRoutine(deviceType, devId) {
     if(combined == null){ //significa que no hay ninguna action que agregar y la api no lo deja
         return null;
     }
+    console.log(combined);
     var routineName = localStorage.getItem('currentRoutineName');
     var routineToAdd = new api.model.routine(null, routineName, combined, "{}");
-    //console.log("ROUTINE ACTIONS FINAL");
-    //console.log(combined);
-    console.log("routineName");
-    console.log(routineName);
-    console.log("routineTOAdd");
-    console.log(routineToAdd);
-
     //ojo que no se por que la primera vez q se agrega una routine, la variable routineName hace q se genere un error. si pones un string constante funciona bien para la primer routine. ver q onda
     api.routine.add(routineToAdd)
         .then((data) =>{
-            location.href= 'routines.html';
+            //location.href= 'routines.html';
         })
         .catch((error) => {
-            window.alert("ERROR: adding new routine");
+            window.alert("Error en creacion de rutina");
         });
 }
 
@@ -823,18 +816,22 @@ function initAddedDevicesToRoutine() {
     location.href='addroutine.html';
 }
 
-function continueAddedDevicesToRoutine() {
-    var routineId = localStorage.getItem('currentRoutineId');
-    var actions = api.routine.get(routineId).actions;
-    var devices = "";
-    for (var i=0; i<actions.length; i++){
-        devices += "" + actions[i].deviceId;
-    }
-    localStorage.setItem('addedDevicesRoutine', devices);
-    location.href ='addsaveddevice.html';
-}
-
 function goToRoutine(routineId) {
     localStorage.setItem('currentRoutineId', routineId);
     location.href = 'routine.html';
+}
+
+function executeRoutine(routineId) {
+    api.routine.execute(routineId);
+}
+
+function deleteRoutine() {
+    var routineId = localStorage.getItem('currentRoutineId');
+    api.routine.delete(routineId)
+        .then((data) =>{
+            location.href = 'routines.html';
+        })
+        .catch((error) => {
+            window.alert(error);
+        })
 }
