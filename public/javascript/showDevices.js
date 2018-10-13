@@ -104,8 +104,8 @@ function showDoor(doorID,  deviceName, fav) {
                             <h1 class="mbr-section-title mbr-white pb-3 mbr-fonts-style display-5">\
                                 <p>' + deviceName + ' </p>\
                             </h1>\
-                            <div class="mbr-section-text mbr-white pb-3 "> '+ lockedUnlockedStatus + '</div>\
-                            <div class="mbr-section-text mbr-white pb-3 "> '+ openCLosedStatus + '</div>\
+                            <div class="mbr-section-text mbr-black pb-3 "> '+ lockedUnlockedStatus + '</div>\
+                            <div class="mbr-section-text mbr-black pb-3 "> '+ openCLosedStatus + '</div>\
                     </div>\
                 </div>\
             </section>\
