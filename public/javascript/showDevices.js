@@ -6,7 +6,6 @@ function showOven(ovenID, deviceName, fav) {
             var status = data.result.status;
             var onOffStatus;
             var favStatus;
-
             if (status === "off") {
                 onOffStatus = '<div class="mbr-section-btn"><a class="btn btn-md btn-black-outline display-7"  id="'+ ovenID +'on" onclick="trigger(\'' + ovenID + '\',\'turnOn\' ,\'oven\')">TURN ON</a>\
                                 <a class= "btn btn-md btn-black display-7" id="'+ ovenID +'off" onclick="trigger(\'' + ovenID + '\',\'turnOff\' ,\'oven\' )">TURN OFF</a>\
@@ -406,17 +405,24 @@ function showLights(lightsID, deviceName, fav) {
 }
 
 
-function showLightsImg(deviceName) {
+function showLightsImg(deviceName, deviceId) {
+    var clickAction = '';
+    var cosa = 'features13 cid-r5yZWJv2j1';
+    if (deviceId) {
+        clickAction = 'onclick="' + func + '(\''+ deviceId + '\')"';
+        //clickAction = 'onclick="addDeviceToRoom2(\''+ deviceId + '\')"';
+        cosa = 'features13 cid-r5yZWJv2j2';
+    }
     var contenido = $('#addedDevices');
     contenido.append('\
-    <section class="features13 cid-r5yZWJv2j1" id="features13-2c">\
+    <section class="'+ cosa +'" id="features13-2c">\
         <div class="container">\
         <div class="media-container-row container">\
         <div class="card col-12 col-md-6 p-5 m-3 align-center">\
         <div class="card-img">\
         <img src="assets/images/mbr-5-1200x675.jpg" alt="Mobirise" title="">\
         </div>\
-        <h4 class="card-title py-2 mbr-fonts-style display-5"> ' + deviceName + ' </h4>\
+        <h4 ' + clickAction + 'class="card-title py-2 mbr-fonts-style display-5"> ' + deviceName + ' </h4>\
         </div>\
         </div>\
         </div>\
@@ -424,17 +430,24 @@ function showLightsImg(deviceName) {
     ');
 }
 
-function showAcImg(deviceName) {
+function showAcImg(deviceName, deviceId, func) {
+    var clickAction = '';
+    var cosa = 'features13 cid-r5yZWJv2j1';
+    if (deviceId) {
+        clickAction = 'onclick="' + func + '(\''+ deviceId + '\')"';
+        //clickAction = 'onclick="addDeviceToRoom2(\''+ deviceId + '\')"';
+        cosa = 'features13 cid-r5yZWJv2j2';
+    }
     var contenido = $('#addedDevices');
     contenido.append('\
-    <section class="features13 cid-r5yZWJv2j1" id="features13-2c">\
+    <section class="'+ cosa +'" id="features13-2c">\
         <div class="container">\
         <div class="media-container-row container">\
         <div class="card col-12 col-md-6 p-5 m-3 align-center">\
         <div class="card-img">\
         <img src="assets/images/mbr-1-720x480.jpg" alt="Mobirise" title="">\
         </div>\
-        <h4 class="card-title py-2 mbr-fonts-style display-5"> ' + deviceName + '</h4>\
+        <h4 ' + clickAction + ' class="card-title py-2 mbr-fonts-style display-5"> ' + deviceName + '</h4>\
         </div>\
         </div>\
         </div>\
@@ -442,17 +455,24 @@ function showAcImg(deviceName) {
     ');
 }
 
-function showDoorImg(deviceName) {
+function showDoorImg(deviceName, deviceId, func) {
+    var clickAction = '';
+    var cosa = 'features13 cid-r5yZWJv2j1';
+    if (deviceId) {
+        //clickAction = 'onclick="addDeviceToRoom2(\''+ deviceId + '\')"';
+        clickAction = 'onclick="' + func + '(\''+ deviceId + '\')"';
+        cosa = 'features13 cid-r5yZWJv2j2';
+    }
     var contenido = $('#addedDevices');
     contenido.append('\
-    <section class="features13 cid-r5yZWJv2j1" id="features13-2c">\
+    <section class="'+ cosa +'" id="features13-2c">\
         <div class="container">\
         <div class="media-container-row container">\
         <div class="card col-12 col-md-6 p-5 m-3 align-center">\
         <div class="card-img">\
         <img src="assets/images/mbr-1-1200x803.jpg" alt="Mobirise" title="">\
         </div>\
-        <h4 class="card-title py-2 mbr-fonts-style display-5">' + deviceName + ' </h4>\
+        <h4 ' + clickAction + ' class="card-title py-2 mbr-fonts-style display-5">' + deviceName + ' </h4>\
         </div>\
         </div>\
         </div>\
@@ -460,17 +480,24 @@ function showDoorImg(deviceName) {
     ');
 }
 
-function showBlindsImg(deviceName) {
+function showBlindsImg(deviceName, deviceId, func) {
+    var clickAction = '';
+    var cosa = 'features13 cid-r5yZWJv2j1';
+    if (deviceId) {
+        //clickAction = 'onclick="addDeviceToRoom2(\''+ deviceId + '\')"';
+        clickAction = 'onclick="' + func + '(\''+ deviceId + '\')"';
+        cosa = 'features13 cid-r5yZWJv2j2';
+    }
     var contenido = $('#addedDevices');
     contenido.append('\
-    <section class="features13 cid-r5yZWJv2j1" id="features13-2c">\
+    <section class="'+ cosa +'" id="features13-2c">\
         <div class="container">\
         <div class="media-container-row container">\
         <div class="card col-12 col-md-6 p-5 m-3 align-center">\
         <div class="card-img">\
         <img src="assets/images/mbr-14-1200x800.jpg" alt="Mobirise" title="">\
         </div>\
-        <h4 class="card-title py-2 mbr-fonts-style display-5">' + deviceName + ' </h4>\
+        <h4 ' + clickAction + ' class="card-title py-2 mbr-fonts-style display-5">' + deviceName + ' </h4>\
         </div>\
         </div>\
         </div>\
@@ -478,17 +505,24 @@ function showBlindsImg(deviceName) {
     ');
 }
 
-function showFridgeImg(deviceName) {
+function showFridgeImg(deviceName, deviceId, func) {
+    var clickAction = '';
+    var cosa = 'features13 cid-r5yZWJv2j1';
+    if (deviceId) {
+        //clickAction = 'onclick="addDeviceToRoom2(\''+ deviceId + '\')"';
+        clickAction = 'onclick="' + func + '(\''+ deviceId + '\')"';
+        cosa = 'features13 cid-r5yZWJv2j2';
+    }
     var contenido = $('#addedDevices');
     contenido.append('\
-    <section class="features13 cid-r5yZWJv2j1" id="features13-2c">\
+    <section class="'+ cosa +'" id="features13-2c">\
         <div class="container">\
         <div class="media-container-row container">\
         <div class="card col-12 col-md-6 p-5 m-3 align-center">\
         <div class="card-img">\
         <img src="assets/images/mbr-1200x690.jpg" alt="Mobirise" title="">\
         </div>\
-        <h4 class="card-title py-2 mbr-fonts-style display-5"> ' + deviceName + ' </h4>\
+        <h4 ' + clickAction + ' class="card-title py-2 mbr-fonts-style display-5"> ' + deviceName + ' </h4>\
         </div>\
         </div>\
         </div>\
@@ -496,20 +530,23 @@ function showFridgeImg(deviceName) {
     ');
 }
 
-function showOvenImg(deviceName) {
-    var contenido = $('#addedDevices');
-    if (contenido) {
-        console.log('enonctre');
+function showOvenImg(deviceName, deviceId, func) {
+    var clickAction = '';
+    var cosa = 'features13 cid-r5yZWJv2j1';
+    if (deviceId) {
+        clickAction = 'onclick="' + func + '(\''+ deviceId + '\')"';
+        cosa = 'features13 cid-r5yZWJv2j2';
     }
+    var contenido = $('#addedDevices');
     contenido.append('\
-    <section class="features13 cid-r5yZWJv2j1" id="features13-2c">\
+    <section class="'+ cosa +'" id="features13-2c">\
         <div class="container">\
         <div class="media-container-row container">\
         <div class="card col-12 col-md-6 p-5 m-3 align-center">\
         <div class="card-img">\
         <img src="assets/images/mbr-1200x704.jpg" alt="Mobirise" title="">\
         </div>\
-        <h4 class="card-title py-2 mbr-fonts-style display-5"> ' + deviceName + ' </h4>\
+        <h4 ' + clickAction + ' class="card-title py-2 mbr-fonts-style display-5"> ' + deviceName + ' </h4>\
         </div>\
         </div>\
         </div>\

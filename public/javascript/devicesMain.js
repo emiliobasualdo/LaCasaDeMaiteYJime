@@ -1,20 +1,9 @@
 window.addEventListener('load', function () {
-    var roomId = localStorage.getItem('currentRoomId');
-    var roomName;
-    var header = $('#header1-33');
-    header.html("");
-    api.room.get(roomId)
+    var conteindo =  $('#myDevices');
+    conteindo.html("");
+    api.device.getAllDevices()
         .then((data) => {
-            roomName = JSON.stringify(data.room.name, null, 2);
-            roomName = roomName.substring(1, roomName.length-1);
-            header.append('<div class="container"><div class="row justify-content-md-center"><div class="mbr-white col-md-10"><h1 class="mbr-section-title align-center mbr-bold pb-3 mbr-fonts-style display-1">' + roomName + '</h1></div></div></div>');
-        })
-        .catch((error) => {
-            window.alert('error');
-        });
-    api.roomDevice.get(roomId)
-        .then((data) => {
-            for(var i = 0; i < data.devices.length; i++) {
+            for (var i = 0; i < data.devices.length; i++) {
                 var deviceType = data.devices[i].typeId;
                 var deviceId = data.devices[i].id;
                 var deviceName = data.devices[i].name;
@@ -37,6 +26,6 @@ window.addEventListener('load', function () {
             }
         })
         .catch((error) => {
-            window.alert('error');
+            console.log('error');
         });
 }, false);

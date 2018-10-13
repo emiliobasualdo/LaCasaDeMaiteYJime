@@ -4,7 +4,7 @@ window.addEventListener('load', function () {
     contenido.html("");
     api.device.getAllDevices()
         .then((data) => {
-            console.log(data.devices);
+            //console.log(data.devices);
             for (var i=0; i<data.devices.length; i++) {
                 var deviceType = JSON.stringify(data.devices[i].typeId, null, 2);
                 deviceType = deviceType.substring(1, deviceType.length-1);

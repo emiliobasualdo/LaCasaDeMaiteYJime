@@ -1,4 +1,3 @@
-
 window.addEventListener('load', function () {
     api.devicesLog.getAll(1000).then(data => {
         localStorage.setItem('data',JSON.stringify(data["deviceLogs"]));

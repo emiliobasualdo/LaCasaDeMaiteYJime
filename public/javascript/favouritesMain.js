@@ -1,9 +1,10 @@
 window.addEventListener('load', function () {
-    console.log('ACAA');
     api.device.getAllDevices()
         .then((data) => {
             for (var i = 0; i < data.devices.length; i++) {
-                if (data.devices[i].meta == 'fav') {
+                console.log(data.devices[i]);
+                var m = JSON.parse(data.devices[i].meta);
+                if (m.fav == 'fav') {
                     var deviceName = data.devices[i].name;
                     deviceName = deviceName.substr(0, deviceName.indexOf('_'));
                     if (data.devices[i].typeId == "go46xmbqeomjrsjr") {

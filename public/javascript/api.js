@@ -129,6 +129,10 @@ api.device = class {
     //Retrieve logs for a specific device
     //Retrieve devices from specific device type
 
+    static getAllDevicesByType(deviceType) {
+        return api.fetch(api.device.url + 'devicetypes/' + deviceType);
+    }
+
 };
 
 //ROUTINE
