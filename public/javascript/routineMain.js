@@ -20,74 +20,76 @@ window.addEventListener('load', function () {
         .catch((error) => {
             window.alert(error);
         });
+
     api.routine.get(routineId)
         .then((data) => {
-            var actions = data.routine.actions;
-            var devicesAndActions = [[]];
-            var devices = [];
-            var deviceAdded;
-            var device, action;
-            var numDevices = 0;
-            for (var i=0; i<actions.length; i++){
+        var routineActions = data.routine.actions;
+         // console.log("Todas las actions de la routine:");
+         // console.log(routineActions);
+        var map = new Map();
 
-                api.device.get(actions[i].deviceId)
-                    .then((data) => {
-                        if (i == actions.length) {
-                            i=0;
-                        }
-                        device = data.device;
-                        action = JSON.stringify(actions[i], null, 2);
-                        deviceAdded = false;
 
-                        for (var j=0; j<numDevices && !deviceAdded; j++){
-                            if (devices[j].id == device.id){
-                                deviceAdded = true;
-                                devicesAndActions[j].push(action);
-                            }
-                        }
+        var aux = [];
+        for(var i=0; i<routineActions.length; i++){
+            var deviceId = routineActions[i].deviceId;
+            var action = routineActions[i];
+            if(map.has(deviceId)){
+                aux = map.get(deviceId);
+                aux.push(action);
+                map.set(deviceId, aux);
 
-                        if (!deviceAdded){
-                            devices.push(device);
-                            devicesAndActions.push([]);
-                            devicesAndActions[numDevices++].push(action);
-                        }
-                        i++;
-                        if (i == actions.length){
-                            for (var j=0; j<numDevices; j++){
-                                var deviceType = JSON.stringify(devices[j].typeId, null, 2);
-                                deviceType = deviceType.substring(1, deviceType.length-1);
-                                var deviceId = JSON.stringify(devices[j].id, null, 2);
-                                deviceId = deviceId.substring(1, deviceId.length-1);
-                                var deviceName = devices[j].name;
-                                deviceName = deviceName.substr(0, deviceName.indexOf('_'));
-                                actions = devicesAndActions[j];
-
-                                if (deviceType == "go46xmbqeomjrsjr") {
-                                    showLights(deviceId, deviceName, actions);
-                                }
-                                if (deviceType == "im77xxyulpegfmv8") {
-                                    showOven(deviceId, deviceName, actions);
-                                }
-                                if (deviceType == 'eu0v2xgprrhhg41g') {
-                                    showBlinds(deviceId, deviceName, actions);
-                                }
-                                if (deviceType == 'lsf78ly0eqrjbz91') {
-                                    showDoor(deviceId, deviceName, actions);
-                                }
-                                if (deviceType == 'li6cbv5sdlatti0j') {
-                                    showAC(deviceId, deviceName, actions);
-                                }
-                                if (deviceType == 'rnizejqr2di0okho') {
-                                    showFridge(deviceId, deviceName, actions);
-                                }
-                            }
-                        }
-                    })
-                    .catch((error) =>{
-                        window.alert(error);
-                    });
             }
-        })
+            else{
+                var aux2 = [];
+                aux2.push(action);
+                map.set(deviceId, aux2);
+
+            }
+        }
+
+
+        var deviceType;
+        var device;
+        var deviceName;
+        // console.log("Routine Name:");
+        // console.log(routineName);
+        // console.log("Routine Devices and Actions");
+        for (let [deviceId, v] of map) {
+            //console.log(deviceId,v);
+            api.device.get(deviceId).then((data) => {
+                device = data.device;
+                deviceType = device.typeId;
+                deviceName = device.name;
+                deviceName = deviceName.substr(0, deviceName.indexOf('_'));
+
+                if (deviceType == "go46xmbqeomjrsjr") {
+                    showLights(deviceId, deviceName, v);
+                }
+                if (deviceType == "im77xxyulpegfmv8") {
+                    showOven(deviceId, deviceName, v);
+                }
+                if (deviceType == 'eu0v2xgprrhhg41g') {
+                    showBlinds(deviceId, deviceName, v);
+                }
+                if (deviceType == 'lsf78ly0eqrjbz91') {
+                    showDoor(deviceId, deviceName, v);
+                }
+                if (deviceType == 'li6cbv5sdlatti0j') {
+                    showAC(deviceId, deviceName, v);
+                }
+                if (deviceType == 'rnizejqr2di0okho') {
+                    showFridge(deviceId, deviceName, v);
+                }
+
+
+            })
+            .catch((error) =>{
+                     window.alert(error);
+           });
+
+        }
+
+         })
         .catch((error) => {
             window.alert(error);
         });

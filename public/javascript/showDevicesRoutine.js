@@ -1,33 +1,36 @@
 function showOven(ovenID, deviceName, actions){
     var contenido = $('#myDevices');
-    var status = "off";
+    var status ="off";
     var temperature;
     var action;
-    console.log(ovenID);
-    console.log(actions);
+    // console.log("show devices routine");
+    // console.log(ovenID);
+    // console.log(actions);
     for(var i =0; i< actions.length ; i++){
-        action = JSON.parse(actions[i]);
+        action = actions[i];
+        console.log("oven action names");
+        console.log(action.actionName);
         if(action.actionName == "turnOn"){
             status = "on";
-            console.log("action turnOn");
-            console.log(status);
+            //console.log("action turnOn");
+            //console.log(status);
         }
         else if(action.actionName == "turnOff"){
             status = "off";
-            console.log("action turnOff");
-            console.log(status);
+            //console.log("action turnOff");
+            //console.log(status);
         }
         else if(action.actionName == "setTemperature"){
             temperature = action.params[0];
-            console.log("action temperature");
-            console.log("tempereature = " + temperature);
+            //console.log("action temperature");
+            //console.log("tempereature = " + temperature);
         }
     }
 
 
     if (status == "off") {
         onOffStatus = '<div class="mbr-section-btn">\
-        <a class= "btn btn-md btn-black display-7" id="'+ ovenID +'off">OFF</a>\
+        <a class= "btn btn-md btn-black display-7" id="'+ ovenID +'offR">OFF</a>\
         </div>';
         contenido.append('<section class="header3 cid-r5JWcBA5eR" id="' + ovenID + 'delete1">\
         <div class="container">\
@@ -46,7 +49,7 @@ function showOven(ovenID, deviceName, actions){
         </section>');
 
     } else {
-        onOffStatus = '<div class="mbr-section-btn"><a class="btn btn-md btn-black display-7" id="'+ ovenID +'on"s>ON</a>\
+        onOffStatus = '<div class="mbr-section-btn"><a class="btn btn-md btn-black display-7" id="'+ ovenID +'onR"s>ON</a>\
         </div>';
 
         contenido.append('<section class="header3 cid-r5JWcBA5eR" id="' + ovenID + 'delete1">\
@@ -76,7 +79,7 @@ function showAC(devID, deviceName, actions){
     var action;
 
     for(var i =0; i< actions.length ; i++){
-        action = JSON.parse(actions[i]);
+        action = actions[i];
         if(action.actionName == "turnOn"){
             status = "on";
         }
@@ -139,7 +142,7 @@ function showFridge(devID, deviceName, actions) {
     var action;
 
     for(var i =0; i< actions.length ; i++){
-        action = JSON.parse(actions[i]);
+        action = actions[i];
         if(action.actionName == "setTemperature"){
             temperature = action.params[0];
         }
@@ -169,15 +172,16 @@ function showLights(devID, deviceName, actions){
     var action;
 
     for(var i =0; i< actions.length ; i++){
-        action = JSON.parse(actions[i]);
+        action = actions[i];
         if(action.actionName == "turnOn"){
             status = "on";
         }
         else if(action.actionName == "turnOff"){
             status = "off";
         }
-        else if(action.actionName == "brightness"){
+        else if(action.actionName == "setBrightness"){
             brightness = action.params[0];
+
         }
     }
 
@@ -218,9 +222,9 @@ function showLights(devID, deviceName, actions){
         </h1>\
         <div class="mbr-section-text mbr-white pb-3 ">\
         </div>\
-        <div id="'+devID+'cont">\
-        <div class="slidecontainer" id="'+lightsID+'cont">\
-            <h7>BRIGHTNESS:  </h7> <input type="range" min="1" max="100" value="' + brightness + '" class="slider" id="'+ lightsID +'slider">\
+        <div id="'+devID+'contR">\
+        <div class="slidecontainer" id="'+devID+'contR">\
+            <h7>BRIGHTNESS:  </h7> <input type="range" min="1" max="100" value="' + brightness + '" class="slider" id="'+ devID +'sliderR">\
         </div>\
         </div>\
         <div>' + onOffStatus + '\
@@ -231,15 +235,15 @@ function showLights(devID, deviceName, actions){
 
 function showDoor(devID, deviceName, actions){
     var contenido = $('#myDevices');
-    var status = "locked";
+    var status;
     var action;
 
     for(var i =0; i< actions.length ; i++){
-        action = JSON.parse(actions[i]);
-        if(action.actionName == "unlocked"){
+        action = actions[i];
+        if(action.actionName == "unlock"){
             status = "unlocked";
         }
-        else if(action.actionName == "locked"){
+        else if(action.actionName == "lock"){
             status = "locked";
         }
     }
@@ -274,11 +278,15 @@ function showDoor(devID, deviceName, actions){
 
 function showBlinds(devID, deviceName, actions){
     var contenido = $('#myDevices');
-    var status = "down";
+    var status;
     var action;
+    console.log("Actions length");
+    console.log(actions.length);
 
     for(var i =0; i< actions.length ; i++){
-        action = JSON.parse(actions[i]);
+        action = actions[i];
+        console.log("action name:")
+        console.log(action.actionName);
         if(action.actionName == "down"){
             status = "down";
         }
@@ -290,11 +298,11 @@ function showBlinds(devID, deviceName, actions){
 
     if (status == "down") {
         upDownStatus = '<div class="mbr-section-btn">\
-        <a class= "btn btn-md btn-black display-7" id="'+ devID +'off">DOWN</a>\
+        <a class= "btn btn-md btn-black display-7" id="'+ devID +'off">CLOSE</a>\
         </div>';
 
     } else {
-        upDownStatus = '<div class="mbr-section-btn"><a class="btn btn-md btn-black display-7" id="'+ devID +'on">UP</a>\
+        upDownStatus = '<div class="mbr-section-btn"><a class="btn btn-md btn-black display-7" id="'+ devID +'on">OPEN</a>\
         </div>';
     }
 

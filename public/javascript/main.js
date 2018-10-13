@@ -526,8 +526,7 @@ function deleteFavourite1(deviceId) {
 }
 
 function setRoutineName(){
-    var aux = document.getElementById('name-header13-2f').value.toString();
-    console.log(aux);
+    var aux = document.getElementById('name-header13-2f').value;
     if(aux == "" || aux.length == 0 || aux == null ){
         window.alert("Please enter a routine name.");
         return null;
@@ -538,27 +537,33 @@ function setRoutineName(){
         return null;
     }
 
-    //var rName;
-    //despues cambiar esto. guardar variables en local storage asi no hace tantos fetchs a la db
+
+    var rName;
+    var aux2;
+    var bool = 1;
+
     // api.routine.getAll()
     //     .then((data) => {
-    //         for(var i = 0; i < data.routines.length; i++) {
-    //             rName = JSON.stringify(data.routines[i].name).toString();
-    //             //console.log(rName);
-    //             //console.log(aux);
-    //             //AGREGAR ESTO Y SOLUCIONARLO
-    //             // if(rName == aux){
-    //             //     console.log("entor");
-    //             //     window.alert("Already existing routine name. Please enter anotherone.");
-    //             //     return null;
-    //             // }
+    //         var routines = data.routines;
+    //         console.log("routines");
+    //         console.log(routines);
+    //         for(var i = 0; i < routines.length; i++) {
+    //             rName = JSON.stringify(routines[i].name, null, 2);
+    //             aux2 = "\""+aux+"\"";
+    //             if(rName == aux2){
+    //                 console.log("entor");
+    //                 window.alert("Already existing routine name. Please enter anotherone.");
+    //                 bool = 0;
+    //             }
     //         }
     //     })
     //     .catch((error) => {
     //         console.log('error');
-    //     });
-    localStorage.setItem('currentRoutineName', aux);
-    location.href = 'addsaveddevice.html';
+        // });
+    if(bool == 1){
+        localStorage.setItem('currentRoutineName', aux);
+        location.href = 'addsaveddevice.html';
+    }
 }
 
 function goToLoadedDevice(deviceId, deviceType){
@@ -615,6 +620,7 @@ function getAndConcatCurrentAction(deviceType, devId){
     }
 
     localStorage.setItem('routineConstructor', JSON.stringify(combined));
+
     return combined;
 }
 
@@ -623,23 +629,25 @@ function endRoutine(deviceType, devId) {
     if(combined == null){ //significa que no hay ninguna action que agregar y la api no lo deja
         return null;
     }
-    console.log(combined);
+
     var routineName = localStorage.getItem('currentRoutineName');
     var routineToAdd = new api.model.routine(null, routineName, combined, "{}");
-    //ojo que no se por que la primera vez q se agrega una routine, la variable routineName hace q se genere un error. si pones un string constante funciona bien para la primer routine. ver q onda
+    console.log("aca");
+    console.log(routineToAdd);
     api.routine.add(routineToAdd)
         .then((data) =>{
-            //location.href= 'routines.html';
+            location.href= 'routines.html';
         })
         .catch((error) => {
             window.alert("Error en creacion de rutina");
+            //location.href= 'routines.html'; //MUY IMP DESCOMENTAR ESTO ANTES DE ENTREGAR.
         });
 }
 
 function getOvenState(devId){
     var actions =[];
     var ovenOnOff = document.getElementById("ovenOnOff").value;
-    var temperature = document.getElementById("tempOven").value;
+    var temperature = document.getElementById("tempOvenR").value;
 
     if(ovenOnOff == "off"){
         actions.push(new api.model.action(devId,"turnOff",[], "nada"));
@@ -676,7 +684,7 @@ function getDoorState(devId){
 function getLightsState(devId) {
     var actions = [];
     var lightsOnOff = document.getElementById("lightsOnOff").value;
-    var brightness = document.getElementById("brightness").value;
+    var brightness = document.getElementById("brightnessR").value;
 
     if (lightsOnOff == "off"){
         actions.push(new api.model.action(devId, "turnOff", [], "nada"));
@@ -706,12 +714,12 @@ function getACState(devId) {
 
     var actions = [];
     var acOnOff = document.getElementById("acOnOff").value;
-    var tempAC = document.getElementById("tempAC").value;
+    var tempAC = document.getElementById("tempACR").value;
 
     if(acOnOff == "off"){
-        actions.push(new api.model.action(devId, "off", [], "nada"));
+        actions.push(new api.model.action(devId, "turnOff", [], "nada"));
     } else {
-        actions.push(new api.model.action(devId, "on", [], "nada"));
+        actions.push(new api.model.action(devId, "turnOn", [], "nada"));
         if(!$.isNumeric(tempAC)){
             window.alert("Please insert a number in the temperature field");
             return null;
@@ -722,13 +730,14 @@ function getACState(devId) {
             return null;
         }
     }
+
     return actions;
 }
 
 function getFridgeState(devId) {
 
     var actions = [];
-    var tempFridge = document.getElementById("tempFridge").value;
+    var tempFridge = document.getElementById("tempFridgeR").value;
 
     if(!$.isNumeric(tempFridge)){
         window.alert("Please insert a number in the temperature field");
@@ -748,11 +757,11 @@ function showSelection(deviceType, deviceId, action){
     switch (deviceType) {
         case "oven":
             if(action == 'turnOff'){
-                switchButtons(deviceId+"on",deviceId+"off", "off");
+                switchButtons(deviceId+"onR",deviceId+"offR", "off");
                 elem = document.getElementById("ovenOnOff");
                 elem.value = "off";
             }else if(action == 'turnOn'){
-                switchButtons(deviceId+"on",deviceId+"off", "on");
+                switchButtons(deviceId+"onR",deviceId+"offR", "on");
                 elem = document.getElementById("ovenOnOff");
                 elem.value = "on";
             }
@@ -762,11 +771,11 @@ function showSelection(deviceType, deviceId, action){
             break;
         case "ac":
             if(action == 'turnOff'){
-                switchButtons(deviceId+"on",deviceId+"off", "off");
+                switchButtons(deviceId+"onR",deviceId+"offR", "off");
                 elem = document.getElementById("acOnOff");
                 elem.value = "off";
             }else if(action == 'turnOn'){
-                switchButtons(deviceId+"on",deviceId+"off", "on");
+                switchButtons(deviceId+"onR",deviceId+"offR", "on");
                 elem = document.getElementById("acOnOff");
                 elem.value = "on";
             }
@@ -776,22 +785,22 @@ function showSelection(deviceType, deviceId, action){
             break;
         case "door":
             if(action == "lock"){
-                switchButtons(deviceId+"lock",deviceId+"unlock", "lock");
+                switchButtons(deviceId+"lockR",deviceId+"unlockR", "lock");
                 elem = document.getElementById("doorLockUnlock");
                 elem.value = "lock";
             }else{
-                switchButtons(deviceId+"lock",deviceId+"unlock", "unlock");
+                switchButtons(deviceId+"lockR",deviceId+"unlockR", "unlock");
                 elem = document.getElementById("doorLockUnlock");
                 elem.value = "unlock";
             }
             break;
         case "blinds":
             if(action == "down"){
-                switchButtons(deviceId+"up",deviceId+"down", "down");
+                switchButtons(deviceId+"upR",deviceId+"downR", "down");
                 elem = document.getElementById("blindsUpDown");
                 elem.value = "down";
             }else{
-                switchButtons(deviceId+"up",deviceId+"down", "up");
+                switchButtons(deviceId+"upR",deviceId+"downR", "up");
                 elem = document.getElementById("blindsUpDown");
                 elem.value = "up";
             }
@@ -799,11 +808,11 @@ function showSelection(deviceType, deviceId, action){
             break;
         case "lights":
             if(action == 'turnOff'){
-                switchButtons(deviceId+"on",deviceId+"off", "off");
+                switchButtons(deviceId+"onR",deviceId+"offR", "off");
                 elem = document.getElementById("lightsOnOff")
                 elem.value = "off";
             }else{
-                switchButtons(deviceId+"on",deviceId+"off", "on");
+                switchButtons(deviceId+"onR",deviceId+"offR", "on");
                 elem = document.getElementById("lightsOnOff")
                 elem.value = "on";
             }
