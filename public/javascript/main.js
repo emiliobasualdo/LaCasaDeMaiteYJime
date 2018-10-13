@@ -88,7 +88,34 @@ function addDeviceToRoom2(deviceId) {
                 .then((data) => {
                     api.roomDevice.add(deviceId, roomId)
                         .then((data) => {
-                            location.href = 'room.html'; // vuelvo al cuarto en el que estoy
+                            location.href = 'room.html'; // vuelvo al cuarto en el que estoy//'addroomWithDevices.html'
+                        })
+                        .catch((error) => {
+                            console.log('error');
+                        });
+                })
+                .catch((error) => {
+                    console.log('error in modify');
+                });
+        })
+        .catch((error) => {
+            console.log('error in retiving device');
+        });
+}
+
+function addDeviceToRoomWithDevices2(deviceId) {
+    var roomId = localStorage.getItem('currentRoomId');
+    api.device.get(deviceId)
+        .then((data) => {
+            console.log(data);
+            var m = JSON.parse(data.device.meta);
+            m.room = roomId;
+            data.device.meta = JSON.stringify(m);
+            api.device.modify(data.device)
+                .then((data) => {
+                    api.roomDevice.add(deviceId, roomId)
+                        .then((data) => {
+                            location.href = 'addroomWithDevices.html'
                         })
                         .catch((error) => {
                             console.log('error');
@@ -225,7 +252,7 @@ function addDeviceToRoom(deviceType, deviceName) {
 function addDeviceToRoomWithDevices(deviceType, deviceName) {
     var roomId = localStorage.getItem('currentRoomId');
     var name = "";
-    var userName = prompt("Please enter a name", "Device Name"); //document.getElementById("name-header13-69").value;
+    var userName = document.getElementById("name-header13-69").value; //prompt("Please enter a name", "Device Name");
     var Exp = /^[A-Za-z0-9- ]+$/;
     if (!userName || userName == "Device Name") {
         swal({
