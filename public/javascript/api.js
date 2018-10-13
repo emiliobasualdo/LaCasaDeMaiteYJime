@@ -110,7 +110,7 @@ api.device = class {
     }
 //Executes action in a specific device
     static action(id, actionName, params) {
-        console.log("Action:", "id: "+id, "actionName: "+actionName, "params: "+params);
+        //console.log("Action:", "id: "+id, "actionName: "+actionName, "params: "+params);
         return api.fetch(api.device.url+ id +"/"+ actionName, {
             method: 'PUT',
             headers: {

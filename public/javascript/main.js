@@ -1,6 +1,4 @@
-//Window prompt() Method
-//Display a prompt box which ask the user for her/his name, and output a message:
-//Usar para pedir algun input si es que el tipo no lo puso todavia <<<<<======
+
 
 function addRoom() {
     var newRoom;
@@ -198,12 +196,14 @@ function addDeviceToRoomWithDevices(deviceType, deviceName) {
         });
 }
 
-function trigger(deviceId, action, deviceType) {
-    var params = getParams(deviceId, deviceType, action);
+function trigger(deviceId, action, deviceType, params) {
+    loadingMessage(deviceId, action);
+    if (params == null || params == undefined)
+        params = getParams(deviceId, deviceType, action);
     console.log("Action:", "deviceId: "+deviceId, "action: "+action,"deviceType: "+deviceType, "params: "+params);
     api.device.action(deviceId, action, params)
         .then((data) => {
-            console.log(data);
+            //console.log(data);
             if (data.result) {
                 updateStates(deviceId, deviceType);
             }
@@ -213,17 +213,43 @@ function trigger(deviceId, action, deviceType) {
         });
 }
 
+function loadingMessage(deviceId, action){
+    switch (action) {
+        case "setTemperature":
+            console.log("casetemp");
+            document.getElementById(deviceId+"set").disabled = true;
+            document.getElementById(deviceId+"set").innerText = "Setting...";
+            setTimeout(function () {
+                document.getElementById(deviceId+"set").innerText = "Done!";
+
+                setTimeout(function () {
+                    document.getElementById(deviceId+"set").disabled = false;
+                    document.getElementById(deviceId+"set").innerText = "Set";
+                }, 400);
+            }, 600);
+    }
+
+}
+
 function getParams(deviceId, deviceType, action){
-    console.log("getParams:", "deviceId: "+deviceId, "action: "+action,"deviceType: "+deviceType);
+    //console.log("getParams:", "deviceId: "+deviceId, "action: "+action,"deviceType: "+deviceType);
     if (action.includes("turn")) // ninguna que haga turnOn o turnOff va a tener un parametro por ahora
         return {};
 
-    var num;
+    var num = null;
     switch (deviceType) {
-        case "oven":
         case "fridge":
+            if (action == "setFreezerTemperature"){
+                num = document.getElementById(deviceId+"fTemp").value;
+            }
+            else if (action == "setTemperature"){
+                num = document.getElementById(deviceId+"temp").value;
+            }
+            return JSON.stringify([num]);
+            break;
+        case "oven":
         case "ac":
-            console.log("getParams: Caso oven/ac/fridge");
+            //console.log("getParams: Caso oven/ac/fridge");
             num = document.getElementById(deviceId+"temp").value;
             return JSON.stringify([num]);
         case "lights":
@@ -237,42 +263,46 @@ function getParams(deviceId, deviceType, action){
 }
 
 function updateStates(deviceId, deviceType){
-    console.log("updateStates");
+    //console.log("updateStates");
     api.device.action(deviceId,'getState',null)
         .then((data) => {
-            console.log("data:",data);
+            //console.log("data:",data);
             switch (deviceType) {
                 case "oven":
                 case "ac":
-                    console.log("Caso oven/ac");
+                    //console.log("Caso oven/ac");
                     // prendimo o apagamos -> hacemos un switch
                     if(data.result.status == 'off'){
                         switchButtons(deviceId+"on",deviceId+"off", "off");
                         visible(deviceId+"cont",false);
                         visible(deviceId+"off",false);
                         visible(deviceId+"on",true);
+                        changeText(deviceId+"state", "OFF");
                     }else{
                         visible(deviceId+"cont",true);
                         visible(deviceId+"off",true);
                         visible(deviceId+"on",false);
+                        changeText(deviceId+"state", "ON");
                         switchButtons(deviceId+"on",deviceId+"off", "on");
                     } // sin break para que aplique el cambio de temperatura
                 case "fridge":
-                    changeText(deviceId+"cont", data.result.temperature);
+                    changeInputText(deviceId+"cont", data.result.temperature);
                     break;
                 case "door":
-                    console.log("Caso door");
+                    //console.log("Caso door");
                     if(data.result.status == "closed"){
                         if(data.result.lock  == "locked"){
                             visible(deviceId+"lock", false);
                             visible(deviceId+"unlock", true);
                             visible(deviceId+"open", false);
                             visible(deviceId+"close", false);
+                            changeText(deviceId+"state", "CLOSED & LOCKED");
                         }else{
                             visible(deviceId+"lock", true);
                             visible(deviceId+"unlock", false);
                             visible(deviceId+"open", true);
                             visible(deviceId+"close", false);
+                            changeText(deviceId+"state", "CLOSED & UNLOCKED");
                         }
                     } else {
                         if(data.result.lock == "locked"){ // no deberia pasar pero que se yo
@@ -280,39 +310,49 @@ function updateStates(deviceId, deviceType){
                             visible(deviceId+"unlock", true); // solo le doy la opcion de desbloqeuar
                             visible(deviceId+"open", false);
                             visible(deviceId+"close", false);
+                            changeText(deviceId+"state", "OPENED & LOCKED");
                         } else{
                             visible(deviceId+"lock", false);
                             visible(deviceId+"unlock", false); // solo le doy la opcion de desbloqeuar
                             visible(deviceId+"open", false);
                             visible(deviceId+"close", true);
+                            changeText(deviceId+"state", "OPENED & UNLOCKED");
                         }
                     }
                     break;
                 case "blinds":
-                    console.log("Caso blinds");
+                    //console.log("Caso blinds");
                     if(data.result.status == "closed" || data.result.status == "closing"){
                         switchButtons(deviceId+"open",deviceId+"close", "closed");
                         visible(deviceId+"close",false);
                         visible(deviceId+"open",true);
+                        changeText(deviceId+"state", "CLOSED");
                     }else{
                         switchButtons(deviceId+"open",deviceId+"close", "opened");
                         visible(deviceId+"open",false);
                         visible(deviceId+"close",true);
+                        changeText(deviceId+"state", "OPENED");
                     }
                     break;
                 case "lights":
-                    console.log("Caso lights");
+                    //console.log("Caso lights");
                     if(data.result.status == 'off'){
                         switchButtons(deviceId+"on",deviceId+"off", "off");
                         visible(deviceId+"off",false);
                         visible(deviceId+"on",true);
                         visible(deviceId+"cont",false);
+                        visible(deviceId+"colorState",false);
+                        changeText(deviceId+"state", "OFF");
+                        $("#collapseExample").collapse('hide');
                     }else{
                         switchButtons(deviceId+"on",deviceId+"off", "on");
                         visible(deviceId+"off",true);
                         visible(deviceId+"on",false);
                         visible(deviceId+"cont",true);
+                        visible(deviceId+"colorState",true);
+                        changeText(deviceId+"state", "ON | "+data.result.brightness+"% | ");
                     }
+                    updateColor(deviceId,data.result.color);
                     document.getElementById(deviceId+"slider").value = data.result.brightness;
             }
         })
@@ -323,13 +363,18 @@ function updateStates(deviceId, deviceType){
 
 function visible(deviceId, visible){
     if(visible){
-        document.getElementById(deviceId).style.display = "inline-block";
+        document.getElementById(deviceId).style.visibility = "visible";
     }else{
-        document.getElementById(deviceId).style.display = "none";
+        document.getElementById(deviceId).style.visibility = "hidden";
     }
 }
 
 function changeText(textID, newText)
+{
+    document.getElementById(textID).innerText = newText;
+}
+
+function changeInputText(textID, newText)
 {
     document.getElementById(textID)["value"] = newText;
 }
@@ -346,6 +391,13 @@ function switchButtons(buttonOn, buttonOff, onOff) {
         document.getElementById(buttonOn).classList.add("btn-black-outline");
         document.getElementById(buttonOn).classList.remove("btn-black");
     }
+
+}
+
+function updateColor(lightID, color) {
+    console.log(lightID,color);
+    document.getElementById(lightID+"colorState").style.background= "#"+color;
+    document.getElementById(lightID+"colorState").style.color= "#"+color;
 
 }
 

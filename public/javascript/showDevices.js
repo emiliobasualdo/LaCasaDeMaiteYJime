@@ -8,12 +8,12 @@ function showOven(ovenID, deviceName, fav) {
             var favStatus;
 
             if (status === "off") {
-                onOffStatus = '<div class="mbr-section-btn"><a class="btn btn-md btn-black-outline display-7"  id="'+ ovenID +'on" onclick="trigger(\'' + ovenID + '\',\'turnOn\' ,\'oven\')">ON</a>\
-                                <a class= "btn btn-md btn-black display-7" id="'+ ovenID +'off" onclick="trigger(\'' + ovenID + '\',\'turnOff\' ,\'oven\' )">OFF</a>\
+                onOffStatus = '<div class="mbr-section-btn"><a class="btn btn-md btn-black-outline display-7"  id="'+ ovenID +'on" onclick="trigger(\'' + ovenID + '\',\'turnOn\' ,\'oven\')">TURN ON</a>\
+                                <a class= "btn btn-md btn-black display-7" id="'+ ovenID +'off" onclick="trigger(\'' + ovenID + '\',\'turnOff\' ,\'oven\' )">TURN OFF</a>\
                             </div>';
             } else {
-                onOffStatus = '<div class="mbr-section-btn"><a class="btn btn-md btn-black display-7" id="'+ ovenID +'on" onclick="trigger(\'' + ovenID + '\',\'turnOn\' ,\'oven\')">ON</a>\
-                                <a class="btn btn-md btn-black-outline display-7" id="'+ ovenID +'off" onclick="trigger(\'' + ovenID + '\',\'turnOff\' ,\'oven\')">OFF</a></div>\
+                onOffStatus = '<div class="mbr-section-btn"><a class="btn btn-md btn-black display-7" id="'+ ovenID +'on" onclick="trigger(\'' + ovenID + '\',\'turnOn\' ,\'oven\')">TURN ON</a>\
+                                <a class="btn btn-md btn-black-outline display-7" id="'+ ovenID +'off" onclick="trigger(\'' + ovenID + '\',\'turnOff\' ,\'oven\')">TURN OFF</a></div>\
                             </div>';
             }
 
@@ -33,9 +33,14 @@ function showOven(ovenID, deviceName, fav) {
                     <h1 class="mbr-section-title mbr-white pb-3 mbr-fonts-style display-5">\
                         <p>' + deviceName + '</p>\
                     </h1>\
+                    <h1  class="mbr-section-title mbr-white pb-3 mbr-fonts-style display-7">\
+                        Current State: \
+                        <span id="'+ovenID+'state"></span>\
+                    </h1>\
                 <div class="mbr-section-text mbr-white pb-3 ">\
                 </div>\
-                <div id="'+ovenID+'cont"><h7>TEMPERATURE(ºC):  </h7><input type="text" value="' + temperature + '" id="'+ ovenID +'temp"><button type="button" class="btn btn-warning" onclick="trigger(\'' + ovenID + '\',\'setTemperature\', \'oven\')" >Set!</button>\
+                <div id="'+ovenID+'cont"><h7>Temperature(ºC):  </h7><input type="number" value="' + temperature + '" id="'+ ovenID +'temp">\
+                <button id="'+ovenID+'set" type="button" class="btn-warning btn-xs" onclick="trigger(\'' + ovenID + '\',\'setTemperature\', \'oven\')" >Set</button>\
                 </div>\
                 <div>' + onOffStatus + '\
                 </div>\
@@ -105,6 +110,10 @@ function showDoor(doorID,  deviceName, fav) {
                             <h1 class="mbr-section-title mbr-white pb-3 mbr-fonts-style display-5">\
                                 <p>' + deviceName + ' </p>\
                             </h1>\
+                            <h1  class="mbr-section-title mbr-white pb-3 mbr-fonts-style display-7">\
+                                Current State: \
+                                <span id="'+doorID+'state"></span>\
+                            </h1>\
                             <div class="mbr-section-text mbr-white pb-3 "> '+ lockedUnlockedStatus + '</div>\
                             <div class="mbr-section-text mbr-white pb-3 "> '+ openCLosedStatus + '</div>\
                     </div>\
@@ -138,19 +147,19 @@ function showAC(acID,  deviceName, fav) {
         var favStatus;
 
         if(status == "off"){
-            onOffStatus = '<div class="mbr-section-btn"><a class="btn btn-md btn-black-outline display-7" id="'+ acID +'on" onclick="trigger(\'' + acID + '\',\'turnOn\', \'ac\')">ON</a>\
-                                <a class= "btn btn-md btn-black display-7" id="'+ acID +'off" onclick="trigger(\'' + acID + '\',\'turnOff\', \'ac\')">OFF</a>\
+            onOffStatus = '<div class="mbr-section-btn"><a class="btn btn-md btn-black-outline display-7" id="'+ acID +'on" onclick="trigger(\'' + acID + '\',\'turnOn\', \'ac\')">TURN ON</a>\
+                                <a class= "btn btn-md btn-black display-7" id="'+ acID +'off" onclick="trigger(\'' + acID + '\',\'turnOff\', \'ac\')">TURN OFF</a>\
                             </div>';
         } else {
-            onOffStatus = '<div class="mbr-section-btn"><a class="btn btn-md btn-black display-7" id="'+ acID +'on" onclick="trigger(\'' + acID + '\',\'turnOn\', \'ac\')">ON</a>\
-                                <a class="btn btn-md btn-black-outline display-7" id="'+ acID +'off" onclick="trigger(\'' + acID + '\',\'turnOff\', \'ac\')">OFF</a></div>\
+            onOffStatus = '<div class="mbr-section-btn"><a class="btn btn-md btn-black display-7" id="'+ acID +'on" onclick="trigger(\'' + acID + '\',\'turnOn\', \'ac\')">TURN ON</a>\
+                                <a class="btn btn-md btn-black-outline display-7" id="'+ acID +'off" onclick="trigger(\'' + acID + '\',\'turnOff\', \'ac\')">TURN OFF</a></div>\
                             </div>';
         }
 
         if (fav) {
             favStatus = '<a class="btn btn-md btn-success-outline display-4" id="' + acID + 'fav" onclick="deleteFavourite(\'' + acID + '\')"><span class="mbri-star mbr-iconfont mbr-iconfont-btn"></span>DELETE FROM FAVOURITES</a>';
         } else {
-            favStatus = '<a class="btn btn-md btn-success-outline display-4"id="' + acID + 'fav" onclick="addTofavourites(\'' + acID + '\')"><span class="mbri-star mbr-iconfont mbr-iconfont-btn"></span>ADD TO FAVOURITES</a>';
+            favStatus = '<a class="btn btn-md btn-success-outline display-4" id="' + acID + 'fav" onclick="addTofavourites(\'' + acID + '\')"><span class="mbri-star mbr-iconfont mbr-iconfont-btn"></span>ADD TO FAVOURITES</a>';
         }
 
         contenido.append('<section class="header3 cid-r5JWdFEF1r" id="' + acID + 'delete1">\
@@ -162,9 +171,17 @@ function showAC(acID,  deviceName, fav) {
                     <div class="media-content">\
                         <h1 class="mbr-section-title mbr-white pb-3 mbr-fonts-style display-5">\
                         <p>' + deviceName + '</p></h1>\
+                        <h1  class="mbr-section-title mbr-white pb-3 mbr-fonts-style display-7">\
+                            Current State: \
+                            <span id="'+acID+'state"></span>\
+                        </h1>\
                         <div class="mbr-section-text mbr-white pb-3 ">\
                         </div>\
-                        <div id="'+acID+'cont"><h7>TEMPERATURE(ºC):  </h7><input type="text" value="' + temperature + '" id="'+ acID +'temp"><button type="button" class="btn btn-warning" onclick="trigger(\'' + acID + '\',\'setTemperature\', \'ac\')" >Set!</button>' + onOffStatus + '</div>\
+                        <div id="'+acID+'cont"><h7>Temperature(ºC):  </h7><input type="number" value="' + temperature + '" id="'+ acID +'temp">\
+                        <button type="button" id="'+acID+'set" class="btn-warning btn-xs" onclick="trigger(\'' + acID + '\',\'setTemperature\', \'ac\') " >Set</button>\
+                        </div>\
+                        <div>' + onOffStatus + '\
+                        </div>\
                     </div>\
                 </div>\
             </div>\
@@ -187,6 +204,7 @@ function showFridge(fridgeID,  deviceName, fav) {
     var contenido = $('#myDevices');
     api.device.action(fridgeID,'getState').then((data) => {
         var temperature = data.result.temperature;
+        var fTemperature = data.result.freezerTemperature;
 
 
         var favStatus;
@@ -205,9 +223,21 @@ function showFridge(fridgeID,  deviceName, fav) {
                     <div class="media-content">\
                         <h1 class="mbr-section-title mbr-white pb-3 mbr-fonts-style display-5">\
                         <p> ' + deviceName + ' </p></h1>\
+                        <h1  class="mbr-section-title mbr-white pb-3 mbr-fonts-style display-7">\
+                            Current State: \
+                            <span id="'+fridgeID+'state"></span>\
+                        </h1>\
                         <div class="mbr-section-text mbr-white pb-3 ">\
                         </div>\
-                        <div id="'+fridgeID+'cont"><h7>TEMPERATURE(ºC):  </h7><input type="text" value="' + temperature + '" id="'+ fridgeID +'temp"><button type="button" class="btn btn-warning" onclick="trigger(\'' + fridgeID + '\',\'setTemperature\', \'fridge\')" >Set!</button></div>\
+                        <div id="'+fridgeID+'cont">\
+                            <h7>Temperature(ºC):  </h7>\
+                                <input type="number" value="' + temperature + '" id="'+ fridgeID +'temp">\
+                                <button type="button" id="'+fridgeID+'set" class="btn-warning btn-xs" onclick="trigger(\'' + fridgeID + '\',\'setTemperature\', \'fridge\')" >Set</button>\
+                            <br/>\
+                            <h7>Freezer Temperature(ºC):  </h7>\
+                                <input type="number" value="' + fTemperature + '" id="'+ fridgeID +'fTemp">\
+                                <button type="button" id="'+fridgeID+'fSet" class="btn-warning btn-xs" onclick="trigger(\'' + fridgeID + '\',\'setFreezerTemperature\', \'fridge\')" >Set</button>\
+                        </div>\
                     </div>\
                 </div>\
             </div>\
@@ -259,6 +289,10 @@ function showBlinds(blindsID,  deviceName, fav) {
                     <div class="media-content">\
                         <h1 class="mbr-section-title mbr-white pb-3 mbr-fonts-style display-5">\
                         <p> ' + deviceName + ' </p></h1>\
+                        <h1  class="mbr-section-title mbr-white pb-3 mbr-fonts-style display-7">\
+                            Current State: \
+                            <span id="'+blindsID+'state"></span>\
+                        </h1>\
                         <div class="mbr-section-text mbr-white pb-3 ">\
                         </div>' + openCLosedStatus + '\
                     </div>\
@@ -292,12 +326,12 @@ function showLights(lightsID, deviceName, fav) {
         var onOffStatus;
 
         if (status === "off") {
-            onOffStatus = '<div class="mbr-section-btn"><a class="btn btn-md btn-black-outline display-7"  id="'+ lightsID +'on" onclick="trigger(\'' + lightsID + '\',\'turnOn\' ,\'lights\')">ON</a>\
-                                <a class= "btn btn-md btn-black display-7" id="'+ lightsID +'off" onclick="trigger(\'' + lightsID + '\',\'turnOff\' ,\'lights\' )">OFF</a>\
+            onOffStatus = '<div class="mbr-section-btn"><a class="btn btn-md btn-black-outline display-7"  id="'+ lightsID +'on" onclick="trigger(\'' + lightsID + '\',\'turnOn\' ,\'lights\')">TURN ON</a>\
+                                <a class= "btn btn-md btn-black display-7" id="'+ lightsID +'off" onclick="trigger(\'' + lightsID + '\',\'turnOff\' ,\'lights\' )">TURN OFF</a>\
                             </div>';
         } else {
-            onOffStatus = '<div class="mbr-section-btn"><a class="btn btn-md btn-black display-7" id="'+ lightsID +'on" onclick="trigger(\'' + lightsID + '\',\'turnOn\' ,\'lights\')">ON</a>\
-                                <a class="btn btn-md btn-black-outline display-7" id="'+ lightsID +'off" onclick="trigger(\'' + lightsID + '\',\'turnOff\' ,\'lights\')">OFF</a></div>\
+            onOffStatus = '<div class="mbr-section-btn"><a class="btn btn-md btn-black display-7" id="'+ lightsID +'on" onclick="trigger(\'' + lightsID + '\',\'turnOn\' ,\'lights\')">TURN ON</a>\
+                                <a class="btn btn-md btn-black-outline display-7" id="'+ lightsID +'off" onclick="trigger(\'' + lightsID + '\',\'turnOff\' ,\'lights\')">TURN OFF</a></div>\
                             </div>';
         }
         var favStatus;
@@ -306,6 +340,7 @@ function showLights(lightsID, deviceName, fav) {
         } else {
             favStatus = '<a class="btn btn-md btn-success-outline display-4" id="' + lightsID + 'fav"onclick="addTofavourites(\'' + lightsID + '\')"><span class="mbri-star mbr-iconfont mbr-iconfont-btn"></span>ADD TO FAVOURITES</a>';
         }
+
 
         contenido.append('<section class="header3 cid-r5JWc4Jvbq" id="' + lightsID + 'delete1">\
             <div class="container">\
@@ -316,10 +351,25 @@ function showLights(lightsID, deviceName, fav) {
                     <div class="media-content">\
                         <h1 class="mbr-section-title mbr-white pb-3 mbr-fonts-style display-5">\
                         <p>' + deviceName + ' </p></h1>\
+                        <h1  class="mbr-section-title mbr-white pb-3 mbr-fonts-style display-7">\
+                            Current State: \
+                            <span id="'+lightsID+'state"></span>\
+                            <span><button id="'+lightsID+'colorState" class="btn-xs" type="button" disabled>ON</button></span>\
+                        </h1>\
                         <div class="mbr-section-text mbr-white pb-3 ">\
                         </div>\
-                        <div class="slidecontainer" id="'+lightsID+'cont">\
-                            <h7>BRIGHTNESS:  </h7> <input type="range" min="1" max="100" value="' + brightness + '" class="slider" id="'+ lightsID +'slider" onchange="trigger(\'' + lightsID + '\',\'setBrightness\', \'lights\')">\
+                        <div id="'+lightsID+'cont">\
+                            <div class="slidecontainer" >\
+                                <h7>Brightness:  </h7> <input type="range" min="1" max="100" value="' + brightness + '" class="slider" id="'+ lightsID +'slider" onchange="trigger(\'' + lightsID + '\',\'setBrightness\', \'lights\')">\
+                            </div>\
+                            <button id="'+lightsID+'colorbtn" class="btn-xs" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">\
+                                Pick a color\
+                            </button>\
+                            <div class="collapse" id="collapseExample" >\
+                                <div class="card card-body">\
+                                    <div id="color-picker-container"></div>\
+                                </div>\
+                            </div>\
                         </div>\
                         ' + onOffStatus + '\
                     </div>\
@@ -336,8 +386,22 @@ function showLights(lightsID, deviceName, fav) {
         </section>');
 
         updateStates(lightsID, "lights");
+
+        var demoColorPicker = new iro.ColorPicker(document.getElementById("color-picker-container"), {
+            // Set the size of the color picker UI
+            width: 300,
+            height: 300,
+            // Set the initial color to red
+            color: "#ffffff"
+        });
+
+        demoColorPicker.on("color:change", function(color, changes) {
+            // Log the color's hex RGB value to the dev console
+            trigger(lightsID,"setColor", "lights",JSON.stringify([color.hexString.substring(1,color.hexString.length)]));
+        });
+
     }).catch((error) => {
-            console.log('error');
+            console.log(error);
     });
 }
 
