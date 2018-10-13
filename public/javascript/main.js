@@ -312,12 +312,14 @@ function addDeviceToRoomWithDevices(deviceType, deviceName) {
         });
 }
 
-function trigger(deviceId, action, deviceType) {
-    var params = getParams(deviceId, deviceType, action);
+function trigger(deviceId, action, deviceType, params) {
+    loadingMessage(deviceId, action);
+    if (params == null || params == undefined)
+        params = getParams(deviceId, deviceType, action);
     console.log("Action:", "deviceId: "+deviceId, "action: "+action,"deviceType: "+deviceType, "params: "+params);
     api.device.action(deviceId, action, params)
         .then((data) => {
-            console.log(data);
+            //console.log(data);
             if (data.result) {
                 updateStates(deviceId, deviceType);
             }
@@ -327,17 +329,43 @@ function trigger(deviceId, action, deviceType) {
         });
 }
 
+function loadingMessage(deviceId, action){
+    switch (action) {
+        case "setTemperature":
+            console.log("casetemp");
+            document.getElementById(deviceId+"set").disabled = true;
+            document.getElementById(deviceId+"set").innerText = "Setting...";
+            setTimeout(function () {
+                document.getElementById(deviceId+"set").innerText = "Done!";
+
+                setTimeout(function () {
+                    document.getElementById(deviceId+"set").disabled = false;
+                    document.getElementById(deviceId+"set").innerText = "Set";
+                }, 400);
+            }, 600);
+    }
+
+}
+
 function getParams(deviceId, deviceType, action){
-    console.log("getParams:", "deviceId: "+deviceId, "action: "+action,"deviceType: "+deviceType);
+    //console.log("getParams:", "deviceId: "+deviceId, "action: "+action,"deviceType: "+deviceType);
     if (action.includes("turn")) // ninguna que haga turnOn o turnOff va a tener un parametro por ahora
         return {};
 
-    var num;
+    var num = null;
     switch (deviceType) {
-        case "oven":
         case "fridge":
+            if (action == "setFreezerTemperature"){
+                num = document.getElementById(deviceId+"fTemp").value;
+            }
+            else if (action == "setTemperature"){
+                num = document.getElementById(deviceId+"temp").value;
+            }
+            return JSON.stringify([num]);
+            break;
+        case "oven":
         case "ac":
-            console.log("getParams: Caso oven/ac/fridge");
+            //console.log("getParams: Caso oven/ac/fridge");
             num = document.getElementById(deviceId+"temp").value;
             return JSON.stringify([num]);
         case "lights":
@@ -351,42 +379,46 @@ function getParams(deviceId, deviceType, action){
 }
 
 function updateStates(deviceId, deviceType){
-    console.log("updateStates");
+    //console.log("updateStates");
     api.device.action(deviceId,'getState',null)
         .then((data) => {
-            console.log("data:",data);
+            //console.log("data:",data);
             switch (deviceType) {
                 case "oven":
                 case "ac":
-                    console.log("Caso oven/ac");
+                    //console.log("Caso oven/ac");
                     // prendimo o apagamos -> hacemos un switch
                     if(data.result.status == 'off'){
                         switchButtons(deviceId+"on",deviceId+"off", "off");
                         visible(deviceId+"cont",false);
                         visible(deviceId+"off",false);
                         visible(deviceId+"on",true);
+                        changeText(deviceId+"state", "OFF");
                     }else{
                         visible(deviceId+"cont",true);
                         visible(deviceId+"off",true);
                         visible(deviceId+"on",false);
+                        changeText(deviceId+"state", "ON");
                         switchButtons(deviceId+"on",deviceId+"off", "on");
                     } // sin break para que aplique el cambio de temperatura
                 case "fridge":
-                    changeText(deviceId+"cont", data.result.temperature);
+                    changeInputText(deviceId+"cont", data.result.temperature);
                     break;
                 case "door":
-                    console.log("Caso door");
+                    //console.log("Caso door");
                     if(data.result.status == "closed"){
                         if(data.result.lock  == "locked"){
                             visible(deviceId+"lock", false);
                             visible(deviceId+"unlock", true);
                             visible(deviceId+"open", false);
                             visible(deviceId+"close", false);
+                            changeText(deviceId+"state", "CLOSED & LOCKED");
                         }else{
                             visible(deviceId+"lock", true);
                             visible(deviceId+"unlock", false);
                             visible(deviceId+"open", true);
                             visible(deviceId+"close", false);
+                            changeText(deviceId+"state", "CLOSED & UNLOCKED");
                         }
                     } else {
                         if(data.result.lock == "locked"){ // no deberia pasar pero que se yo
@@ -394,39 +426,49 @@ function updateStates(deviceId, deviceType){
                             visible(deviceId+"unlock", true); // solo le doy la opcion de desbloqeuar
                             visible(deviceId+"open", false);
                             visible(deviceId+"close", false);
+                            changeText(deviceId+"state", "OPENED & LOCKED");
                         } else{
                             visible(deviceId+"lock", false);
                             visible(deviceId+"unlock", false); // solo le doy la opcion de desbloqeuar
                             visible(deviceId+"open", false);
                             visible(deviceId+"close", true);
+                            changeText(deviceId+"state", "OPENED & UNLOCKED");
                         }
                     }
                     break;
                 case "blinds":
-                    console.log("Caso blinds");
+                    //console.log("Caso blinds");
                     if(data.result.status == "closed" || data.result.status == "closing"){
                         switchButtons(deviceId+"open",deviceId+"close", "closed");
                         visible(deviceId+"close",false);
                         visible(deviceId+"open",true);
+                        changeText(deviceId+"state", "CLOSED");
                     }else{
                         switchButtons(deviceId+"open",deviceId+"close", "opened");
                         visible(deviceId+"open",false);
                         visible(deviceId+"close",true);
+                        changeText(deviceId+"state", "OPENED");
                     }
                     break;
                 case "lights":
-                    console.log("Caso lights");
+                    //console.log("Caso lights");
                     if(data.result.status == 'off'){
                         switchButtons(deviceId+"on",deviceId+"off", "off");
                         visible(deviceId+"off",false);
                         visible(deviceId+"on",true);
                         visible(deviceId+"cont",false);
+                        visible(deviceId+"colorState",false);
+                        changeText(deviceId+"state", "OFF");
+                        $("#collapseExample").collapse('hide');
                     }else{
                         switchButtons(deviceId+"on",deviceId+"off", "on");
                         visible(deviceId+"off",true);
                         visible(deviceId+"on",false);
                         visible(deviceId+"cont",true);
+                        visible(deviceId+"colorState",true);
+                        changeText(deviceId+"state", "ON | "+data.result.brightness+"% | ");
                     }
+                    updateColor(deviceId,data.result.color);
                     document.getElementById(deviceId+"slider").value = data.result.brightness;
             }
         })
@@ -437,13 +479,18 @@ function updateStates(deviceId, deviceType){
 
 function visible(deviceId, visible){
     if(visible){
-        document.getElementById(deviceId).style.display = "inline-block";
+        document.getElementById(deviceId).style.visibility = "visible";
     }else{
-        document.getElementById(deviceId).style.display = "none";
+        document.getElementById(deviceId).style.visibility = "hidden";
     }
 }
 
 function changeText(textID, newText)
+{
+    document.getElementById(textID).innerText = newText;
+}
+
+function changeInputText(textID, newText)
 {
     document.getElementById(textID)["value"] = newText;
 }
@@ -460,6 +507,13 @@ function switchButtons(buttonOn, buttonOff, onOff) {
         document.getElementById(buttonOn).classList.add("btn-black-outline");
         document.getElementById(buttonOn).classList.remove("btn-black");
     }
+
+}
+
+function updateColor(lightID, color) {
+    console.log(lightID,color);
+    document.getElementById(lightID+"colorState").style.background= "#"+color;
+    document.getElementById(lightID+"colorState").style.color= "#"+color;
 
 }
 
@@ -553,8 +607,7 @@ function deleteFavourite1(deviceId) {
 }
 
 function setRoutineName(){
-    var aux = document.getElementById('name-header13-2f').value.toString();
-    console.log(aux);
+    var aux = document.getElementById('name-header13-2f').value;
     if(aux == "" || aux.length == 0 || aux == null ){
         window.alert("Please enter a routine name.");
         return null;
@@ -565,27 +618,33 @@ function setRoutineName(){
         return null;
     }
 
-    //var rName;
-    //despues cambiar esto. guardar variables en local storage asi no hace tantos fetchs a la db
+
+    var rName;
+    var aux2;
+    var bool = 1;
+
     // api.routine.getAll()
     //     .then((data) => {
-    //         for(var i = 0; i < data.routines.length; i++) {
-    //             rName = JSON.stringify(data.routines[i].name).toString();
-    //             //console.log(rName);
-    //             //console.log(aux);
-    //             //AGREGAR ESTO Y SOLUCIONARLO
-    //             // if(rName == aux){
-    //             //     console.log("entor");
-    //             //     window.alert("Already existing routine name. Please enter anotherone.");
-    //             //     return null;
-    //             // }
+    //         var routines = data.routines;
+    //         console.log("routines");
+    //         console.log(routines);
+    //         for(var i = 0; i < routines.length; i++) {
+    //             rName = JSON.stringify(routines[i].name, null, 2);
+    //             aux2 = "\""+aux+"\"";
+    //             if(rName == aux2){
+    //                 console.log("entor");
+    //                 window.alert("Already existing routine name. Please enter anotherone.");
+    //                 bool = 0;
+    //             }
     //         }
     //     })
     //     .catch((error) => {
     //         console.log('error');
-    //     });
-    localStorage.setItem('currentRoutineName', aux);
-    location.href = 'addsaveddevice.html';
+        // });
+    if(bool == 1){
+        localStorage.setItem('currentRoutineName', aux);
+        location.href = 'addsaveddevice.html';
+    }
 }
 
 function goToLoadedDevice(deviceId, deviceType){
@@ -642,6 +701,7 @@ function getAndConcatCurrentAction(deviceType, devId){
     }
 
     localStorage.setItem('routineConstructor', JSON.stringify(combined));
+
     return combined;
 }
 
@@ -650,23 +710,25 @@ function endRoutine(deviceType, devId) {
     if(combined == null){ //significa que no hay ninguna action que agregar y la api no lo deja
         return null;
     }
-    console.log(combined);
+
     var routineName = localStorage.getItem('currentRoutineName');
     var routineToAdd = new api.model.routine(null, routineName, combined, "{}");
-    //ojo que no se por que la primera vez q se agrega una routine, la variable routineName hace q se genere un error. si pones un string constante funciona bien para la primer routine. ver q onda
+    console.log("aca");
+    console.log(routineToAdd);
     api.routine.add(routineToAdd)
         .then((data) =>{
-            //location.href= 'routines.html';
+            location.href= 'routines.html';
         })
         .catch((error) => {
             window.alert("Error en creacion de rutina");
+            //location.href= 'routines.html'; //MUY IMP DESCOMENTAR ESTO ANTES DE ENTREGAR.
         });
 }
 
 function getOvenState(devId){
     var actions =[];
     var ovenOnOff = document.getElementById("ovenOnOff").value;
-    var temperature = document.getElementById("tempOven").value;
+    var temperature = document.getElementById("tempOvenR").value;
 
     if(ovenOnOff == "off"){
         actions.push(new api.model.action(devId,"turnOff",[], "nada"));
@@ -703,7 +765,7 @@ function getDoorState(devId){
 function getLightsState(devId) {
     var actions = [];
     var lightsOnOff = document.getElementById("lightsOnOff").value;
-    var brightness = document.getElementById("brightness").value;
+    var brightness = document.getElementById("brightnessR").value;
 
     if (lightsOnOff == "off"){
         actions.push(new api.model.action(devId, "turnOff", [], "nada"));
@@ -733,12 +795,12 @@ function getACState(devId) {
 
     var actions = [];
     var acOnOff = document.getElementById("acOnOff").value;
-    var tempAC = document.getElementById("tempAC").value;
+    var tempAC = document.getElementById("tempACR").value;
 
     if(acOnOff == "off"){
-        actions.push(new api.model.action(devId, "off", [], "nada"));
+        actions.push(new api.model.action(devId, "turnOff", [], "nada"));
     } else {
-        actions.push(new api.model.action(devId, "on", [], "nada"));
+        actions.push(new api.model.action(devId, "turnOn", [], "nada"));
         if(!$.isNumeric(tempAC)){
             window.alert("Please insert a number in the temperature field");
             return null;
@@ -749,13 +811,14 @@ function getACState(devId) {
             return null;
         }
     }
+
     return actions;
 }
 
 function getFridgeState(devId) {
 
     var actions = [];
-    var tempFridge = document.getElementById("tempFridge").value;
+    var tempFridge = document.getElementById("tempFridgeR").value;
 
     if(!$.isNumeric(tempFridge)){
         window.alert("Please insert a number in the temperature field");
@@ -775,11 +838,11 @@ function showSelection(deviceType, deviceId, action){
     switch (deviceType) {
         case "oven":
             if(action == 'turnOff'){
-                switchButtons(deviceId+"on",deviceId+"off", "off");
+                switchButtons(deviceId+"onR",deviceId+"offR", "off");
                 elem = document.getElementById("ovenOnOff");
                 elem.value = "off";
             }else if(action == 'turnOn'){
-                switchButtons(deviceId+"on",deviceId+"off", "on");
+                switchButtons(deviceId+"onR",deviceId+"offR", "on");
                 elem = document.getElementById("ovenOnOff");
                 elem.value = "on";
             }
@@ -789,11 +852,11 @@ function showSelection(deviceType, deviceId, action){
             break;
         case "ac":
             if(action == 'turnOff'){
-                switchButtons(deviceId+"on",deviceId+"off", "off");
+                switchButtons(deviceId+"onR",deviceId+"offR", "off");
                 elem = document.getElementById("acOnOff");
                 elem.value = "off";
             }else if(action == 'turnOn'){
-                switchButtons(deviceId+"on",deviceId+"off", "on");
+                switchButtons(deviceId+"onR",deviceId+"offR", "on");
                 elem = document.getElementById("acOnOff");
                 elem.value = "on";
             }
@@ -803,22 +866,22 @@ function showSelection(deviceType, deviceId, action){
             break;
         case "door":
             if(action == "lock"){
-                switchButtons(deviceId+"lock",deviceId+"unlock", "lock");
+                switchButtons(deviceId+"lockR",deviceId+"unlockR", "lock");
                 elem = document.getElementById("doorLockUnlock");
                 elem.value = "lock";
             }else{
-                switchButtons(deviceId+"lock",deviceId+"unlock", "unlock");
+                switchButtons(deviceId+"lockR",deviceId+"unlockR", "unlock");
                 elem = document.getElementById("doorLockUnlock");
                 elem.value = "unlock";
             }
             break;
         case "blinds":
             if(action == "down"){
-                switchButtons(deviceId+"up",deviceId+"down", "down");
+                switchButtons(deviceId+"upR",deviceId+"downR", "down");
                 elem = document.getElementById("blindsUpDown");
                 elem.value = "down";
             }else{
-                switchButtons(deviceId+"up",deviceId+"down", "up");
+                switchButtons(deviceId+"upR",deviceId+"downR", "up");
                 elem = document.getElementById("blindsUpDown");
                 elem.value = "up";
             }
@@ -826,11 +889,11 @@ function showSelection(deviceType, deviceId, action){
             break;
         case "lights":
             if(action == 'turnOff'){
-                switchButtons(deviceId+"on",deviceId+"off", "off");
+                switchButtons(deviceId+"onR",deviceId+"offR", "off");
                 elem = document.getElementById("lightsOnOff")
                 elem.value = "off";
             }else{
-                switchButtons(deviceId+"on",deviceId+"off", "on");
+                switchButtons(deviceId+"onR",deviceId+"offR", "on");
                 elem = document.getElementById("lightsOnOff")
                 elem.value = "on";
             }

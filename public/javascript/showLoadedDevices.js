@@ -1,8 +1,8 @@
 function showOven(devID) {
     var contenido = $('#myDevice');
     var onOffStatus;
-    onOffStatus = '<div class="mbr-section-btn"><a class="btn btn-md btn-black-outline display-7"  id="'+ devID +'on" onclick="showSelection(\'oven\',\'' + devID + '\',\'turnOn\')">ON</a>\
-                                <a class= "btn btn-md btn-black display-7" id="'+ devID +'off" onclick="showSelection(\'oven\',\'' + devID+ '\',\'turnOff\')">OFF</a>\
+    onOffStatus = '<div class="mbr-section-btn"><a class="btn btn-md btn-black-outline display-7"  id="'+ devID +'onR" onclick="showSelection(\'oven\',\'' + devID + '\',\'turnOn\')">ON</a>\
+                                <a class= "btn btn-md btn-black display-7" id="'+ devID +'offR" onclick="showSelection(\'oven\',\'' + devID+ '\',\'turnOff\')">OFF</a>\
                             </div>\
                             <param value="off" id="ovenOnOff"/>';
 
@@ -19,7 +19,7 @@ function showOven(devID) {
                             <p>\OVEN</p></h1>\
                         <div class="mbr-section-text mbr-white pb-3 ">\
                         </div>\
-                        <h7>TEMPERATURE(ºC):  </h7><input type="text" id="tempOven">' + onOffStatus + '\
+                        <h7>TEMPERATURE(ºC):  </h7><input type="text" id="tempOvenR">' + onOffStatus + '\
                    </div>\
                 </div>\
             </div>\
@@ -41,8 +41,8 @@ function showDoor(devID) {
     var contenido = $('#myDevice');
     var lockedUnlockedStatus;
 
-    lockedUnlockedStatus = '<div class="mbr-section-btn"><a class="btn btn-md btn-black-outline display-7"  id="'+ devID +'lock" onclick="showSelection(\'door\',\'' + devID + '\',\'lock\')">LOCK</a>\
-                        <a class= "btn btn-md btn-black display-7" id="'+ devID +'unlock" onclick="showSelection(\'door\',\'' + devID+ '\',\'unlock\')">UNLOCK</a>\
+    lockedUnlockedStatus = '<div class="mbr-section-btn"><a class="btn btn-md btn-black-outline display-7"  id="'+ devID +'lockR" onclick="showSelection(\'door\',\'' + devID + '\',\'lock\')">LOCK</a>\
+                        <a class= "btn btn-md btn-black display-7" id="'+ devID +'unlockR" onclick="showSelection(\'door\',\'' + devID+ '\',\'unlock\')">UNLOCK</a>\
                     </div>\
                     <param value="unlock" id="doorLockUnlock"/>';
 
@@ -79,8 +79,8 @@ function showDoor(devID) {
 function showAC(devID) {
     var contenido = $('#myDevice');
     var onOffStatus;
-    onOffStatus = '<div class="mbr-section-btn"><a class="btn btn-md btn-black-outline display-7"  id="'+ devID +'on" onclick="showSelection(\'ac\',\'' + devID + '\',\'turnOn\')">ON</a>\
-                                <a class= "btn btn-md btn-black display-7" id="'+ devID +'off" onclick="showSelection(\'ac\',\'' + devID+ '\',\'turnOff\')">OFF</a>\
+    onOffStatus = '<div class="mbr-section-btn"><a class="btn btn-md btn-black-outline display-7"  id="'+ devID +'onR" onclick="showSelection(\'ac\',\'' + devID + '\',\'turnOn\')">ON</a>\
+                                <a class= "btn btn-md btn-black display-7" id="'+ devID +'offR" onclick="showSelection(\'ac\',\'' + devID+ '\',\'turnOff\')">OFF</a>\
                             </div>\
                             <param value="off" id="acOnOff"/>';
 
@@ -97,7 +97,7 @@ function showAC(devID) {
                         </h1>\
                         <div class="mbr-section-text mbr-white pb-3 ">\
                         </div>\
-                        <h7>TEMPERATURE(ºC):  </h7><input type="text" id="tempAC">' + onOffStatus + '\
+                        <h7>TEMPERATURE(ºC):  </h7><input type="text" id="tempACR">' + onOffStatus + '\
                    </div>\
                 </div>\
             </div>\
@@ -131,7 +131,7 @@ function showFridge(devID) {
                         </h1>\
                         <div class="mbr-section-text mbr-white pb-3 ">\
                         </div>\
-                        <h7>TEMPERATURE(ºC):  </h7><input type="text" id="tempFridge">\
+                        <h7>TEMPERATURE(ºC):  </h7><input type="text" id="tempFridgeR">\
                    </div>\
                 </div>\
             </div>\
@@ -153,8 +153,8 @@ function showFridge(devID) {
 function showBlinds(devID) {
     var contenido = $('#myDevice');
     var upDownStatus;
-    upDownStatus = '<div class="mbr-section-btn"><a class="btn btn-md btn-black-outline display-7"  id="'+ devID +'up" onclick="showSelection(\'blinds\',\'' + devID + '\',\'up\')">OPEN</a>\
-                                <a class= "btn btn-md btn-black display-7" id="'+ devID +'down" onclick="showSelection(\'blinds\',\'' + devID+ '\',\'down\')">CLOSE</a>\
+    upDownStatus = '<div class="mbr-section-btn"><a class="btn btn-md btn-black-outline display-7"  id="'+ devID +'upR" onclick="showSelection(\'blinds\',\'' + devID + '\',\'up\')">OPEN</a>\
+                                <a class= "btn btn-md btn-black display-7" id="'+ devID +'downR" onclick="showSelection(\'blinds\',\'' + devID+ '\',\'down\')">CLOSE</a>\
                             </div>\
                             <param value="down" id="blindsUpDown"/>';
 
@@ -192,8 +192,8 @@ function showBlinds(devID) {
 function showLights(devID) {
     var contenido = $('#myDevice');
     var onOffStatus;
-    onOffStatus = '<div class="mbr-section-btn"><a class="btn btn-md btn-black-outline display-7"  id="'+ devID +'on" onclick="showSelection(\'lights\',\'' + devID + '\',\'turnOn\')">ON</a>\
-                                <a class= "btn btn-md btn-black display-7" id="'+ devID +'off" onclick="showSelection(\'lights\',\'' + devID+ '\',\'turnOff\')">OFF</a>\
+    onOffStatus = '<div class="mbr-section-btn"><a class="btn btn-md btn-black-outline display-7"  id="'+ devID +'onR" onclick="showSelection(\'lights\',\'' + devID + '\',\'turnOn\')">ON</a>\
+                                <a class= "btn btn-md btn-black display-7" id="'+ devID +'offR" onclick="showSelection(\'lights\',\'' + devID+ '\',\'turnOff\')">OFF</a>\
                             </div>\
                             <param value="off" id="lightsOnOff"/>';
 
@@ -211,7 +211,7 @@ function showLights(devID) {
                         <div class="mbr-section-text mbr-white pb-3 ">\
                         </div>\
                         <div class="slidecontainer">\
-                            <h7>BRIGHTNESS:  </h7> <input type="range" min="1" max="100" value="0" class="slider" id="brightness">\
+                            <h7>BRIGHTNESS:  </h7> <input type="range" min="1" max="100" value="0" class="slider" id="brightnessR">\
                         </div>' + onOffStatus + '\
                    </div>\
                 </div>\
