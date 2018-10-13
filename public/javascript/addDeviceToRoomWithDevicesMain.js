@@ -14,7 +14,7 @@ window.addEventListener('load', function () {
                         OR CHOOSE FROM EXISTING</h1>\
                         </div>\
                         </section>');
-                        found  = true;
+                    found  = true;
                 }
                 var deviceType = data.devices[i].typeId;
                 var deviceName = data.devices[i].name;
@@ -24,22 +24,22 @@ window.addEventListener('load', function () {
                 deviceName = deviceName.substr(0, deviceName.indexOf('_'));
                 console.log(deviceName);
                 if (deviceType == "go46xmbqeomjrsjr") {
-                    showLightsImg(deviceName, deviceId, 'addDeviceToRoom2');
+                    showLightsImg(deviceName, deviceId, 'addDeviceToRoomWithDevices2');
                     console.log('lamp');
                 } else if (deviceType == "im77xxyulpegfmv8") {
-                    showOvenImg(deviceName, deviceId, 'addDeviceToRoom2');
+                    showOvenImg(deviceName, deviceId, 'addDeviceToRoomWithDevices2');
                     console.log('oven');
                 } else if (deviceType == 'eu0v2xgprrhhg41g') {
-                    showBlindsImg(deviceName, deviceId, 'addDeviceToRoom2');
+                    showBlindsImg(deviceName, deviceId, 'addDeviceToRoomWithDevices2');
                     console.log('blinds');
                 } else if (deviceType == 'lsf78ly0eqrjbz91') {
-                    showDoorImg(deviceName, deviceId, 'addDeviceToRoom2');
+                    showDoorImg(deviceName, deviceId, 'addDeviceToRoomWithDevices2');
                     console.log('doors');
                 } else if (deviceType == 'li6cbv5sdlatti0j') {
-                    showAcImg(deviceName, deviceId, 'addDeviceToRoom2');
+                    showAcImg(deviceName, deviceId, 'addDeviceToRoomWithDevices2');
                     console.log('AC');
                 } else if (deviceType == 'rnizejqr2di0okho') {
-                    showFridgeImg(deviceName, deviceId, 'addDeviceToRoom2');
+                    showFridgeImg(deviceName, deviceId, 'addDeviceToRoomWithDevices2');
                     console.log('fridge');
                 }
             }

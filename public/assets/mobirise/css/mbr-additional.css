@@ -298,8 +298,8 @@ body {
 .btn-black,
 .btn-black:active {
   /*background-color: #333333 !important;*/
-  border-color: #ff3366 !important;
-  color: #ff3366 !important
+  border-color: #000000 !important;
+  color: #000000 !important
 }
 .btn-black:hover,
 .btn-black:focus,
@@ -311,6 +311,26 @@ body {
 }
 .btn-black.disabled,
 .btn-black:disabled {
+  color: #ffffff !important;
+  background-color: #0d0d0d !important;
+  border-color: #0d0d0d !important;
+}
+.btn-rosa,
+.btn-rosa:active {
+  /*background-color: #333333 !important;*/
+  border-color: #ff3366 !important;
+  color: #ff3366 !important
+}
+.btn-rosa:hover,
+.btn-rosa:focus,
+.btn-rosa.focus,
+.btn-rosa.active {
+  color: #ffffff !important;
+  background-color: #0d0d0d !important;
+  border-color: #0d0d0d !important;
+}
+.btn-rosa.disabled,
+.btn-rosa:disabled {
   color: #ffffff !important;
   background-color: #0d0d0d !important;
   border-color: #0d0d0d !important;
@@ -453,6 +473,26 @@ body {
 }
 .btn-black-outline.disabled,
 .btn-black-outline:disabled {
+  color: #ffffff !important;
+  background-color: #333333 !important;
+  border-color: #333333 !important;
+}
+.btn-rosa-outline,
+.btn-rosa-outline:active {
+  background: none;
+  border-color: #ff3366;
+  color: #ff3366;
+}
+.btn-rosa-outline:hover,
+.btn-rosa-outline:focus,
+.btn-rosa-outline.focus,
+.btn-rosa-outline.active {
+  color: #ffffff;
+  background-color: #333333;
+  border-color: #333333;
+}
+.btn-rosa-outline.disabled,
+.btn-rosa-outline:disabled {
   color: #ffffff !important;
   background-color: #333333 !important;
   border-color: #333333 !important;
@@ -1516,7 +1556,7 @@ body {
   background-image: url("../../../assets/images/mbr-1920x1357.jpg");
 }
 
-.cid-r5xVLIuI8X {
+.cid-r5xVLIuI7X {
   padding-top: 120px;
   padding-bottom: 60px;
   background-image: url("../../../assets/images/WhatsApp Image 2018-10-12 at 11.51.03 2.jpeg");

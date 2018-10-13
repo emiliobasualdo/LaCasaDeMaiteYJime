@@ -345,7 +345,8 @@ function showLightsImg(deviceName, deviceId) {
     var clickAction = '';
     var cosa = 'features13 cid-r5yZWJv2j1';
     if (deviceId) {
-        clickAction = 'onclick="addDeviceToRoom2(\''+ deviceId + '\')"';
+        clickAction = 'onclick="' + func + '(\''+ deviceId + '\')"';
+        //clickAction = 'onclick="addDeviceToRoom2(\''+ deviceId + '\')"';
         cosa = 'features13 cid-r5yZWJv2j2';
     }
     var contenido = $('#addedDevices');
@@ -365,11 +366,12 @@ function showLightsImg(deviceName, deviceId) {
     ');
 }
 
-function showAcImg(deviceName, deviceId) {
+function showAcImg(deviceName, deviceId, func) {
     var clickAction = '';
     var cosa = 'features13 cid-r5yZWJv2j1';
     if (deviceId) {
-        clickAction = 'onclick="addDeviceToRoom2(\''+ deviceId + '\')"';
+        clickAction = 'onclick="' + func + '(\''+ deviceId + '\')"';
+        //clickAction = 'onclick="addDeviceToRoom2(\''+ deviceId + '\')"';
         cosa = 'features13 cid-r5yZWJv2j2';
     }
     var contenido = $('#addedDevices');
@@ -389,11 +391,12 @@ function showAcImg(deviceName, deviceId) {
     ');
 }
 
-function showDoorImg(deviceName, deviceId) {
+function showDoorImg(deviceName, deviceId, func) {
     var clickAction = '';
     var cosa = 'features13 cid-r5yZWJv2j1';
     if (deviceId) {
-        clickAction = 'onclick="addDeviceToRoom2(\''+ deviceId + '\')"';
+        //clickAction = 'onclick="addDeviceToRoom2(\''+ deviceId + '\')"';
+        clickAction = 'onclick="' + func + '(\''+ deviceId + '\')"';
         cosa = 'features13 cid-r5yZWJv2j2';
     }
     var contenido = $('#addedDevices');
@@ -413,11 +416,12 @@ function showDoorImg(deviceName, deviceId) {
     ');
 }
 
-function showBlindsImg(deviceName, deviceId) {
+function showBlindsImg(deviceName, deviceId, func) {
     var clickAction = '';
     var cosa = 'features13 cid-r5yZWJv2j1';
     if (deviceId) {
-        clickAction = 'onclick="addDeviceToRoom2(\''+ deviceId + '\')"';
+        //clickAction = 'onclick="addDeviceToRoom2(\''+ deviceId + '\')"';
+        clickAction = 'onclick="' + func + '(\''+ deviceId + '\')"';
         cosa = 'features13 cid-r5yZWJv2j2';
     }
     var contenido = $('#addedDevices');
@@ -437,11 +441,12 @@ function showBlindsImg(deviceName, deviceId) {
     ');
 }
 
-function showFridgeImg(deviceName, deviceId) {
+function showFridgeImg(deviceName, deviceId, func) {
     var clickAction = '';
     var cosa = 'features13 cid-r5yZWJv2j1';
     if (deviceId) {
-        clickAction = 'onclick="addDeviceToRoom2(\''+ deviceId + '\')"';
+        //clickAction = 'onclick="addDeviceToRoom2(\''+ deviceId + '\')"';
+        clickAction = 'onclick="' + func + '(\''+ deviceId + '\')"';
         cosa = 'features13 cid-r5yZWJv2j2';
     }
     var contenido = $('#addedDevices');
@@ -461,11 +466,11 @@ function showFridgeImg(deviceName, deviceId) {
     ');
 }
 
-function showOvenImg(deviceName, deviceId) {
+function showOvenImg(deviceName, deviceId, func) {
     var clickAction = '';
     var cosa = 'features13 cid-r5yZWJv2j1';
     if (deviceId) {
-        clickAction = 'onclick="addDeviceToRoom2(\''+ deviceId + '\')"';
+        clickAction = 'onclick="' + func + '(\''+ deviceId + '\')"';
         cosa = 'features13 cid-r5yZWJv2j2';
     }
     var contenido = $('#addedDevices');
