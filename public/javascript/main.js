@@ -85,6 +85,38 @@ function goToRoom(roomId) {
 
 function deleteRoom() {
     var roomId = localStorage.getItem('currentRoomId');
+    api.roomDevice.get(roomId)
+        .then((data) => {
+            for (var i = 0; i < data.devices.length; i++) {
+                localStorage.setItem('deviceId', data.devices[i].id);
+                api.device.get(data.devices[i].id)
+                    .then((data) => {
+                        console.log(data);
+                        var m = JSON.parse(data.device.meta);
+                        m.room = null;
+                        data.device.meta = JSON.stringify(m);
+                        api.device.modify(data.device)
+                            .then((data) => {
+                                console.log(data);
+                                var deviceId = localStorage.getItem('deviceId');
+                                console.log(deviceId);
+                                var id = deviceId + 'delete1';
+                                document.getElementById(id).remove();
+                                id = deviceId + 'delete2';
+                                document.getElementById(id).remove();
+                            })
+                            .catch((error) => {
+                                console.log('error in modify');
+                            });
+                    })
+                    .catch((error) => {
+                        console.log('error in retiving device');
+                    });
+            }
+        })
+        .catch((error) => {
+            console.log('error');
+        });
     api.room.delete(roomId)
         .then((data) => {
             location.href = 'rooms.html';
