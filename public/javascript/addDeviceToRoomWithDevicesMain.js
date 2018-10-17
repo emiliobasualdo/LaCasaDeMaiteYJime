@@ -23,6 +23,7 @@ window.addEventListener('load', function () {
                 console.log(deviceName);
                 deviceName = deviceName.substr(0, deviceName.indexOf('_'));
                 console.log(deviceName);
+                console.log(deviceType);
                 if (deviceType == "go46xmbqeomjrsjr") {
                     showLightsImg(deviceName, deviceId, 'addDeviceToRoomWithDevices2');
                     console.log('lamp');

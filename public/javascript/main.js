@@ -76,6 +76,19 @@ function deleteRoom() {
         });
 }
 
+function unlink(deviceId) {
+    api.roomDevice.delete(deviceId)
+        .then((data) => {
+            var id = deviceId + 'delete1';
+            document.getElementById(id).remove();
+            id = deviceId + 'delete2';
+            document.getElementById(id).remove();
+        })
+        .catch((error) => {
+            console.log('error');
+        });
+}
+
 function addDeviceToRoom2(deviceId) {
     var roomId = localStorage.getItem('currentRoomId');
     api.device.get(deviceId)

@@ -29,7 +29,7 @@ function showOven(devID) {
         '        <div class="media-container-row title">' +
         '            <div class="col-12 col-md-8">' +
         '                <div class="mbr-section-btn align-center"><a class="btn btn-black-outline display-4" onclick="addDeviceToRoutine(\'oven\',\'' + devID + '\')"><span class="mbri-plus mbr-iconfont mbr-iconfont-btn"></span>ADD MORE DEVICES</a>' +
-        '                    <a class="btn btn-black display-4" onclick="endRoutine(\'oven\',\'' + devID + '\')"><span class="mbri-success mbr-iconfont mbr-iconfont-btn"></span>ADD ROUTINE</a></div>' +
+        '                    <a class="btn btn-black-outline display-4" onclick="endRoutine(\'oven\',\'' + devID + '\')"><span class="mbri-success mbr-iconfont mbr-iconfont-btn"></span>ADD ROUTINE</a></div>' +
         '            </div>' +
         '        </div>' +
         '    </div>' +
@@ -67,7 +67,7 @@ function showDoor(devID) {
         '        <div class="media-container-row title">' +
         '            <div class="col-12 col-md-8">' +
         '                <div class="mbr-section-btn align-center"><a class="btn btn-black-outline display-4" onclick="addDeviceToRoutine(\'door\',\'' + devID + '\')"><span class="mbri-plus mbr-iconfont mbr-iconfont-btn"></span>ADD MORE DEVICES</a>' +
-        '                    <a class="btn btn-black display-4" onclick="endRoutine(\'door\',\'' + devID + '\')"><span class="mbri-success mbr-iconfont mbr-iconfont-btn"></span>ADD ROUTINE</a></div>' +
+        '                    <a class="btn btn-black-outline display-4" onclick="endRoutine(\'door\',\'' + devID + '\')"><span class="mbri-success mbr-iconfont mbr-iconfont-btn"></span>ADD ROUTINE</a></div>' +
         '            </div>' +
         '        </div>' +
         '    </div>' +
@@ -107,7 +107,7 @@ function showAC(devID) {
         '        <div class="media-container-row title">' +
         '            <div class="col-12 col-md-8">' +
         '                <div class="mbr-section-btn align-center"><a class="btn btn-black-outline display-4" onclick="addDeviceToRoutine(\'ac\',\'' + devID + '\')"><span class="mbri-plus mbr-iconfont mbr-iconfont-btn"></span>ADD MORE DEVICES</a>' +
-        '                    <a class="btn btn-black display-4" onclick="endRoutine(\'ac\',\'' + devID + '\')"><span class="mbri-success mbr-iconfont mbr-iconfont-btn"></span>ADD ROUTINE</a></div>' +
+        '                    <a class="btn btn-black-outline display-4" onclick="endRoutine(\'ac\',\'' + devID + '\')"><span class="mbri-success mbr-iconfont mbr-iconfont-btn"></span>ADD ROUTINE</a></div>' +
         '            </div>' +
         '        </div>' +
         '    </div>' +
@@ -141,7 +141,7 @@ function showFridge(devID) {
         '        <div class="media-container-row title">' +
         '            <div class="col-12 col-md-8">' +
         '                <div class="mbr-section-btn align-center"><a class="btn btn-black-outline display-4" onclick="addDeviceToRoutine(\'fridge\',\'' + devID + '\')"><span class="mbri-plus mbr-iconfont mbr-iconfont-btn"></span>ADD MORE DEVICES</a>' +
-        '                    <a class="btn btn-black display-4" onclick="endRoutine(\'fridge\',\'' + devID + '\')"><span class="mbri-success mbr-iconfont mbr-iconfont-btn"></span>ADD ROUTINE</a></div>' +
+        '                    <a class="btn btn-black-outline display-4" onclick="endRoutine(\'fridge\',\'' + devID + '\')"><span class="mbri-success mbr-iconfont mbr-iconfont-btn"></span>ADD ROUTINE</a></div>' +
         '            </div>' +
         '        </div>' +
         '    </div>' +
@@ -180,7 +180,7 @@ function showBlinds(devID) {
         '        <div class="media-container-row title">' +
         '            <div class="col-12 col-md-8">' +
         '                <div class="mbr-section-btn align-center"><a class="btn btn-black-outline display-4" onclick="addDeviceToRoutine(\'blinds\',\'' + devID + '\')"><span class="mbri-plus mbr-iconfont mbr-iconfont-btn"></span>ADD MORE DEVICES</a>' +
-        '                    <a class="btn btn-black display-4" onclick="endRoutine(\'blinds\',\'' + devID + '\')"><span class="mbri-success mbr-iconfont mbr-iconfont-btn"></span>ADD ROUTINE</a></div>' +
+        '                    <a class="btn btn-black-outline display-4" onclick="endRoutine(\'blinds\',\'' + devID + '\')"><span class="mbri-success mbr-iconfont mbr-iconfont-btn"></span>ADD ROUTINE</a></div>' +
         '            </div>' +
         '        </div>' +
         '    </div>' +
@@ -222,7 +222,7 @@ function showLights(devID) {
         '        <div class="media-container-row title">' +
         '            <div class="col-12 col-md-8">' +
         '                <div class="mbr-section-btn align-center"><a class="btn btn-black-outline display-4" onclick="addDeviceToRoutine(\'lights\',\'' + devID + '\')"><span class="mbri-plus mbr-iconfont mbr-iconfont-btn"></span>ADD MORE DEVICES</a>' +
-        '                    <a class="btn btn-black display-4" onclick="endRoutine(\'lights\',\'' + devID + '\')"><span class="mbri-success mbr-iconfont mbr-iconfont-btn"></span>ADD ROUTINE</a></div>' +
+        '                    <a class="btn btn-black-outline display-4" onclick="endRoutine(\'lights\',\'' + devID + '\')"><span class="mbri-success mbr-iconfont mbr-iconfont-btn"></span>ADD ROUTINE</a></div>' +
         '            </div>' +
         '        </div>' +
         '    </div>' +

@@ -22,17 +22,17 @@ window.addEventListener('load', function () {
                 var m = JSON.parse(data.devices[i].meta);
                 var fav = (m.fav == 'fav') ? 'fav' : null;
                 if (deviceType == "go46xmbqeomjrsjr") {
-                    showLights(deviceId, deviceName, fav);
+                    showLights(deviceId, deviceName, fav, 1);
                 } else if (deviceType == "im77xxyulpegfmv8") {
-                    showOven(deviceId, deviceName, fav)
+                    showOven(deviceId, deviceName, fav, 1)
                 } else if (deviceType == 'eu0v2xgprrhhg41g') {
-                    showBlinds(deviceId, deviceName, fav);
+                    showBlinds(deviceId, deviceName, fav, 1);
                 } else if (deviceType == 'lsf78ly0eqrjbz91') {
-                    showDoor(deviceId, deviceName, fav);
+                    showDoor(deviceId, deviceName, fav, 1);
                 } else if (deviceType == 'li6cbv5sdlatti0j') {
-                    showAC(deviceId, deviceName, fav);
+                    showAC(deviceId, deviceName, fav, 1);
                 } else if (deviceType == 'rnizejqr2di0okho') {
-                    showFridge(deviceId, deviceName, fav);
+                    showFridge(deviceId, deviceName, fav, 1);
                 }
             }
         })
