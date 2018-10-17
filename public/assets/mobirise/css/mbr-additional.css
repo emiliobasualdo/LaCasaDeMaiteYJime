@@ -299,7 +299,7 @@ body {
 .btn-black:active {
   background-color: #333333 !important;
   border-color: #000000 !important;
-  color: #000000 !important
+  color: #ffffff !important
 }
 .btn-black:hover,
 .btn-black:focus,
@@ -317,9 +317,9 @@ body {
 }
 .btn-rosa,
 .btn-rosa:active {
- /* background-color: #333333 !important;*/ /*SIN BACKGOUND ESTE BOTON*/
+  background-color: #ff3366 !important;
   border-color: #ff3366 !important;
-  color: #ff3366 !important
+  color: #ffffff !important
 }
 .btn-rosa:hover,
 .btn-rosa:focus,
@@ -355,27 +355,6 @@ body {
   background-color: #0d0d0d !important;
   border-color: #0d0d0d !important;
 }
-
-/*.btn-violeta,*/
-/*.btn-violeta:active {*/
-  /*background-color: #9316F0 !important;*/
-  /*border-color: #9316F0 !important;*/
-  /*color: #ffffff !important*/
-/*}*/
-/*.btn-violeta:hover,*/
-/*.btn-violeta:focus,*/
-/*.btn-violeta.focus,*/
-/*.btn-violeta.active {*/
-  /*color: #ffffff !important;*/
-  /*background-color: #4A00FF !important;*/
-  /*border-color: #4A00FF !important;*/
-/*}*/
-/*.btn-violeta.disabled,*/
-/*.btn-violeta:disabled {*/
-  /*color: #ffffff !important;*/
-  /*background-color: #0d0d0d !important;*/
-  /*border-color: #0d0d0d !important;*/
-/*}*/
 
 .btn-primary-outline,
 .btn-primary-outline:active {
@@ -509,9 +488,9 @@ body {
 .btn-black-outline:focus,
 .btn-black-outline.focus,
 .btn-black-outline.active {
-  color: #ffffff;
-  background-color: #333333;
-  border-color: #333333;
+  color: #ffffff !important;;
+  background-color: #333333 !important;;
+  border-color: #333333 !important;;
 }
 .btn-black-outline.disabled,
 .btn-black-outline:disabled {
