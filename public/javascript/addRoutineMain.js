@@ -26,6 +26,11 @@ window.addEventListener('load', function () {
             }
         })
         .catch((error) => {
-            window.alert(error);
+            swal({
+           title: "House devices couldn't be loaded",
+           text: "Please contact a technician",
+           type: "error",
+           closeOnConfirm: false
+           });
         });
 }, false);
