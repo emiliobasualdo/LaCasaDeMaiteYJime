@@ -251,11 +251,11 @@ function showDoor(devID, deviceName, actions){
 
     if (status == "unlocked") {
         unlockedLockedStatus = '<div class="mbr-section-btn">\
-        <a class= "btn btn-md btn-black display-7" id="'+ devID +'off">UNLOCKED</a>\
+        <a class= "btn btn-md btn-black display-7" id="'+ devID +'off">UNLOCK</a>\
         </div>';
 
     } else {
-        unlockedLockedStatus = '<div class="mbr-section-btn"><a class="btn btn-md btn-black display-7" id="'+ devID +'on">LOCKED</a>\
+        unlockedLockedStatus = '<div class="mbr-section-btn"><a class="btn btn-md btn-black display-7" id="'+ devID +'on">LOCK</a>\
         </div>';
     }
 

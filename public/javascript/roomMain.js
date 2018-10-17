@@ -10,7 +10,7 @@ window.addEventListener('load', function () {
             header.append('<div class="container"><div class="row justify-content-md-center"><div class="mbr-white col-md-10"><h1 class="mbr-section-title align-center mbr-bold pb-3 mbr-fonts-style display-1">' + roomName + '</h1></div></div></div>');
         })
         .catch((error) => {
-            window.alert('error');
+            console.log("error");
         });
     api.roomDevice.get(roomId)
         .then((data) => {
@@ -37,6 +37,6 @@ window.addEventListener('load', function () {
             }
         })
         .catch((error) => {
-            window.alert('error');
+            console.log("error");
         });
 }, false);

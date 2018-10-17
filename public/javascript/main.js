@@ -621,43 +621,71 @@ function deleteFavourite1(deviceId) {
 
 function setRoutineName(){
     var aux = document.getElementById('name-header13-2f').value;
+    console.log("aux:");
+    console.log(aux);
     if(aux == "" || aux.length == 0 || aux == null ){
-        window.alert("Please enter a routine name.");
+        swal({
+            title: "Error",
+            text: "Please enter a routine name",
+            type: "error",
+            closeOnConfirm: true
+        });
+        return null;
+    }
+    if(aux.length < 3){
+        swal({
+            title: "Error",
+            text: "Routine name must be at least 3 characters long",
+            type: "error",
+            closeOnConfirm: true
+        });
         return null;
     }
     var letters = /^[A-Za-z]+$/;
     if($.isNumeric(aux) || !aux.match("^[a-zA-Z]+$")){
-        window.alert("Routine names can only contain letters");
+        swal({
+            title: "Error",
+            text: "Routine names can only contain letters",
+            type: "error",
+            closeOnConfirm: true
+        });
         return null;
     }
 
 
     var rName;
     var aux2;
-    var bool = 1;
 
-    // api.routine.getAll()
-    //     .then((data) => {
-    //         var routines = data.routines;
-    //         console.log("routines");
-    //         console.log(routines);
-    //         for(var i = 0; i < routines.length; i++) {
-    //             rName = JSON.stringify(routines[i].name, null, 2);
-    //             aux2 = "\""+aux+"\"";
-    //             if(rName == aux2){
-    //                 console.log("entor");
-    //                 window.alert("Already existing routine name. Please enter anotherone.");
-    //                 bool = 0;
-    //             }
-    //         }
-    //     })
-    //     .catch((error) => {
-    //         console.log('error');
-        // });
-    if(bool == 1){
-        localStorage.setItem('currentRoutineName', aux);
-        location.href = 'addsaveddevice.html';
-    }
+
+
+    api.routine.getAll()
+        .then((data) => {
+            var routines = data.routines;
+            if(routines.length == 0){
+                localStorage.setItem('currentRoutineName', aux);
+                location.href = 'addsaveddevice.html';
+                return null;
+            }
+            for(var i = 0; i < routines.length; i++) {
+                rName = routines[i].name;
+                if(rName == aux){
+                    swal({
+                        title: "Error",
+                        text: "This routine name already exists. Choose another one",
+                        type: "error",
+                        closeOnConfirm: true
+                    });
+                    return null;
+
+                }
+            }
+                localStorage.setItem('currentRoutineName', aux);
+                location.href = 'addsaveddevice.html';
+        })
+        .catch((error) => {
+            console.log('error');
+        });
+
 }
 
 function goToLoadedDevice(deviceId, deviceType){
@@ -733,8 +761,20 @@ function endRoutine(deviceType, devId) {
             location.href= 'routines.html';
         })
         .catch((error) => {
-            window.alert("Error en creacion de rutina");
-            //location.href= 'routines.html'; //MUY IMP DESCOMENTAR ESTO ANTES DE ENTREGAR.
+            console.log("error");
+
+            swal({
+                    title: '"' + localStorage.getItem('thisRoutineName') + '" routine couldn\'t be created',
+                    type: 'warning',
+                    showCancelButton: false,
+                    confirmButtonText: 'Ok',
+            }).then((result) => {
+                if (result.value) {
+                    location.href= 'routines.html';
+                }
+             });
+
+
         });
 }
 
@@ -748,12 +788,22 @@ function getOvenState(devId){
     } else {
         actions.push(new api.model.action(devId,"turnOn",[],"nada"));
         if(!$.isNumeric(temperature)){
-            window.alert("Please insert a number in the temperature field");
+            swal({
+                    title: 'Please insert a number in the temperature field',
+                    type: 'warning',
+                    showCancelButton: false,
+                    confirmButtonText: 'Ok',
+            })
             return null;
         } else if(temperature >= 90 && temperature <= 230){
             actions.push(new api.model.action(devId,"setTemperature",[temperature],"nada"));
         } else{
-            window.alert("Please insert a valid temperature between 90 and 230 degrees");
+            swal({
+                    title: 'Please insert a valid temperature between 90 and 230 degrees',
+                    type: 'warning',
+                    showCancelButton: false,
+                    confirmButtonText: 'Ok',
+            })
             return null;
         }
     }
@@ -815,12 +865,22 @@ function getACState(devId) {
     } else {
         actions.push(new api.model.action(devId, "turnOn", [], "nada"));
         if(!$.isNumeric(tempAC)){
-            window.alert("Please insert a number in the temperature field");
+            swal({
+                    title: 'Please insert a number in the temperature field',
+                    type: 'warning',
+                    showCancelButton: false,
+                    confirmButtonText: 'Ok',
+            })
             return null;
         } else if (tempAC >= 16 && tempAC <= 30){
             actions.push(new api.model.action(devId,"setTemperature", [tempAC], "nada"));
         } else{
-            window.alert("Please insert a valid temperature between 16 and 30 degrees");
+            swal({
+                    title: 'Please insert a valid temperature between 16 and 30 degrees',
+                    type: 'warning',
+                    showCancelButton: false,
+                    confirmButtonText: 'Ok',
+            })
             return null;
         }
     }
@@ -834,12 +894,22 @@ function getFridgeState(devId) {
     var tempFridge = document.getElementById("tempFridgeR").value;
 
     if(!$.isNumeric(tempFridge)){
-        window.alert("Please insert a number in the temperature field");
+        swal({
+                title: 'Please insert a number in the temperature field',
+                type: 'warning',
+                showCancelButton: false,
+                confirmButtonText: 'Ok',
+        })
         return null;
     } else if(tempFridge >= 0 && tempFridge <= 9){
         actions.push(new api.model.action(devId,"setTemperature",[tempFridge],"nada"));
     } else {
-        window.alert("Please insert a valid temperature between 0 and 9 degrees");
+        swal({
+                title: 'Please insert a valid temperature between 0 and 9 degrees',
+                type: 'warning',
+                showCancelButton: false,
+                confirmButtonText: 'Ok',
+        })
         return null;
     }
 
@@ -925,16 +995,70 @@ function goToRoutine(routineId) {
 }
 
 function executeRoutine(routineId) {
-    api.routine.execute(routineId);
+    api.routine.execute(routineId)
+    .then((data) => {
+        swal({
+              title: "Executed routine!",
+              text: "The routine has been executed successfully",
+              type: "success",
+              closeOnConfirm: false
+          });
+    })
+    .catch((error) => {
+        swal({
+       title: "Routine execution error!",
+       text: "The request to the API couldn't be fulfilled",
+       type: "error",
+       closeOnConfirm: false
+       });
+    });
 }
 
 function deleteRoutine() {
     var routineId = localStorage.getItem('currentRoutineId');
-    api.routine.delete(routineId)
-        .then((data) =>{
+
+    swal({
+            title: 'Are you sure you want to delete "' + localStorage.getItem('thisRoutineName') + '" routine?',
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Yes: delete routine',
+            cancelButtonText: 'No'
+    }).then((result) => {
+        if (result.value) {
+            api.routine.delete(routineId)
+                .then((data) =>{
+                    location.href = 'routines.html';
+                })
+                .catch((error) => {
+                    swal({
+                   title: "Routine couldn't be deleted!",
+                   text: "The request to the API couldn't be fulfilled",
+                   type: "error",
+                   closeOnConfirm: false
+                   });
+
+                })
+        }
+     });
+
+
+
+}
+
+
+function cancelRoutineCreation(){
+    swal({
+            title: 'Are you sure you want to cancel "' + localStorage.getItem('currentRoutineName') + '" routine creation?',
+            type: 'warning',
+            showCancelButton: true,
+            //confirmButtonColor: '#3085d6',
+            confirmButtonText: 'Yes: cancel routine creation',
+            cancelButtonText: 'No: continue with routine creation'
+    }).then((result) => {
+        if (result.value) {
             location.href = 'routines.html';
-        })
-        .catch((error) => {
-            window.alert(error);
-        })
+        }
+     });
+
+
 }

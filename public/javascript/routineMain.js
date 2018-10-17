@@ -8,6 +8,7 @@ window.addEventListener('load', function () {
         .then((data) => {
             routineName = JSON.stringify(data.routine.name, null, 2);
             routineName = routineName.substring(1, routineName.length-1);
+            localStorage.setItem('thisRoutineName', routineName);
             header.append('\
                 <div class="container">\
                     <div class="row justify-content-md-center">\

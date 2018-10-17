@@ -9,6 +9,7 @@
     <script src="javascript/main.js"></script>
     <script src="javascript/addSavedDevicesMain.js"></script>
     <script src="javascript/showLoadedDevices.js"></script>
+    <script defer type="text/javascript" src="assets/sweetalert/sweetalert.min.js"></script>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="generator" content="Mobirise v4.8.4, mobirise.com">
@@ -16,6 +17,7 @@
     <link rel="shortcut icon" href="assets/images/logo4.png" type="image/x-icon">
     <meta name="description" content="Website Generator Description">
     <title>Add Saved Device</title>
+    <link href="assets/sweetalert/sweetalert.css" rel="stylesheet" type="text/css"/>
     <link rel="stylesheet" href="assets/web/assets/mobirise-icons/mobirise-icons.css">
     <link rel="stylesheet" href="assets/tether/tether.min.css">
     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
@@ -32,7 +34,7 @@
                 <h1 class="mbr-section-title align-center mbr-bold pb-3 mbr-fonts-style display-2">
                     ADD DEVICE</h1>
                 <h3 class="mbr-section-subtitle align-center mbr-light pb-3 mbr-fonts-style display-5">
-                    Choose a device</h3>
+                    Choose an existing device to add to routine</h3>
             </div>
         </div>
     </div>
@@ -40,6 +42,16 @@
 </section>
 
 <div id="mySavedDevices"></div>
+
+<section class="mbr-section content8 cid-r5zx1EGZLX" id="content8-3n">
+    <div class="container">
+        <div class="media-container-row title">
+            <div class="col-12 col-md-8">
+                <div class="mbr-section-btn align-center"><a class="btn btn-secondary display-4" onclick="cancelRoutineCreation()"><span class="mbri-trash mbr-iconfont mbr-iconfont-btn"></span>CANCEL</a></div>
+            </div>
+        </div>
+    </div>
+</section>
 
 
 <script src="assets/web/assets/jquery/jquery.min.js"></script>
