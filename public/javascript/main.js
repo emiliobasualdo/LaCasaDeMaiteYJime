@@ -1,6 +1,7 @@
 function addRoom() {
     var newRoom;
     var roomName = document.getElementById("name-header13-1x").value;
+    var Exp = /^[A-Za-z0-9- ]+$/;
     console.log(roomName.length);
     if (!roomName) {
         swal({
@@ -14,6 +15,14 @@ function addRoom() {
         swal({
             title: "Error",
             text: "Room name must have at least 3 charaters long",
+            type: "error",
+            closeOnConfirm: true
+        });
+        return;
+    } else if (!roomName.match(Exp)) {
+        swal({
+            title: "Error",
+            text: "Room name must be alphanumeric",
             type: "error",
             closeOnConfirm: true
         });
@@ -32,6 +41,7 @@ function addRoom() {
 function addRoomWithDevices() {
     var newRoom;
     var roomName = document.getElementById("name-header13-1x").value;
+    var Exp = /^[A-Za-z0-9- ]+$/;
     if (!roomName) {
         swal({
             title: "Error",
@@ -44,6 +54,14 @@ function addRoomWithDevices() {
         swal({
             title: "Error",
             text: "Room name must have at least 3 charaters long",
+            type: "error",
+            closeOnConfirm: true
+        });
+        return;
+    } else if (!roomName.match(Exp)) {
+        swal({
+            title: "Error",
+            text: "Room name must be alphanumeric",
             type: "error",
             closeOnConfirm: true
         });
@@ -79,10 +97,27 @@ function deleteRoom() {
 function unlink(deviceId) {
     api.roomDevice.delete(deviceId)
         .then((data) => {
-            var id = deviceId + 'delete1';
-            document.getElementById(id).remove();
-            id = deviceId + 'delete2';
-            document.getElementById(id).remove();
+            api.device.get(deviceId)
+                .then((data) => {
+                    console.log(data);
+                    var m = JSON.parse(data.device.meta);
+                    m.room = null;
+                    data.device.meta = JSON.stringify(m);
+                    api.device.modify(data.device)
+                        .then((data) => {
+                            console.log(data);
+                            var id = deviceId + 'delete1';
+                            document.getElementById(id).remove();
+                            id = deviceId + 'delete2';
+                            document.getElementById(id).remove();
+                        })
+                        .catch((error) => {
+                            console.log('error in modify');
+                        });
+                })
+                .catch((error) => {
+                    console.log('error in retiving device');
+                });
         })
         .catch((error) => {
             console.log('error');
