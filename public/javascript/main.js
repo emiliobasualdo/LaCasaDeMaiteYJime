@@ -1119,8 +1119,8 @@ function cancelRoutineCreation(){
             type: 'warning',
             showCancelButton: true,
             //confirmButtonColor: '#3085d6',
-            confirmButtonText: 'Yes: cancel routine creation',
-            cancelButtonText: 'No: continue with routine creation'
+            confirmButtonText: 'Yes',
+            cancelButtonText: 'No'
     }).then((result) => {
         if (result.value) {
             location.href = 'routines.html';
